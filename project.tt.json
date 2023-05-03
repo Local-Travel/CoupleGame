@@ -1,13 +1,9 @@
 {
   "miniprogramRoot": "./",
   "projectname": "couple-game",
-  "description": "test",
-  "appid": "touristappid",
+  "appid": "testAppId",
   "setting": {
-    "urlCheck": true,
     "es6": false,
-    "postcss": false,
     "minified": false
-  },
-  "compileType": "miniprogram"
+  }
 }
