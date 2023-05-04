@@ -22,6 +22,10 @@
 		"maxCount":{
 			"bsonType": "string",
 			"title": "房间人数"
+		},
+		"roles":{
+			"bsonType": "string",
+			"title": "房间角色"
 		}
 	}
 }

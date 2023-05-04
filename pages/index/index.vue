@@ -1,5 +1,5 @@
 <template>
-	<view class="page" @touchstart="onTouchStart" @mousedown="onMouseDown">
+	<view class="page">
 		<view class="header">
 			<view class="title">线下狼人局</view>
 			<view class="sub-title">
@@ -10,13 +10,15 @@
 			</view>
 		</view>
 		<view class="content">
-			<button class='btn btn-create' type="default" @click="handleAuth">创建房间</button>
+			<button v-if="user" class='btn btn-create' type="default" @click="handleAuth">创建房间</button>
+			<button v-else class='btn btn-create' type="default" @click="handleCreateRoom">创建房间</button>
 			<button class='btn btn-join' type="default" @click="handleJoinRoom">加入房间</button>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { getInitRoleList } from '../wolf/const.js'
 	export default {
 		data() {
 			return {
@@ -27,9 +29,6 @@
 		onLoad(option) {
 			console.log(option);
 			this.getLocalUser();
-			if (!this.user) {
-				// this.getInfo();
-			}
 		},
 		methods: {
 			getLocalUser() {
@@ -42,10 +41,6 @@
 				}
 			},
 			handleAuth(){
-				this.getLocalUser();
-				if (this.user) {
-					return this.handleCreateRoom()
-				}
 			    let self = this;
 			    uni.getUserProfile({
 					desc:"获取你的昵称和头像",
@@ -56,7 +51,7 @@
 								key: 'userInfo', 
 								data: res.userInfo
 							});
-							this.handleCreateRoom();
+							self.handleCreateRoom();
 						}
 					},
 					fail:(err) => {
@@ -66,13 +61,32 @@
 			},
 			handleCreateRoom(){
 			    uni.showModal({
-			    	title: '创建房间',
+			    	title: '设置房间人数',
 			    	editable: true,
-			    	placeholderText: '输入人数',
+			    	placeholderText: '请输入数字（4-30）',
 			    	success: (res) => {
 			    		console.log('res', res)
-			    		if (res.confirm && res.content) {
+						const reg = /^\d+$/
+			    		if (res.confirm) {
 			    			console.log('res.content', res.content)
+							const num = (res.content || '').trim()
+							if (!reg.test(num)) {
+								return uni.showToast({
+									title: '请输入数字',
+									icon: 'error'
+								})
+							}
+							const count = Number(num);
+							if (count < 4 || count > 30) {
+								return uni.showToast({
+									title: '请输入4-30之间的数字',
+									icon: 'error'
+								})
+							}
+							const list = getInitRoleList(count);
+							const id = 123
+							// 创建房间
+							this.jumpRoomPage(id);
 			    		}
 			    	}
 			    })
@@ -84,17 +98,25 @@
 					placeholderText: '输入房间号',
 					success: (res) => {
 						console.log('res', res)
-						if (res.confirm && res.content) {
+						const reg = /^\d+$/
+						if (res.confirm) {
 							console.log('res.content', res.content)
+							const id = (res.content || '').trim()
+							if (!reg.test(id)) {
+								return uni.showToast({
+									title: '请输入数字',
+									icon: 'error'
+								})
+							}
+							this.jumpRoomPage(id)
 						}
 					}
 				})
 			},
-			onTouchStart(event) {
-				console.log('触摸点信息', event.touches);
-			},
-			onMouseDown(event) {
-				console.log('鼠标坐标信息', event.clientX, event.clientY);
+			jumpRoomPage(id) {
+				uni.navigateTo({
+					url: `/pages/room/index?id=${id}&source=home`,
+				})
 			}
 		}
 	}
@@ -156,6 +178,6 @@
 		padding: 24px;
 	}
 	.btn + .btn {
-		margin-top: 16px;
+		margin-top: 24px;
 	}
 </style>

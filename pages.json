@@ -11,6 +11,18 @@
 			"style": {
 				"navigationBarTitleText": "探本狼人"
 			}
+		},
+		{
+			"path": "pages/wolf/set-role",
+			"style": {
+				"navigationBarTitleText": "探本狼人-调整角色"
+			}
+		},
+		{
+			"path": "pages/wolf/rules",
+			"style": {
+				"navigationBarTitleText": "探本狼人-规则说明"
+			}
 		}
 	],
 	"globalStyle": {
