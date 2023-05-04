@@ -1,0 +1,49 @@
+{
+	"bsonType": "object",
+	"required": ["nickName"],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"openid": {
+			"bsonType": "string",
+			"title": "小程序openid",
+			"trim": "both"
+		},
+		"name": {
+			"bsonType": "string",
+			"title": "姓名",
+			"trim": "both"
+		},
+		"nickName":{
+			"bsonType": "string",
+			"title": "用户昵称",
+			"trim": "both"
+		},
+		"avatarUrl":{
+			"bsonType": "string",
+			"title": "用户头像图片的 URL",
+			"trim": "both"
+		},
+		"phoneNum": {
+			"bsonType": "string",
+			"title": "手机号码",
+			"pattern": "^\\+?[0-9-]{3,20}$",
+			"trim": "both"
+		},
+		"gender":{
+			"bsonType": "number",
+			"title": "用户性别，0：未知，1: 男，2: 女"
+		},
+		"points":{
+			"bsonType": "number",
+			"title": "用户积分"
+		}
+	}
+}

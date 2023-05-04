@@ -1,5 +1,5 @@
 <template>
-	<view class="page" @touchstart="onTouchStart" @mousedown="onMouseDown">
+	<view class="page">
 		<view class="header">
 			<view class="title">线下狼人局</view>
 			<view class="sub-title">
@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="content">
-			<button class='btn btn-create' type="default" @click="handleAuth">创建房间</button>
+			<button class='btn btn-create' type="default" @click="handleCreateRoom">创建房间</button>
 			<button class='btn btn-join' type="default" @click="handleJoinRoom">加入房间</button>
 		</view>
 	</view>
@@ -41,11 +41,7 @@
 					// error
 				}
 			},
-			handleAuth(){
-				this.getLocalUser();
-				if (this.user) {
-					return this.handleCreateRoom()
-				}
+			handleCreateRoom(){
 			    let self = this;
 			    uni.getUserProfile({
 					desc:"获取你的昵称和头像",
@@ -56,26 +52,16 @@
 								key: 'userInfo', 
 								data: res.userInfo
 							});
-							this.handleCreateRoom();
+							// 转跳页面
+							uni.navigateTo({
+								url: '/pages/room/index?id=123'
+							});
 						}
 					},
 					fail:(err) => {
 						console.log("您取消了授权,登录失败")
 					},
 				})
-			},
-			handleCreateRoom(){
-			    uni.showModal({
-			    	title: '创建房间',
-			    	editable: true,
-			    	placeholderText: '输入人数',
-			    	success: (res) => {
-			    		console.log('res', res)
-			    		if (res.confirm && res.content) {
-			    			console.log('res.content', res.content)
-			    		}
-			    	}
-			    })
 			},
 			handleJoinRoom() {
 				uni.showModal({
@@ -90,12 +76,6 @@
 					}
 				})
 			},
-			onTouchStart(event) {
-				console.log('触摸点信息', event.touches);
-			},
-			onMouseDown(event) {
-				console.log('鼠标坐标信息', event.clientX, event.clientY);
-			}
 		}
 	}
 </script>
