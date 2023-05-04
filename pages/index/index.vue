@@ -83,10 +83,9 @@
 									icon: 'error'
 								})
 							}
-							const list = getInitRoleList(count);
-							const id = 123
-							// 创建房间
-							this.jumpRoomPage(id);
+							uni.navigateTo({
+								url: `/pages/wolf/set-role?count=${count}&source=home`,
+							})
 			    		}
 			    	}
 			    })

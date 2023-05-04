@@ -4,9 +4,9 @@
 			<view class="title">线下狼人局</view>
 		</view>
 		<view class="content">
-			<view v-for="(item,index) in list" :key="index" class="item">
-				<image class="img" webp mode="scaleToFill" :src="item.url"></image>
-				<view class="name">{{item.name}}</view>
+			<view v-for="(item,index) in showUserList" :key="index" class="item">
+				<image class="img" webp mode="scaleToFill" :src="item.avatarUrl"></image>
+				<view class="name">{{item.nickName}}</view>
 			</view>
 		</view>
 	</view>
@@ -18,6 +18,7 @@
 		data() {
 			return {
 				user: null,
+				userList: [],
 				list: roleList.slice(0),
 			}
 		},
@@ -27,13 +28,21 @@
 			if (id) {// 请求远程数据库
 				
 			} else {
-				this.jumpHome(source)
+				// this.jumpHome(source)
 			}
 			this.handleAuth()
+			this.getLocalUser();
 		},
 		computed: {
-			showList() {
-				
+			showUserList() {
+				if (this.user) {
+					const { nickName, avatarUrl } = this.user
+					const target = this.userList.find(item => item.nickName === nickName && item.avatarUrl === avatarUrl)
+					if (!target) {
+						this.userList.push({ nickName, avatarUrl })
+					}
+				}
+				return this.userList
 			}
 		},
 		methods: {
@@ -73,7 +82,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.page {
 		width: 100vw;
 		height: 100vh;
@@ -100,16 +109,16 @@
 		display: flex;
 		flex-wrap: wrap;
 		padding: 24px;
-		.item {
-			display: block;
-			text-align: center;
-			margin-left: 8px;
-		}
-		.img {
-			width: 50px; 
-			height: 70px; 
-			background-color: #eeeeee;
-		}
+	}
+	.item {
+		display: block;
+		text-align: center;
+		margin-left: 8px;
+	}
+	.img {
+		width: 50px; 
+		height: 70px; 
+		background-color: #eeeeee;
 	}
 	.btn + .btn {
 		margin-top: 16px;

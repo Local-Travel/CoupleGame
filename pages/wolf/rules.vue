@@ -65,7 +65,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 	.page {
 		width: 100vw;
 		height: 100%;
@@ -93,17 +93,15 @@
 	.block + .block {
 		margin-top: 24px;
 	}
-	.block {
-		.b-title {
-			font-size: 24px;
-		}
-		.sub-title {
-			font-size: 16px;
-			font-weight: 500;
-			margin-top: 16px;
-		}
-		.desc {
-			margin-top: 16px;
-		}
+	.b-title {
+		font-size: 24px;
+	}
+	.sub-title {
+		font-size: 16px;
+		font-weight: 500;
+		margin-top: 16px;
+	}
+	.desc {
+		margin-top: 16px;
 	}
 </style>
