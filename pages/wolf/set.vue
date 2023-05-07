@@ -4,6 +4,7 @@
 			<view class="title">重建房间</view>
 		</view> -->
 		<view class="header-block">
+			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-bg.png"></image>
 			<swiper 
 				class="swiper" 
 				circular
@@ -57,6 +58,11 @@
 			<view class="btn-con">
 				<button class='btn' type="primary" @click="handleSubmit">创建房间</button>
 			</view>
+			<view class="search-con">
+				<view class="search-more-tip">
+					更多请关注「探本狼人」
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -79,9 +85,6 @@
 			const { id, source, count } = option || {}
 			this.list = getInitRoleList(count);
 			this.user = getLocalUser();
-			// if (!this.user) {
-			// 	// this.jumpHome()
-			// }
 		},
 		computed: {
 			countList() {
@@ -156,19 +159,12 @@
 							userList: [],
 						}
 						const db = uniCloud.database();
-						
-						// db.collection("room").where({roomId:"019934"})
-						//   .update({
-						//     creator: '019934-test2'
-						//   }).then((res) => {
-						// 	  console.log('update Room res', res)
-						// 	  // 重新赋值
-						//   }).catch((e) => {
-						// 	  console.log('update Room e', e)
-						//   });
-						  
+						uni.showLoading({
+							title: '房间创建中'
+						})
 						db.collection('room').add(data).then(res => {
 							console.log('createRoom res',res)
+							uni.hideLoading()
 							const { id, errMsg } = res && res.result || {}
 							if (errMsg) {
 								return uni.showToast({
@@ -181,6 +177,7 @@
 							})
 						}).catch((e) => {
 							console.log('createRoom e', e)
+							uni.hideLoading()
 							uni.showToast({
 								icon: 'error',
 								title: '创建异常，请稍后重试',
@@ -206,21 +203,29 @@
 		min-height: 100vh;
 		position: relative;
 		font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,PingFang SC,Noto Sans,Noto Sans CJK SC,Microsoft YaHei,微软雅黑,sans-serif;
-		background-color: #1F1F21;
+		/* background-color: #1F1F21; */
 	}
+	
 	.header-block {
-		position: relative;
 		height: 500px;
-		background-color: #000;
-		background-image: url('../../static/icon-home-bg.png');
-		background-size: cover;
-		background-position: center;
+		/* background-color: #000; */
+		/* background-image: url('../../static/icon-home-bg.png'); */
+		/* background-size: cover; */
+		/* background-position: center; */
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		position: relative;
+	}
+	.header-bg-img {
+		position: absolute;
+		top: -50px;
+		height: 600px;
+		width: 100%;
+		z-index: -1;
 	}
 	.swiper {
 		margin-top: 45px;
@@ -333,7 +338,7 @@
 		min-height: 300px;
 		padding: 40px;
 		background-size: contain;
-		background-image: url('../../static/icon-set-box1.png'),url('../../static/icon-set-box3.png'),url('../../static/icon-set-box2.png');
+		background-image: url('../../static/icon-set-box11.png'),url('../../static/icon-set-box3.png'),url('../../static/icon-set-box2.png');
 		background-repeat: no-repeat, no-repeat, repeat-y;
 		background-position: center top, center bottom, center top;
 	}
@@ -376,9 +381,11 @@
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
+		margin-top: 8px;
 	}
 	.count-item {
 		margin-left: 8px;
+		margin-bottom: 8px;
 		font-size: 14px;
 		padding: 2px 4px;
 		font-size: 12px;
@@ -393,10 +400,30 @@
 	}
 	
 	.btn-con {
-		padding: 24px;
+		margin-top: 24px;
 	}
 	
 	.btn {
-		background-color: #01C2C3;
+		width: 188.33px;
+		height: 55px;
+		line-height: 55px;
+		background: linear-gradient(to right, #07accf 20%, #00FEFF, #07accf 80%);
+		opacity: 0.8;
+		border: 1px solid #00FEFF;
+		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+		color: #ffffff !important;
+	}
+	.btn + .btn {
+		margin-top: 24px;
+	}
+	.search-con {
+		margin-top: 48px;
+		font-family: 'PingFang SC';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 10px;
+		line-height: 14px;		
+		text-align: center;
+		color: #7F7F8E;
 	}
 </style>

@@ -10,6 +10,7 @@
 			</view>
 		</view> -->
 		<view class="header-block">
+			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-bg.png"></image>
 			<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-gif.png"></image>
 			<view>
 				<view class="header-top-title">探本狼人 邀TA一起</view>
@@ -17,7 +18,7 @@
 			</view>
 			<view>
 				<view class="middle-title">线下狼人局</view>
-				<view class="middle-title-tip">促进线下人与人之间的沟通，释放工作中的压力</view>
+				<view class="middle-title-tip">促进线下人与人之间的沟通，释放生活压力</view>
 			</view>
 		</view>
 		<view class="content-block">
@@ -34,7 +35,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="btn-icon">
+			<view class="btn-con">
 				<button v-if="user" class='btn btn-create' type="default" @click="handleAuth('create')">立刻开始</button>
 				<button v-else class='btn btn-create' type="default" @click="handleCreateRoom">立刻开始</button>
 				<button v-if="user" class='btn btn-join' type="default" @click="handleAuth('join')">加入房间</button>
@@ -68,13 +69,14 @@
 				// uni-app客户端获取push客户端标记
 				uni.getPushClientId({
 					success: (res) => {
-						console.log('客户端推送标识:',res.cid)
-						uni.setStorage('clientId', res.cid);
+						const cid = res.cid;
+						console.log('客户端推送标识:',cid)
+						uni.setStorageSync('clientId', cid);
 					},
 					fail(err) {
 						console.log('getPushClientId', err)
 						const clientId = getClientId();
-						uni.setStorage('clientId', clientId);
+						uni.setStorageSync('clientId', clientId);
 					}
 				})
 			},
@@ -186,11 +188,11 @@
 	}
 	
 	.header-block {
-		height: 500px;
-		background-color: #000;
-		background-image: url('../../static/icon-home-bg.png');
-		background-size: cover;
-		background-position: center;
+		height: 550px;
+		/* background-color: #000; */
+		/* background-image: url('../../static/icon-home-bg.png'); */
+		/* background-size: cover; */
+		/* background-position: center; */
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -199,11 +201,17 @@
 		align-items: center;
 		position: relative;
 	}
+	.header-bg-img {
+		position: absolute;
+		height: 600px;
+		width: 100%;
+		z-index: -1;
+	}
 	.header-gif-img {
-		margin-top: 80px;
+		margin-top: 120px;
 		width: 200px;
 		height: 219px;
-		background: url('../../static/icon-home-gif.png');
+		/* background: url('../../static/icon-home-gif.png'); */
 		background-size: cover;
 		background-position: center;
 	}
@@ -249,6 +257,7 @@
 		text-fill-color: transparent;
 	}
 	.middle-title-tip {
+		margin-top: 8px;
 		font-family: 'PingFang SC';
 		font-style: normal;
 		font-weight: 400;
@@ -305,22 +314,25 @@
 		color: #FFFFFF;
 	}
 	
-	.btn-icon {
+	.btn-con {
 		margin-top: 24px;
 	}
 
 	.btn {
 		width: 188.33px;
 		height: 55px;
-		background: url('../../static/icon-home-btn.png');
-		background-size: cover;
-		background-position: center;
+		line-height: 55px;
+		background: linear-gradient(to right, #07accf 20%, #00FEFF, #07accf 80%);
+		opacity: 0.8;
+		border: 1px solid #00FEFF;
+		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+		color: #ffffff !important;
 	}
 	.btn + .btn {
 		margin-top: 24px;
 	}
 	.search-con {
-		margin-top: 16px;
+		margin-top: 48px;
 		font-family: 'PingFang SC';
 		font-style: normal;
 		font-weight: 400;
@@ -329,4 +341,5 @@
 		text-align: center;
 		color: #7F7F8E;
 	}
+
 </style>

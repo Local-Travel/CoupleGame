@@ -10,21 +10,25 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "探本狼人"
+				"navigationBarTitleText": "探本狼人",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/wolf/room",
 			"style": {
 				"navigationBarTitleText": "探本狼人",
-				"enablePullDownRefresh": true,
-				"navigationStyle": "custom"
+				"enablePullDownRefresh": true
+				// "navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/wolf/set",
 			"style": {
-				"navigationBarTitleText": "探本狼人-调整角色"
+				"navigationBarTitleText": "调整角色",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#1F1F21",
+				"backgroundColor": "#1F1F21"
 			}
 		},
 		{

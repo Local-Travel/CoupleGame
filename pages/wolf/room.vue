@@ -1,9 +1,8 @@
 <template>
 	<view class="page">
-		<view>
-			<view class="status-bar">
-				<!-- 这里是状态栏 -->
-				<image class="icon-back" webp mode="scaleToFill" src="../../static/icon-back.png"></image>
+		<view class="header">
+			<view class="header-top">
+				<view class="header-left"></view>
 				<view>
 					<view class="rules" @click="jumpRules">
 						<image class="icon-question" webp mode="scaleToFill" src="../../static/icon-question.png"></image>
@@ -11,8 +10,6 @@
 					</view>
 				</view>
 			</view>
-		</view>
-		<view class="header">
 			<view>
 				<view class="title">房间号：<text class="room-id">{{ roomId }}</text></view>
 				<image class="icon-star" webp mode="scaleToFill" src="../../static/icon-star.png"></image>
@@ -63,21 +60,27 @@
 					</view>
 				</view>
 			</view>
+			<!-- 按钮 -->
+			<view class="btn-con">
+				<button v-if="true" :class="'btn btn-submit'" @click="handleSubmit">
+					{{ btnText }}
+				</button>
+			</view>
 			<!-- 自己角色 -->
-			<view class="role-con" v-if="myRole">
+			<view class="role-con">
+				<view class="role-group">{{ roleGroup }}</view>
 				<view class="role-box">
-					<view class="role-group">{{ roleGroup }}</view>
 					<view class="role-img-con">
-						<image class="role-img" webp mode="scaleToFill" :src="myRole.url"></image>
+						<image v-if="myRole" class="role-img" webp mode="scaleToFill" :src="myRole.url"></image>
 					</view>
 					<view class="role-desc">{{ roleDesc }}</view>
 				</view>
 			</view>
-			<!-- 按钮 -->
-			<view class="btn-con">
-				<button v-if="isCreator" :class="'btn-submit'" @click="handleSubmit">
-					{{ btnText }}
-				</button>
+			
+			<view class="search-con">
+				<view class="search-more-tip">
+					更多请关注「探本狼人」
+				</view>
 			</view>
 		</view>
 		<view class="modal-view" v-if="showModal">
@@ -96,9 +99,9 @@
 </template>
 
 <script>
-	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles } from './const.js'
+	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2 } from './const.js'
 	    
-	const db = uniCloud.databaseForJQL();
+	let db = {};
 	export default {
 		data() {
 			return {
@@ -123,6 +126,7 @@
 			if (!id) {
 				// return this.jumpHome(source)
 			}
+			db = uniCloud.databaseForJQL();
 			this.roomId = id;
 			this.user = getLocalUser()
 			if (!this.user) {
@@ -175,8 +179,8 @@
 				uni.getPushClientId({
 					success: (res) => {
 						console.log('客户端推送标识:',res.cid)
-						uni.setStorage('clientId', res.cid);
 						this.clientId = res.cid;
+						uni.setStorageSync('clientId', res.cid);
 						// bd4d901aaf7a930900158c3fd28dbf42
 						// uniCloud.callFunction({
 						// 	name: 'testUniPush',
@@ -190,8 +194,8 @@
 					fail(err) {
 						console.log('getPushClientId', err)
 						const clientId = getClientId();
-						uni.setStorage('clientId', clientId);
 						this.clientId = clientId;
+						uni.setStorageSync('clientId', clientId);
 					}
 				})
 			},
@@ -304,6 +308,7 @@
 						} else {
 							this.myRole = null;
 						}
+						this.myRole = roleList2[0];
 						this.record = data;
 						this.showUserList = list;
 						this.userList = userList || [];
@@ -385,7 +390,7 @@
 				const useLen = this.userList.length
 				if (!roomCount || useLen > roomCount) {
 					return uni.showToast({
-						icon: 'error',
+						icon: 'none',
 						title: '数据异常，请下拉刷新重试'
 					})
 				}
@@ -441,13 +446,12 @@
 		min-width: 100vw;
 		min-height: 100vh;
 		font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,PingFang SC,Noto Sans,Noto Sans CJK SC,Microsoft YaHei,微软雅黑,sans-serif;
-		background-color: #1F1F21;
+		/* background-color: #1F1F21; */
+		background-color: #E5E5E5;
 	}
-	.status-bar {
+	.header-top {
 		box-sizing: border-box;
-		height: var(--status-bar-height);
 		width: 100%;
-		line-height:var(--status-bar-height);
 		display: flex;
 		justify-content: space-between;
 		padding-left: 22px;
@@ -480,7 +484,7 @@
 	}
 	
 	.header {
-		padding: 24px 0px;
+		padding: 12px 0px 24px;
 		background-color: #000;
 		background-image: url('../../static/icon-swell.png');
 		background-size: cover;
@@ -637,8 +641,8 @@
 		/* background: #131C23; */
 		/* border-top: 1px solid #FF4859; */
 		border-bottom: 1px solid #01C2C3;
-		box-shadow: inset 0.5px -0.5px 2px rgba(255, 255, 255, 0.21);
-		backdrop-filter: blur(25px);		
+		/* box-shadow: inset 0.5px -0.5px 2px rgba(255, 255, 255, 0.21); */
+		/* backdrop-filter: blur(25px);		 */
 		border-radius: 2px;
 		padding: 2px 16px;
 		transform: rotate(45deg);
@@ -787,53 +791,92 @@
 		box-sizing: border-box;
 		width: 100%;
 		min-height: 300px;
-		padding: 40px;
-		background-size: contain;
-		background-image: url('../../static/icon-set-box1.png'),url('../../static/icon-set-box3.png'),url('../../static/icon-set-box2.png');
+		/* padding: 16px; */
+	/* 	background-size: contain;
+		background-image: url('../../static/icon-set-box11.png'),url('../../static/icon-set-box3.png'),url('../../static/icon-set-box2.png');
 		background-repeat: no-repeat, no-repeat, repeat-y;
-		background-position: center top, center bottom, center top;
+		background-position: center top, center bottom, center top; */
+		/* background: linear-gradient(180deg, #22D6D7 0%, #04AEAF 2.46%, #09BDBE 100%); */
+		/* box-shadow: 0px -3.8806px 7.76119px rgba(0, 0, 0, 0.2); */
+		border-radius: 3.8806px;
+		background-color: #000;
+		color: #fff;
 	}
 	.role-box {
-		background-color: #fff;
+		/* background-color: #fff; */
 		padding: 16px;
+		border-radius: 4px;
 	}
 	.role-group {
 		font-family: 'PingFang SC';
 		font-style: normal;
-		font-weight: 500;
-		font-size: 22px;
-		line-height: 31px;
+		font-weight: 600;
+		font-size: 32px;
+		padding: 16px 0px 0px;
+		/* line-height: 48px;		 */
 		text-align: center;
+		color: #FFFFFF;
+		background: linear-gradient(180deg, rgba(40, 197, 201, 0.49175) 2.48%, rgba(255, 255, 255, 0.0001) 100%);
 	}
 	.role-img-con {
 		display: flex;
 		justify-content: center;
+		background-image: url('../../static/icon-swell.png');
+		background-size: contain;
+		background-position: center;
+		
+		position: relative;
+		perspective: 1000px;
 	}
 	
-	.role-img {
+/* 	.role-img {
 		width: 200px;
 		height: 280px;
+	} */
+	
+	
+	.role-img {
+	  width: 200px;
+	  height: 280px;
+	  background-color: #07accf;
+	  color: #fff;
+	  transform-style: preserve-3d;
+	  transform: rotateX(0deg) rotateY(0deg) translateZ(0px);
+	  transition: transform 0.5s;
+	}
+	
+	.role-img-con:hover .role-img {
+	  transform: rotateX(20deg) rotateY(20deg) translateZ(30px);
+	  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
 	}
 	.role-desc {
 		margin-top: 8px;
 		font-size: 14px;
+		/* background: linear-gradient(180deg, rgba(40, 197, 201, 0.49175) 2.48%, rgba(255, 255, 255, 0.0001) 100%); */
 	}
-	.btn-submit {
-		height: 46px;
-		line-height: 46px;
-		margin-top: 16px;
-		text-align: center;
-		background-color: #01C2C3;
-		color: #fff;
-		border-radius: 2px;
-		font-family: 'PingFang TC';
+	.btn-con {
+		margin-top: 24px;
+	}
+	
+	.btn {
+		width: 188.33px;
+		height: 55px;
+		line-height: 55px;
+		background: linear-gradient(to right, #07accf 20%, #00FEFF, #07accf 80%);
+		opacity: 0.8;
+		border: 1px solid #00FEFF;
+		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+		color: #ffffff !important;
+	}
+	.search-con {
+		margin-top: 48px;
+		font-family: 'PingFang SC';
 		font-style: normal;
-		font-weight: 600;
-		font-size: 18px;
-	}
-	.btn-disable {
-		background-color: #C7C7D7;		
-		color: #FFFFFF;
+		font-weight: 400;
+		font-size: 10px;
+		line-height: 14px;		
+		text-align: center;
+		color: #7F7F8E;
 	}
 	.modal-view {
 		position: absolute;
