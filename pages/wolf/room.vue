@@ -825,8 +825,11 @@
 		background-size: contain;
 		background-position: center;
 		
+		width: 100%;
+		height: 280px;
 		position: relative;
-		perspective: 1000px;
+		perspective: 800px;
+		/* overflow: hidden; */
 	}
 	
 /* 	.role-img {
@@ -836,19 +839,32 @@
 	
 	
 	.role-img {
-	  width: 200px;
-	  height: 280px;
-	  background-color: #07accf;
-	  color: #fff;
-	  transform-style: preserve-3d;
-	  transform: rotateX(0deg) rotateY(0deg) translateZ(0px);
-	  transition: transform 0.5s;
+		width: 200px;
+		height: 280px;
+		position: absolute;
+		top: 0;
+		left: 20%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+		color: #fff;
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
 	}
-	
-	.role-img-con:hover .role-img {
-	  transform: rotateX(20deg) rotateY(20deg) translateZ(30px);
-	  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+	.role-img {
+		animation: rotate 3s infinite linear;
 	}
+	@keyframes rotate {
+		0% {
+			transform: rotateY(0);
+		}
+		50% {
+			transform: rotateY(180deg);
+		}
+		100% {
+			transform: rotateY(360deg);
+		}
+	}
+
 	.role-desc {
 		margin-top: 8px;
 		font-size: 14px;
