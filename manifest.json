@@ -60,6 +60,9 @@
             "scope.userLocation" : {
                 "desc" : "演示定位能力"
             }
+        },
+        "unipush" : {
+            "enable" : true
         }
     },
     "mp-alipay" : {
@@ -74,5 +77,10 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "h5" : {
+        "unipush" : {
+            "enable" : true
+        }
+    }
 }

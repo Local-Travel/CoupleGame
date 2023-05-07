@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 // 角色阵营
 export const RoleType = {
 	'independency': 'independency',
@@ -121,4 +122,30 @@ export const getInitRoleList = (count) => {
 		item.value = obj[item.code] || 0
 	});
 	return list;
+}
+
+// 获取客户端标记
+export const getClientId = () => {
+	try {
+		return uni.getStorageSync('clientId') || uuidv4();
+	} catch(e) {
+		return uuidv4();
+	}
+}
+
+// 获取客户端用户信息
+export const getLocalUser = () => {
+	let userInfo = null
+	try {
+		userInfo = uni.getStorageSync('userInfo');
+	} catch (e) {
+		// error
+	}
+	console.log('userInfo', userInfo);
+	return userInfo;
+}
+
+// 获取创建者
+export const getCreator = (clientId, nickName = '') => {
+	return clientId + '-' + nickName
 }

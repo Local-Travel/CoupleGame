@@ -28,7 +28,8 @@
 		},
 		"avatarUrl":{
 			"bsonType": "string",
-			"title": "用户头像图片的 URL",
+			"title": "用户头像",
+			"description": "用户头像图片的 URL",
 			"trim": "both"
 		},
 		"phoneNum": {
@@ -38,12 +39,46 @@
 			"trim": "both"
 		},
 		"gender":{
-			"bsonType": "number",
-			"title": "用户性别，0：未知，1: 男，2: 女"
+			"bsonType": "int",
+			"title": "性别",
+			"defaultValue": 0,
+			"enum": [
+				{
+					"text": "未知",
+					"value": 0
+				},
+				{
+					"text": "男",
+					"value": 1
+				},
+				{
+					"text": "女",
+					"value": 2
+				}
+			]
 		},
 		"points":{
 			"bsonType": "number",
-			"title": "用户积分"
+			"title": "用户积分",
+			"defaultValue": 0
+		},
+		"clientId": {
+			"bsonType": "string",
+			"title": "客户端标记"	
+		},
+		"createTime": {
+			"bsonType": "timestamp",
+			"title": "创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		},
+		"updateTime": {
+			"bsonType": "timestamp",
+			"title": "更新时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
 		}
 	}
 }

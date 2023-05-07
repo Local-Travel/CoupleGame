@@ -1,6 +1,6 @@
 {
 	"bsonType": "object",
-	"required": ["nickName"],
+	"required": ["roomId", "creator", "roomCount", "roleList"],
 	"permission": {
 		"read": true,
 		"create": true,
@@ -12,20 +12,45 @@
 			"description": "ID，系统自动生成"
 		},
 		"roomId": {
-			"bsonType": "number",
+			"bsonType": "string",
 			"title": "房间ID"
 		},
-		"activeCount": {
-			"bsonType": "number",
-			"title": "活跃人数"
-		},
-		"maxCount":{
+		"creator": {
 			"bsonType": "string",
+			"title": "房间创建者"
+		},
+		"roomCount":{
+			"bsonType": "number",
 			"title": "房间人数"
 		},
-		"roles":{
-			"bsonType": "string",
+		"roleList":{
+			"bsonType": "array",
+			"arrayType": "object",
 			"title": "房间角色"
+		},
+		"userList":{
+			"bsonType": "array",
+			"arrayType": "object",
+			"title": "参与用户",
+			"defaultValue": []
+		},
+		"userRoleMap":{
+			"bsonType": "object",
+			"title": "用户角色关系"
+		},
+		"createTime": {
+			"bsonType": "timestamp",
+			"title": "创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		},
+		"updateTime": {
+			"bsonType": "timestamp",
+			"title": "更新时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
 		}
 	}
 }
