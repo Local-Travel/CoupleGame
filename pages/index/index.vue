@@ -263,6 +263,7 @@
 		margin-top: -30px;
 		background-color: #2c2c2f;
 	}
+	
 	.slog-con {
 		position: relative;
 		padding: 12px;

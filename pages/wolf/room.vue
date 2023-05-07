@@ -47,15 +47,19 @@
 				<view class="box-tag">
 					<view class="box-tag-text">玩家列表</view>
 				</view>
+				<view class="box-tag-right-con">
+					<view class="box-tag-right-border"></view>
+					<view class="box-tag-right">不含法官</view>
+				</view>
 				<view class="user-item-con">
 					<view v-for="(item,index) in showUserList" :key="index" class="user-item" @click="handleInvite(item)">
 						<view class="user-num">{{index + 1}}</view>
 						<view class="user-img-con">
-							<image v-if="item.url" class="user-img" webp mode="scaleToFill" :src="item.url"></image>
+							<image v-if="item.avatarUrl" class="user-img" webp mode="scaleToFill" :src="item.avatarUrl"></image>
 							<view v-else class="user-plus"></view>
 						</view>
-						<view class="user-name">{{item.name || '邀请'}}</view>
-						<view v-if="isCreator && item.type" :class="item.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.roleName || '平民'}}</view>
+						<view class="user-name">{{item.nickName || '邀请'}}</view>
+						<view v-if="isCreator && item.role" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
 					</view>
 				</view>
 			</view>
@@ -117,7 +121,7 @@
 			const { id, source } = option || {}
 			const self = this;
 			if (!id) {
-				return this.jumpHome(source)
+				// return this.jumpHome(source)
 			}
 			this.roomId = id;
 			this.user = getLocalUser()
@@ -257,9 +261,13 @@
 						    userList: list,
 						  }).then((res) => {
 							  console.log('userBindRoom res', res)
-							  // 重新赋值
+							  // 重新查询赋值
+							  this.queryRoom()
 						  }).catch(() => {
-							  
+							  uni.showToast({
+							  	icon: 'none',
+							  	title: '加入房间失败，请下拉刷新重试',
+							  })
 						  });
 					}
 				} catch(e) {
@@ -276,25 +284,28 @@
 					const data = res && res.data && res.data[0]
 					console.log('data', data)
 					if (data) {
-						const { roomCount = 0 } = data || {};
-						let list = data.userList.slice(0) || [];
+						const { roomCount = 0, userList, roleList, userRoleMap } = data || {};
+						let list = (userList || []).slice(0);
 						let len = roomCount - list.length;
 						while(len > 0) {
 							list.push({});
 							len--;
 						}
-						this.record = data;
-						this.showUserList = list;
-						this.userList = data.userList || [];
-						this.roomRoleList = data.roleList || [];
-						if (Array.isArray(data.userRoleList) && data.userRoleList.length) {
-							const target = data.userRoleList.find(item => item.clientId === getClientId());
-							this.myRole = target;
-							this.showUserList = data.userRoleList;
+						if (userRoleMap) {
+							const cid = getClientId();
+							this.myRole = userRoleMap[cid];
+							list.forEach((item) => {
+								if (item.clientId) {
+									item.role = userRoleMap[item.clientId]
+								}
+							})
 						} else {
 							this.myRole = null;
-							// this.myRole = this.roomRoleList[0];
 						}
+						this.record = data;
+						this.showUserList = list;
+						this.userList = userList || [];
+						this.roomRoleList = roleList || [];
 					} else {
 						// 空数据认为是失效的
 						throw new Error('空数据')
@@ -506,7 +517,7 @@
 		line-height: 20px;
 		color: #01C2C3;
 	}
-
+	
 	.content {
 		position: relative;
 		box-sizing: border-box;
@@ -564,12 +575,38 @@
 		justify-content: center;
 	}
 	.user-con {
+		position: relative;
 		margin-top: 24px;
 		min-height: 132px;
 		background: #FFFFFF;
 		box-shadow: 0px 0px 8px #E2E2F1;
 		border-radius: 2px;
 	}
+	.box-tag-right-con {
+		position: absolute;
+		top: 10px;
+		right: -16px;
+		/* background: #131C23; */
+		/* border-top: 1px solid #FF4859; */
+		border-bottom: 1px solid #01C2C3;
+		box-shadow: inset 0.5px -0.5px 2px rgba(255, 255, 255, 0.21);
+		backdrop-filter: blur(25px);		
+		border-radius: 2px;
+		padding: 2px 16px;
+		transform: rotate(45deg);
+	}
+	.box-tag-right-border {
+		border-top: 1px solid #01C2C3;
+	}
+	.box-tag-right {
+		font-family: 'PingFang SC';
+		font-style: normal;
+		font-weight: 500;
+		font-size: 11px;
+		line-height: 17px;		
+		color: #01C2C3;
+	}
+	
 	.user-item-con {
 		display: flex;
 		justify-content: flex-start;

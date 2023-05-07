@@ -23,13 +23,19 @@
 			</swiper>
 		</view>
 		
-		<view class="select-title">
-			已选角色
+		<view class="select-title-block">
+			<view class="select-title">
+				已选角色
+			</view>
+			<!-- <view class="select-title-tip">促进线下人与</view> -->
 		</view>
 		
 		<view class="content-block">
 			<view class="role-box">
 				<view class='role-container'>
+					<view class="role-box-tag-con">
+						<view class="role-box-tag">不含法官</view>
+					</view>
 					<view class="f-title">【好人阵营】</view>
 					<view class="count-con">
 						<view class="count-item" v-for="(item,index) in goodList" :key="index">
@@ -283,9 +289,14 @@
 	  transform: rotate(90deg);
 	}
 	
-	.select-title {
+	.select-title-block {
 		position: relative;
 		margin-top: -70px;
+		z-index: 10;
+		background: linear-gradient(183.57deg, rgba(31, 31, 33, 0) 2.94%, #1F1F21 72.22%);
+	}
+	
+	.select-title {
 		font-family: 'POIZONSans';
 		font-style: normal;
 		font-weight: 700;
@@ -296,9 +307,18 @@
 		text-align: center;
 		letter-spacing: -1px;
 		color: #fff;
-		background: linear-gradient(183.57deg, rgba(31, 31, 33, 0) 2.94%, #1F1F21 72.22%);
-		z-index: 10;
+		
 	}
+	
+/* 	.select-title-tip {
+		font-family: 'PingFang SC';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 17px;		
+		text-align: center;		
+		color: #00FEFF;
+	} */
 	
 	.content-block {
 		background-color: #1F1F21;
@@ -307,6 +327,7 @@
 	}
 	
 	.role-box {
+		position: relative;
 		box-sizing: border-box;
 		width: 100%;
 		min-height: 300px;
@@ -316,7 +337,29 @@
 		background-repeat: no-repeat, no-repeat, repeat-y;
 		background-position: center top, center bottom, center top;
 	}
+	.role-box-tag-con {
+		position: absolute;
+		top: 10px;
+		right: -12px;
+		background: #131C23;
+		opacity: 0.8;
+		border: 1px solid #00FEFF;
+		box-shadow: inset 0.5px -0.5px 2px rgba(255, 255, 255, 0.21);
+		backdrop-filter: blur(25px);		
+		border-radius: 2px;
+		padding: 3px 10px;
+		transform: rotate(45.22deg);
+	}
+	.role-box-tag {
+		font-family: 'PingFang SC';
+		font-style: normal;
+		font-weight: 500;
+		font-size: 12px;
+		line-height: 17px;		
+		color: #00FEFF;
+	}
 	.role-container {
+		position: relative;
 		background-color: #fff;
 		padding: 16px;
 	}
