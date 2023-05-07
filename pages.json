@@ -18,8 +18,11 @@
 			"path": "pages/wolf/room",
 			"style": {
 				"navigationBarTitleText": "探本狼人",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
 				// "navigationStyle": "custom"
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#000000",
+				"backgroundColor": "#000000"
 			}
 		},
 		{
@@ -34,7 +37,10 @@
 		{
 			"path": "pages/wolf/rules",
 			"style": {
-				"navigationBarTitleText": "探本狼人-规则说明"
+				"navigationBarTitleText": "探本狼人-规则说明",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#000000",
+				"backgroundColor": "#000000"
 			}
 		}
 	],

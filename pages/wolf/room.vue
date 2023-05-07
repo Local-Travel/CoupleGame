@@ -1,8 +1,13 @@
 <template>
 	<view class="page">
 		<view class="header">
-			<view class="header-top">
-				<view class="header-left"></view>
+			<view class="header-room">
+				<view class="title">房间号：<text class="room-id">{{ roomId }}</text></view>
+				<image class="icon-star" webp mode="scaleToFill" src="../../static/icon-star.png"></image>
+			</view>
+
+			<view class="header-tag">
+				<view class="wait-tip">邀请朋友一起开嗨</view>
 				<view>
 					<view class="rules" @click="jumpRules">
 						<image class="icon-question" webp mode="scaleToFill" src="../../static/icon-question.png"></image>
@@ -10,11 +15,6 @@
 					</view>
 				</view>
 			</view>
-			<view>
-				<view class="title">房间号：<text class="room-id">{{ roomId }}</text></view>
-				<image class="icon-star" webp mode="scaleToFill" src="../../static/icon-star.png"></image>
-			</view>
-			<view class="wait-tip">邀请朋友一起开嗨</view>
 			<view class="header-bg"></view>
 		</view>
 		<view class="header-bottom"></view>
@@ -61,8 +61,8 @@
 				</view>
 			</view>
 			<!-- 按钮 -->
-			<view class="btn-con">
-				<button v-if="true" :class="'btn btn-submit'" @click="handleSubmit">
+			<view v-if="isCreator" class="btn-con">
+				<button :class="'btn btn-submit'" @click="handleSubmit">
 					{{ btnText }}
 				</button>
 			</view>
@@ -71,9 +71,14 @@
 				<view class="role-group">{{ roleGroup }}</view>
 				<view class="role-box">
 					<view class="role-img-con">
-						<image v-if="myRole" class="role-img" webp mode="scaleToFill" :src="myRole.url"></image>
+						<image class="role-img-bg" webp mode="scaleToFill" src="../../static/icon-lightning.png"></image>
+						<image class="role-img" webp mode="scaleToFill" :src="roleUrl"></image>
 					</view>
-					<view class="role-desc">{{ roleDesc }}</view>
+					<view class="role-desc">
+						<view v-for="(item,index) in roleDesc" :key="index" class="role-desc-item">
+							<view><text class="mr4">{{index + 1}}</text>{{item}}</view>
+						</view>
+					</view>
 				</view>
 			</view>
 			
@@ -99,7 +104,7 @@
 </template>
 
 <script>
-	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2 } from './const.js'
+	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules } from './const.js'
 	    
 	let db = {};
 	export default {
@@ -124,7 +129,7 @@
 			const { id, source } = option || {}
 			const self = this;
 			if (!id) {
-				// return this.jumpHome(source)
+				return this.jumpHome(source)
 			}
 			db = uniCloud.databaseForJQL();
 			this.roomId = id;
@@ -150,10 +155,13 @@
 		},
 		computed: {
 			roleGroup() {
-				return this.myRole ? roleDescMap[this.myRole.code][0] : ''
+				return this.myRole ? roleDescMap[this.myRole.code][0] : '流程规则'
 			},
 			roleDesc() {
-				return this.myRole ? roleDescMap[this.myRole.code][1] : ''
+				return this.myRole ? (roleDescMap[this.myRole.code][1] || '').split('。') : defaultRules
+			},
+			roleUrl() {
+				return this.myRole ? this.myRole.url : roleList2[0].url
 			},
 			btnText() {
 				const obj = {
@@ -305,10 +313,13 @@
 									item.role = userRoleMap[item.clientId]
 								}
 							})
+							if (this.isCreator) {
+								this.myRole = roleList2[0]
+								this.btnType = 'new'
+							}
 						} else {
 							this.myRole = null;
 						}
-						this.myRole = roleList2[0];
 						this.record = data;
 						this.showUserList = list;
 						this.userList = userList || [];
@@ -394,6 +405,7 @@
 						title: '数据异常，请下拉刷新重试'
 					})
 				}
+				const leftCount = roomCount - useLen
 				if (useLen < roomCount) {
 					 return uni.showModal({
 						content: `还差${leftCount}玩家，邀请其他朋友一起来玩吧`,
@@ -447,7 +459,7 @@
 		min-height: 100vh;
 		font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,PingFang SC,Noto Sans,Noto Sans CJK SC,Microsoft YaHei,微软雅黑,sans-serif;
 		/* background-color: #1F1F21; */
-		background-color: #E5E5E5;
+		background-color: #000;
 	}
 	.header-top {
 		box-sizing: border-box;
@@ -457,18 +469,34 @@
 		padding-left: 22px;
 		padding-right: 22px;
 	}
+	.mr4 {
+		margin-right: 4px;
+	}
 	.icon-back {
 		height: 20px;
 		width: 12px;
+	}
+	.header-room {
+		padding: 48px 0px 0px;
+	}
+	.header-tag {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-top: 16px;
+		padding-bottom: 24px;
 	}
 	.rules {
 		box-sizing: border-box;
 		width: 74px;
 		height: 24px;
+		margin-left: 8px;
 		display: flex;
 		align-items: center;
 		padding: 0 5px;
-		background: #363636;
+		background-color: #005B5B;
+		/* background: linear-gradient(90deg, #009192 0%, #005B5B 37.56%, rgba(0, 8, 8, 0) 104.76%); */
+		/* border: 1px solid #01C2C3; */
 		border-radius: 17px;
 		font-family: 'PingFang SC';
 		font-style: normal;
@@ -487,7 +515,7 @@
 		padding: 12px 0px 24px;
 		background-color: #000;
 		background-image: url('../../static/icon-swell.png');
-		background-size: cover;
+		background-size: contain;
 		background-position: center;
 		display: flex;
 		flex-direction: column;
@@ -584,7 +612,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
-		justify-content: center;
+		/* justify-content: center; */
+		justify-content: flex-start;
 	}
 	
 	.number-container {
@@ -821,15 +850,21 @@
 	.role-img-con {
 		display: flex;
 		justify-content: center;
-		background-image: url('../../static/icon-swell.png');
-		background-size: contain;
-		background-position: center;
+		/* background-image: url('../../static/icon-lightning.png'); */
+		/* background-size: cover; */
+		/* background-position: center; */
 		
 		width: 100%;
 		height: 280px;
 		position: relative;
 		perspective: 800px;
 		/* overflow: hidden; */
+	}
+	.role-img-bg {
+		width: 100%;
+		height: 280px;
+		position: absolute;
+		z-index: -1;
 	}
 	
 /* 	.role-img {
@@ -866,19 +901,24 @@
 	}
 
 	.role-desc {
-		margin-top: 8px;
+		margin: 16px 0px;
 		font-size: 14px;
 		/* background: linear-gradient(180deg, rgba(40, 197, 201, 0.49175) 2.48%, rgba(255, 255, 255, 0.0001) 100%); */
 	}
+	.role-desc-item {
+		margin-top: 8px;
+		line-height: 24px;
+	}
 	.btn-con {
 		margin-top: 24px;
+		background-color: #000;
 	}
 	
 	.btn {
 		width: 188.33px;
 		height: 55px;
-		line-height: 55px;
-		background: linear-gradient(to right, #07accf 20%, #00FEFF, #07accf 80%);
+		line-height: 50px;
+		background: linear-gradient(180deg, rgba(40, 197, 201, 0.49175) 2.48%, rgba(255, 255, 255, 0.0001) 100%);
 		opacity: 0.8;
 		border: 1px solid #00FEFF;
 		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
@@ -886,6 +926,8 @@
 	}
 	.search-con {
 		margin-top: 48px;
+		padding-top: 16px;
+		border-top: 0.5px solid #7F7F8E;
 		font-family: 'PingFang SC';
 		font-style: normal;
 		font-weight: 400;
