@@ -8,20 +8,20 @@ export const RoleType = {
 
 // 角色
 export const roleList = [
-	{ code: 'god', name: '上帝', type: RoleType.independency, min: 0, url: '../../static/civilian.jpg' },
-	{ code: 'civilian', name: '平民', type: RoleType.good, min: 0, url: '../../static/civilian.jpg' },
-	{ code: 'wolf', name: '狼人', type: RoleType.wolf, min: 0, url: '../../static/wolf.jpg' },
-	{ code: 'witch', name: '女巫', type: RoleType.good, min: 0, url: '../../static/witch.jpg' },
-	{ code: 'prophet', name: '预言家', type: RoleType.good, min: 0, url: '../../static/prophet.jpg' },
-	{ code: 'hunter', name: '猎人', type: RoleType.good, min: 0, url: '../../static/hunter.jpg' },
-	// { code: 'sheriff', name: '警长', type: RoleType.good, min: 0, url: '../../static/lake.png' },
-	// { code: 'cupid', name: '丘比特', type: RoleType.good, min: 0, url: '../../static/lake.png' },
-	{ code: 'idiot', name: '白痴', type: RoleType.good, min: 0, url: '../../static/idiot.jpg' },
-	{ code: 'wolfking', name: '狼王', type: RoleType.wolf, min: 0, url: '../../static/wolfking.jpg' },
-	{ code: 'guard', name: '守卫', type: RoleType.good, min: 0, url: '../../static/guard.jpg' },
-	{ code: 'demon-hunter', name: '猎魔人', type: RoleType.good, min: 0, url: '../../static/demon-hunter.jpg' },
-	{ code: 'wolf-beauty', name: '狼美人', type: RoleType.wolf, min: 0, url: '../../static/wolf-beauty.jpg' },
-	{ code: 'wolf-hide', name: '隐狼', type: RoleType.wolf, min: 0, url: '../../static/wolf-hide.jpg' },
+	{ code: 'god', name: '上帝', type: RoleType.independency, roleCount: 0, url: '../../static/civilian.jpg' },
+	{ code: 'civilian', name: '平民', type: RoleType.good, roleCount: 0, url: '../../static/civilian.jpg' },
+	{ code: 'wolf', name: '狼人', type: RoleType.wolf, roleCount: 0, url: '../../static/wolf.jpg' },
+	{ code: 'witch', name: '女巫', type: RoleType.good, roleCount: 0, url: '../../static/witch.jpg' },
+	{ code: 'prophet', name: '预言家', type: RoleType.good, roleCount: 0, url: '../../static/prophet.jpg' },
+	{ code: 'hunter', name: '猎人', type: RoleType.good, roleCount: 0, url: '../../static/hunter.jpg' },
+	// { code: 'sheriff', name: '警长', type: RoleType.good, roleCount: 0, url: '../../static/lake.png' },
+	// { code: 'cupid', name: '丘比特', type: RoleType.good, roleCount: 0, url: '../../static/lake.png' },
+	{ code: 'idiot', name: '白痴', type: RoleType.good, roleCount: 0, url: '../../static/idiot.jpg' },
+	{ code: 'wolfking', name: '狼王', type: RoleType.wolf, roleCount: 0, url: '../../static/wolfking.jpg' },
+	{ code: 'guard', name: '守卫', type: RoleType.good, roleCount: 0, url: '../../static/guard.jpg' },
+	{ code: 'demon-hunter', name: '猎魔人', type: RoleType.good, roleCount: 0, url: '../../static/demon-hunter.jpg' },
+	{ code: 'wolf-beauty', name: '狼美人', type: RoleType.wolf, roleCount: 0, url: '../../static/wolf-beauty.jpg' },
+	{ code: 'wolf-hide', name: '隐狼', type: RoleType.wolf, roleCount: 0, url: '../../static/wolf-hide.jpg' },
 ]
 
 // 各角色的介绍
@@ -148,4 +148,24 @@ export const getLocalUser = () => {
 // 获取创建者
 export const getCreator = (clientId, nickName = '') => {
 	return clientId + '-' + nickName
+}
+
+// 随机分配算法
+export function randAssignRoles(roles, users) {
+  const assignedRoles = [...roles]; // 复制角色数组，用于随机分配
+  const assignedUsers = [];
+
+  if (roles.length < users.length) {
+    console.log("角色数量不足以分配给所有用户");
+    return;
+  }
+
+  users.forEach(user => {
+    const randomIndex = Math.floor(Math.random() * assignedRoles.length); // 随机生成角色索引
+    const assignedRole = assignedRoles.splice(randomIndex, 1)[0]; // 从角色数组中移除已分配的角色并获取该角色
+
+    assignedUsers.push({ user, role: assignedRole }); // 将用户和角色的配对添加到已分配数组中
+  });
+
+  return assignedUsers;
 }

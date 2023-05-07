@@ -30,7 +30,7 @@
 				<view class="center">
 					<view class="icon-role-con">
 						<view v-for="(item,index) in roomRoleList" :key="index" class="icon-role-item">
-							<view class="number-container">{{item.value}}</view>
+							<view class="number-container">{{item.roleCount}}</view>
 							<image class="icon-role-img" webp mode="scaleToFill" :src="item.url"></image>
 							<view class="icon-role-name">{{item.name}}</view>
 						</view>
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator } from './const.js'
+	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles } from './const.js'
 	    
 	const db = uniCloud.databaseForJQL();
 	export default {
@@ -239,7 +239,8 @@
 				try {
 					const { nickName, avatarUrl, gender } = this.user || {}
 					const { creator, roomCount } = this.record || {}
-					if (nickName && creator && !this.isCreator && !this.isInUserList) {
+					// 当前用户存在，房间人数有效，非创建者，还没有加入该房间
+					if (nickName && roomCount && !this.isCreator && !this.isInUserList) {
 						const list = this.userList.slice(0)
 						const len = roomCount - list.length;
 						if (len <= 0) {
@@ -263,6 +264,7 @@
 							  console.log('userBindRoom res', res)
 							  // 重新查询赋值
 							  this.queryRoom()
+							  // 触发其他用户刷新
 						  }).catch(() => {
 							  uni.showToast({
 							  	icon: 'none',
@@ -316,32 +318,79 @@
 					console.log('queryRoom e', e)
 					uni.hideLoading()
 					failCB && failCB()
-					uni.showToast({
+					uni.showModal({
 						title: '房间已失效',
-						icon: 'error',
-						duration: 1000,
-					});
-					this.jumpHome();
+						showCancel: false,
+						confirmText: '确定',
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								// 转跳首页
+								this.jumpHome();
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					})
 				})
 			},
 			handleSubmit() {
 				console.log('handleSubmit')
-				if (this.checkVerify()) {
-					
+				if (this.checkVerify() === true) {
+					 const userCodeList = this.userList.map(item => item.clientId)
+					 const newRoleList = this.roleList.reduce((pre, cur) => {
+						 const num = (cur && cur.roleCount) || 0
+						 while(num > 0) {
+							 num--
+							 pre.push(cur)
+						 }
+						 return pre
+					 }, [])
+					 const userRoleList = randAssignRoles(newRoleList, userCodeList)
+					 if (!userRoleList) {
+						 return uni.showToast({
+						 	icon: 'error',
+						 	title: '发牌异常，请下拉刷新重试'
+						 })
+					 }
+					 const userRoleMap = userRoleList.reduce((pre, cur) => {
+						 const { user, role } = cur || {}
+						 if (user && role) {
+							 pre[user] = role
+						 }
+						 return pre
+					 }, {});
+					 
+					 uni.showLoading({
+					 	title: '正在发牌'
+					 });
+					 db.collection('room').where(`roomId=="${this.roomId}"`)
+					   .update({
+					     userRoleMap,
+					   }).then((res) => {
+							console.log('userBindRoom res', res)
+							// 重新查询赋值
+							this.queryRoom()
+							// 触发其他用户刷新
+						}).catch(() => {
+							uni.showToast({
+								icon: 'none',
+								title: '发牌异常，请下拉刷新重试',
+							})
+						}).finally(() => uni.hideLoading());
 				}
 			},
 			checkVerify() {
-				if (!this.record) {
-					uni.showToast({
+				const { roomCount } = this.record || {}
+				const useLen = this.userList.length
+				if (!roomCount || useLen > roomCount) {
+					return uni.showToast({
 						icon: 'error',
-						title: '数据异常'
+						title: '数据异常，请下拉刷新重试'
 					})
-					this.jumpHome();
-					return false;
 				}
-				const leftCount = this.record.roomCount - this.userList.length;
-				if (leftCount > 0) {
-					uni.showModal({
+				if (useLen < roomCount) {
+					 return uni.showModal({
 						content: `还差${leftCount}玩家，邀请其他朋友一起来玩吧`,
 						confirmText: '邀请朋友',
 						success: (res) => {
@@ -352,12 +401,11 @@
 							}
 						}
 					})
-					return false;
 				}
 				return true;
 			},
 			handleInvite(item = null) {
-				if (item && !item.url) {
+				if (item && !item.avatarUrl) {
 					return
 				}
 				// 邀请其他玩家

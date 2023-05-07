@@ -16,7 +16,7 @@
 					<image class="img" webp mode="scaleToFill" :src="item.url"></image>
 					<view class="plus-con">
 						<view class="plus-minus plus" @click="() => handleMinus(item, index)"></view>
-						<view class="num">{{item.value}}</view>
+						<view class="num">{{item.roleCount}}</view>
 						<view class="plus-minus minus" @click="() => handlePlus(item, index)"></view>
 					</view>
 				</swiper-item>
@@ -40,14 +40,14 @@
 					<view class="count-con">
 						<view class="count-item" v-for="(item,index) in goodList" :key="index">
 							<text class="text">{{item.name}}</text>
-							<text class="count">{{item.value}}</text>
+							<text class="count">{{item.roleCount}}</text>
 						</view>
 					</view>
 					<view class="f-title">【狼人阵营】</view>
 					<view class="count-con">
 						<view class="count-item" v-for="(item,index) in wolfList" :key="index">
 							<text class="text">{{item.name}}</text>
-							<text class="count">{{item.value}}</text>
+							<text class="count">{{item.roleCount}}</text>
 						</view>
 					</view>
 					<view class="f-title">【房间总人数】<text class="count">{{totalCount}}</text></view>
@@ -85,7 +85,7 @@
 		},
 		computed: {
 			countList() {
-				return this.list.filter(item => item.value)
+				return this.list.filter(item => item.roleCount)
 			},
 			goodList() {
 				return this.countList.filter(item => item.type === RoleType.good)
@@ -95,7 +95,7 @@
 			},
 			totalCount() {
 				return this.countList.reduce((pre, cur) => {
-					pre += cur.value || 0
+					pre += cur.roleCount || 0
 					return pre
 				}, 0)
 			}
@@ -103,14 +103,14 @@
 		methods: {
 			handlePlus(item, index) {
 				// console.log('handlePlus', item)
-				if (item.value < 30) {
-					item.value += 1 
+				if (item.roleCount < 30) {
+					item.roleCount += 1 
 					this.$set(this.list, index, item)
 				}
 			},
 			handleMinus(item, index) {
-				if (item.value > 0) {
-					item.value -= 1 
+				if (item.roleCount > 0) {
+					item.roleCount -= 1 
 					this.$set(this.list, index, item)
 				}
 			},
