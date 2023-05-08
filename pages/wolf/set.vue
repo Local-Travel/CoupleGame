@@ -4,7 +4,7 @@
 			<view class="title">重建房间</view>
 		</view> -->
 		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-bg.png"></image>
+			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-banner.png"></image>
 			<swiper 
 				class="swiper" 
 				circular
@@ -33,6 +33,7 @@
 		
 		<view class="content-block">
 			<view class="role-box">
+				<image class="role-box-img" webp mode="scaleToFill" src="../../static/icon-set-box.png"></image>
 				<view class='role-container'>
 					<view class="role-box-tag-con">
 						<view class="role-box-tag">不含法官</view>
@@ -222,13 +223,13 @@
 	}
 	.header-bg-img {
 		position: absolute;
-		top: -50px;
-		height: 600px;
+		top: 0px;
+		height: 500px;
 		width: 100%;
 		z-index: -1;
 	}
 	.swiper {
-		margin-top: 45px;
+		margin-top: 100px;
 		height: 380px;
 		width: 100%;
 	}
@@ -244,7 +245,7 @@
 	.plus-con {
 		display: flex;
 		justify-content: center;
-		margin-top: 16px;
+		margin-top: 22px;
 	}
 	.num {
 		margin: 0px 16px;
@@ -296,7 +297,8 @@
 	
 	.select-title-block {
 		position: relative;
-		margin-top: -70px;
+		margin-top: -60px;
+		padding-top: 20px;
 		z-index: 10;
 		background: linear-gradient(183.57deg, rgba(31, 31, 33, 0) 2.94%, #1F1F21 72.22%);
 	}
@@ -327,8 +329,8 @@
 	
 	.content-block {
 		background-color: #1F1F21;
-		padding-bottom: 72px;
 		position: relative;
+		padding: 0px 20px 72px;
 	}
 	
 	.role-box {
@@ -337,10 +339,18 @@
 		width: 100%;
 		min-height: 300px;
 		padding: 40px;
-		background-size: contain;
-		background-image: url('../../static/icon-set-box11.png'),url('../../static/icon-set-box3.png'),url('../../static/icon-set-box2.png');
-		background-repeat: no-repeat, no-repeat, repeat-y;
-		background-position: center top, center bottom, center top;
+		/* background-size: contain; */
+		/* background-image: url('../../static/icon-set-box.png'); */
+		/* background-repeat: no-repeat; */
+		/* background-position: center; */
+	}
+	.role-box-img {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 300px;
+		width: 100%;
+		z-index: 0;
 	}
 	.role-box-tag-con {
 		position: absolute;

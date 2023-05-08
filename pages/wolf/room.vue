@@ -129,7 +129,7 @@
 			const { id, source } = option || {}
 			const self = this;
 			if (!id) {
-				return this.jumpHome(source)
+				// return this.jumpHome(source)
 			}
 			db = uniCloud.databaseForJQL();
 			this.roomId = id;

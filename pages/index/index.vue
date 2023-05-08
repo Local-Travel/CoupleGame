@@ -10,13 +10,13 @@
 			</view>
 		</view> -->
 		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-bg.png"></image>
-			<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-gif.png"></image>
-			<view>
+			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-banner.png"></image>
+			<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-heart.png"></image>
+			<view class="header-title-con">
 				<view class="header-top-title">探本狼人 邀TA一起</view>
 				<view class="header-limit-title">限时送福 开启快乐宝盒</view>
 			</view>
-			<view>
+			<view class="middle-title-con">
 				<view class="middle-title">线下狼人局</view>
 				<view class="middle-title-tip">促进线下人与人之间的沟通，释放生活压力</view>
 			</view>
@@ -203,12 +203,13 @@
 	}
 	.header-bg-img {
 		position: absolute;
-		height: 600px;
+		/* top: 60px; */
+		height: 500px;
 		width: 100%;
 		z-index: -1;
 	}
 	.header-gif-img {
-		margin-top: 120px;
+		margin-top: 90px;
 		width: 200px;
 		height: 219px;
 		/* background: url('../../static/icon-home-gif.png'); */
@@ -221,21 +222,25 @@
 		justify-content: center;
 		align-items: center;
 	}
+	.header-title-con {
+		margin-top: 30px;
+		margin-bottom: 40px;
+	}
 	.header-top-title {
-		margin-top: 10px;
+		margin-top: -20px;
 		font-size: 25px;
 		font-weight: 800;
 		color: #fff;
+	}
+	.middle-title-con {
+		background: linear-gradient(to bottom, #000000 10%,  #1F1F21 40%,  #1F1F21 60%, #2c2c2f 100%);
+		width: 100%;
+		padding-bottom: 10px;
 	}
 	.header-limit-title {
 		font-size: 20px;
 		font-weight: 800;
 		color: #01C2C3;
-	}
-	
-	.content-block {
-		background-color: #2c2c2f;
-		padding-bottom: 72px;
 	}
 
 	.middle-title {
@@ -265,6 +270,10 @@
 		line-height: 17px;		
 		text-align: center;		
 		color: #00FEFF;
+	}
+	.content-block {
+		background-color: #2c2c2f;
+		padding-bottom: 72px;
 	}
 	.slog-block {
 		position: relative;
