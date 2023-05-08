@@ -4,7 +4,7 @@
 			<view class="title">重建房间</view>
 		</view> -->
 		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-banner.png"></image>
+			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/c2f1edec-682a-4fb9-85a1-ffeb0c0e11a3.png"></image>
 			<swiper 
 				class="swiper" 
 				circular

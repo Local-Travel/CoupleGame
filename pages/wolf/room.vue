@@ -7,7 +7,7 @@
 			</view>
 
 			<view class="header-tag">
-				<view class="wait-tip">邀请朋友一起开嗨</view>
+				<view class="wait-tip" @click="handleInvite(false)">邀请朋友一起开嗨</view>
 				<view>
 					<view class="rules" @click="jumpRules">
 						<image class="icon-question" webp mode="scaleToFill" src="../../static/icon-question.png"></image>
@@ -49,7 +49,7 @@
 					<view class="box-tag-right">不含法官</view>
 				</view>
 				<view class="user-item-con">
-					<view v-for="(item,index) in showUserList" :key="index" class="user-item" @click="handleInvite(item)">
+					<view v-for="(item,index) in showUserList" :key="index" class="user-item" @click="handleInvite(!!item.avatarUrl)">
 						<view class="user-num">{{index + 1}}</view>
 						<view class="user-img-con">
 							<image v-if="item.avatarUrl" class="user-img" webp mode="scaleToFill" :src="item.avatarUrl"></image>
@@ -71,7 +71,7 @@
 				<view class="role-group">{{ roleGroup }}</view>
 				<view class="role-box">
 					<view class="role-img-con">
-						<image class="role-img-bg" webp mode="scaleToFill" src="../../static/icon-lightning.png"></image>
+						<image class="role-img-bg" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/516b709d-8723-470b-89ea-a85369b1296c.png"></image>
 						<image class="role-img" webp mode="scaleToFill" :src="roleUrl"></image>
 					</view>
 					<view class="role-desc">
@@ -126,10 +126,10 @@
 		},
 		onLoad(option) {
 			console.log('onLoad option', option);
-			const { id, source } = option || {}
+			const { id, source, u } = option || {}
 			const self = this;
-			if (!id) {
-				// return this.jumpHome(source)
+			if (!id || (id + '').length !== 6) {
+				return this.jumpHome(source)
 			}
 			db = uniCloud.databaseForJQL();
 			this.roomId = id;
@@ -414,22 +414,24 @@
 							console.log('res', res)
 							if (res.confirm) {
 								// 邀请其他朋友
-								this.handleInvite();
+								this.handleInvite(false);
 							}
 						}
 					})
 				}
 				return true;
 			},
-			handleInvite(item = null) {
-				if (item && !item.avatarUrl) {
+			handleInvite(invalid) {
+				if (invalid) {
 					return
 				}
 				// 邀请其他玩家
 				uni.share({
 					provider: "weixin",
 					scene: "WXSceneSession",
-					type: 1,
+					type: 5,
+					imageUrl: '../../static/logo.jpg',
+					query: `id=${this.roomId}&u=${this.clientId}`,
 					summary: "我正在玩探本狼人局，赶紧跟我一起来体验吧！",
 					success: function (res) {
 						console.log("success:" + JSON.stringify(res));

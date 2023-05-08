@@ -10,28 +10,28 @@
 			</view>
 		</view> -->
 		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="../../static/icon-home-banner.png"></image>
-			<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-heart.png"></image>
+			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/c2f1edec-682a-4fb9-85a1-ffeb0c0e11a3.png"></image>
+			<image class="header-gif-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/dded5b8a-97b2-44ce-83a5-99f68126c87f.png"></image>
 			<view class="header-title-con">
 				<view class="header-top-title">探本狼人 邀TA一起</view>
-				<view class="header-limit-title">限时送福 开启快乐宝盒</view>
+				<view class="header-limit-title">限时送福 开启神秘宝盒</view>
 			</view>
 			<view class="middle-title-con">
 				<view class="middle-title">线下狼人局</view>
-				<view class="middle-title-tip">促进线下人与人之间的沟通，释放生活压力</view>
+				<view class="middle-title-tip">当谎言和真相交织，谁是狼人？</view>
 			</view>
 		</view>
 		<view class="content-block">
 			<view class="slog-block">
 				<view class="slog-con">
 					<view class="slog-item">
-						<text class="slog-item-text">探索</text>
+						<text class="slog-item-text">推理</text>
 					</view>
 					<view class="slog-item slog-item-middle">
-						<text class="slog-item-text">互动</text>
+						<text class="slog-item-text">背叛</text>
 					</view>
 					<view class="slog-item">
-						<text class="slog-item-text">分享</text>
+						<text class="slog-item-text">生存</text>
 					</view>
 				</view>
 			</view>
@@ -60,7 +60,7 @@
 			}
 		},
 		onLoad(option) {
-			// console.log(option);
+			console.log('index', option);
 			this.user = getLocalUser();
 			this.getPushClientId();
 		},

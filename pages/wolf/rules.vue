@@ -5,7 +5,7 @@
 				<view class="title">游戏规则介绍</view>
 				<image class="icon-star" webp mode="scaleToFill" src="../../static/icon-star.png"></image>
 			</view>
-			<view class="wait-tip">邀请朋友一起开嗨</view>
+			<view class="wait-tip" @click="handleInvite">邀请朋友一起开嗨</view>
 			<view class="header-bg"></view>
 		</view>
 		<view class="header-bottom"></view>
@@ -104,7 +104,23 @@
 			this.roomId = roomId;
 		},
 		methods: {
-			
+			handleInvite() {
+				// 邀请其他玩家
+				uni.share({
+					provider: "weixin",
+					scene: "WXSceneSession",
+					type: 5,
+					imageUrl: '../../static/logo.jpg',
+					query: `u=${this.clientId}`,
+					summary: "我正在玩探本狼人局，赶紧跟我一起来体验吧！",
+					success: function (res) {
+						console.log("success:" + JSON.stringify(res));
+					},
+					fail: function (err) {
+						console.log("fail:" + JSON.stringify(err));
+					}
+				});
+			},
 		}
 	}
 </script>
