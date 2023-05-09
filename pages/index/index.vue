@@ -36,10 +36,10 @@
 				</view>
 			</view>
 			<view class="btn-con">
-				<button v-if="user" class='btn btn-create' type="default" @click="handleAuth('create')">立刻开始</button>
-				<button v-else class='btn btn-create' type="default" @click="handleCreateRoom">立刻开始</button>
-				<button v-if="user" class='btn btn-join' type="default" @click="handleAuth('join')">加入房间</button>
-				<button v-else class='btn btn-join' type="default" @click="handleJoinRoom">加入房间</button>
+				<!-- <button v-if="user" class='btn btn-create' type="default" @click="handleAuth('create')">立刻开始</button> -->
+				<button class='btn btn-create' type="default" @click="handleCreateRoom">立刻开始</button>
+				<!-- <button v-if="user" class='btn btn-join' type="default" @click="handleAuth('join')">加入房间</button> -->
+				<button class='btn btn-join' type="default" @click="handleJoinRoom">加入房间</button>
 			</view>
 			<view class="search-con">
 				<view class="search-more-tip">
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-	import { getInitRoleList, getClientId, getLocalUser } from '../wolf/const.js'
+	import { getInitRoleList, getClientId, getLocalUser, setNickName } from '../../utils/const.js'
 	export default {
 		data() {
 			return {
@@ -63,6 +63,11 @@
 			console.log('index', option);
 			this.user = getLocalUser();
 			this.getPushClientId();
+			if (!this.user) {
+				setNickName((user) => {
+					this.user = user
+				})
+			}
 		},
 		methods: {
 			getPushClientId() {
@@ -80,30 +85,30 @@
 					}
 				})
 			},
-			handleAuth(type) {
-			    let self = this;
-			    uni.getUserProfile({
-					desc:"获取你的昵称和头像",
-					success: (res) => {
-						console.log('getUserProfile res', res)
-						if (res.errMsg === 'getUserProfile:ok') {
-							uni.setStorage({
-								key: 'userInfo', 
-								data: res.userInfo
-							});
-							self.createUser(res.userInfo);
-							if (type === 'create') {
-								self.handleCreateRoom()
-							} else {
-								self.handleJoinRoom()
-							}
-						}
-					},
-					fail:(err) => {
-						console.log("您取消了授权,登录失败")
-					},
-				})
-			},
+			// handleAuth(type) {
+			//     let self = this;
+			//     uni.getUserProfile({
+			// 		desc:"获取你的昵称和头像",
+			// 		success: (res) => {
+			// 			console.log('getUserProfile res', res)
+			// 			if (res.errMsg === 'getUserProfile:ok') {
+			// 				uni.setStorage({
+			// 					key: 'userInfo', 
+			// 					data: res.userInfo
+			// 				});
+			// 				self.createUser(res.userInfo);
+			// 				if (type === 'create') {
+			// 					self.handleCreateRoom()
+			// 				} else {
+			// 					self.handleJoinRoom()
+			// 				}
+			// 			}
+			// 		},
+			// 		fail:(err) => {
+			// 			console.log("您取消了授权,登录失败")
+			// 		},
+			// 	})
+			// },
 			handleCreateRoom(){
 			    uni.showModal({
 			    	title: '设置房间人数',
@@ -136,6 +141,15 @@
 			    })
 			},
 			handleJoinRoom() {
+				if (!this.user) {
+					return setNickName(() => {
+						this.JoinRoom()
+					})
+				} else {
+					this.JoinRoom()
+				}
+			},
+			JoinRoom() {
 				uni.showModal({
 					title: '加入房间',
 					editable: true,
@@ -149,6 +163,12 @@
 							if (!reg.test(id)) {
 								return uni.showToast({
 									title: '请输入数字',
+									icon: 'error'
+								})
+							}
+							if (id.length !== 6) {
+								return uni.showToast({
+									title: '无效房间号',
 									icon: 'error'
 								})
 							}
@@ -189,7 +209,7 @@
 	
 	.header-block {
 		height: 550px;
-		/* background-color: #000; */
+		background-color: #000;
 		/* background-image: url('../../static/icon-home-bg.png'); */
 		/* background-size: cover; */
 		/* background-position: center; */
@@ -200,6 +220,7 @@
 		flex-direction: column;
 		align-items: center;
 		position: relative;
+		z-index: -1;
 	}
 	.header-bg-img {
 		position: absolute;
@@ -210,7 +231,7 @@
 	}
 	.header-gif-img {
 		margin-top: 90px;
-		width: 200px;
+		width: 180px;
 		height: 219px;
 		/* background: url('../../static/icon-home-gif.png'); */
 		background-size: cover;

@@ -145,21 +145,48 @@ export const getClientId = () => {
 	}
 }
 
+// 随机生成昵称
+export function generateNickname() {
+  const adjectives = [
+    'Happy', 'Sunny', 'Crazy', 'Lucky', 'Cool', 'Funny', 'Sweet', 'Wild', 'Brave', 'Clever',
+    'Gentle', 'Kind', 'Shiny', 'Silly', 'Smart', 'Fierce', 'Tiny', 'Magic', 'Golden', 'Wise'
+  ];
+
+  const nouns = [
+    'Cat', 'Dog', 'Tiger', 'Lion', 'Monkey', 'Bear', 'Dolphin', 'Elephant', 'Kangaroo', 'Panda',
+    'Owl', 'Butterfly', 'Dragon', 'Star', 'Moon', 'Sun', 'Rainbow', 'Ocean', 'Mountain', 'Forest'
+  ];
+
+  const adjectiveIndex = Math.floor(Math.random() * adjectives.length);
+  const nounIndex = Math.floor(Math.random() * nouns.length);
+
+  const adjective = adjectives[adjectiveIndex];
+  const noun = nouns[nounIndex];
+
+  return `${adjective}${noun}`;
+}
+
+export function generateUser(nickName) {
+	return {
+		nickName,
+		avatarUrl: '../../static/avatar.png',
+		gender: 0,
+	}
+}
+
 // 获取客户端用户信息
 export const getLocalUser = () => {
-	let userInfo = null
 	try {
-		userInfo = uni.getStorageSync('userInfo');
+		return uni.getStorageSync('userInfo') || null;
 	} catch (e) {
 		// error
+		return null;
 	}
-	console.log('userInfo', userInfo);
-	return userInfo;
 }
 
 // 获取创建者
 export const getCreator = (clientId, nickName = '') => {
-	return clientId + '-' + nickName
+	return clientId
 }
 
 // 随机分配算法
@@ -180,4 +207,32 @@ export function randAssignRoles(roles, users) {
   });
 
   return assignedUsers;
+}
+
+export function setNickName(cb = null){
+	uni.showModal({
+		title: '设置游戏昵称',
+		editable: true,
+		placeholderText: '游戏昵称（30字以内）',
+		showCancel: false,
+		success: (res) => {
+			console.log('res', res)
+			if (res.confirm) {
+				console.log('res.content', res.content)
+				const nickname = (res.content || '').trim()
+				if (!nickname.length || nickname.length > 3) {
+					return uni.showToast({
+						title: '设置失败',
+						icon: 'error',
+					})
+				}
+				const user = generateUser(nickname);
+				uni.setStorageSync('userInfo', user);
+				uni.showToast({
+					'title': '设置成功'
+				})
+				cb && cb(user);
+			}
+		}
+	})
 }

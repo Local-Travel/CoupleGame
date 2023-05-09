@@ -3,7 +3,9 @@ import App from './App'
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
+import wxShare from './utils/wxShare.js'
 Vue.config.productionTip = false
+Vue.mixin(wxShare)
 App.mpType = 'app'
 const app = new Vue({
   ...App

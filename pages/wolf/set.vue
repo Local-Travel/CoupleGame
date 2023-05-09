@@ -69,7 +69,7 @@
 </template>
 
 <script>
-	import { roleList, RoleType, suggestCount, getInitRoleList, getClientId, getLocalUser, getCreator } from './const.js'
+	import { roleList, RoleType, suggestCount, getInitRoleList, getClientId, getLocalUser, getCreator, setNickName } from '../../utils/const.js'
 	export default {
 		data() {
 			return {
@@ -121,29 +121,27 @@
 			checkVerify() {
 				if (!this.goodList.length) {
 					return uni.showToast({
-						title: '好人阵营不能为空',
+						title: '好人阵营不能空',
 						icon: 'error'
 					})
 				}
 				if (!this.wolfList.length) {
 					return uni.showToast({
-						title: '狼人阵营不能为空',
+						title: '狼人阵营不能空',
 						icon: 'error'
 					})
 				}
 				if (this.totalCount < 4 || this.totalCount > 30) {
 					return uni.showToast({
-						title: '请输入4-30之间的数字',
+						title: '房间人数4-30',
 						icon: 'error'
 					})
 				}
-				// if (!this.user || !this.user.nickName) {
-				// 	uni.showToast({
-				// 		title: '登录已失效，请重新授权登录',
-				// 		icon: 'error',
-				// 	})
-				// 	return this.jumpHome()
-				// }
+				if (!this.user) {
+					return setNickName((user) => {
+						this.user = user;
+					})
+				}
 				return false;
 			},
 			handleSubmit() {
@@ -170,7 +168,7 @@
 							if (errMsg) {
 								return uni.showToast({
 									icon: 'error',
-									title: '创建异常，请稍后重试',
+									title: '创建异常请重试',
 								})
 							}
 							uni.navigateTo({
@@ -181,7 +179,7 @@
 							uni.hideLoading()
 							uni.showToast({
 								icon: 'error',
-								title: '创建异常，请稍后重试',
+								title: '创建异常请重试',
 							})
 						})
 					}

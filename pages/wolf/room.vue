@@ -7,7 +7,7 @@
 			</view>
 
 			<view class="header-tag">
-				<view class="wait-tip" @click="handleInvite(false)">邀请朋友一起开嗨</view>
+				<view class="wait-tip">邀请朋友一起开嗨</view>
 				<view>
 					<view class="rules" @click="jumpRules">
 						<image class="icon-question" webp mode="scaleToFill" src="../../static/icon-question.png"></image>
@@ -49,13 +49,15 @@
 					<view class="box-tag-right">不含法官</view>
 				</view>
 				<view class="user-item-con">
-					<view v-for="(item,index) in showUserList" :key="index" class="user-item" @click="handleInvite(!!item.avatarUrl)">
+					<view v-for="(item,index) in showUserList" :key="index" class="user-item">
 						<view class="user-num">{{index + 1}}</view>
 						<view class="user-img-con">
 							<image v-if="item.avatarUrl" class="user-img" webp mode="scaleToFill" :src="item.avatarUrl"></image>
-							<view v-else class="user-plus"></view>
+							<button v-else open-type="share" class="btn-share-plus">
+								<view class="user-plus"></view>
+							</button>
 						</view>
-						<view class="user-name">{{item.nickName || '邀请'}}</view>
+						<button class="user-name">{{item.nickName || '邀请'}}</button>
 						<view v-if="isCreator && item.role" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
 					</view>
 				</view>
@@ -104,7 +106,7 @@
 </template>
 
 <script>
-	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules } from './const.js'
+	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules, setNickName } from '../../utils/const.js'
 	    
 	let db = {};
 	export default {
@@ -127,22 +129,27 @@
 		onLoad(option) {
 			console.log('onLoad option', option);
 			const { id, source, u } = option || {}
-			const self = this;
 			if (!id || (id + '').length !== 6) {
 				return this.jumpHome(source)
 			}
-			db = uniCloud.databaseForJQL();
 			this.roomId = id;
-			this.user = getLocalUser()
+			this.user = getLocalUser();
 			if (!this.user) {
-				this.showModal = true;
+				// this.showModal = true;
+				setNickName((user) => {
+					this.user = user;
+					this.userBindRoom();
+				})
 			}
+			db = uniCloud.databaseForJQL();
 			this.getPushClientId();
 			this.queryRoom(() => {
-				self.userBindRoom();
+				this.userBindRoom();
 			});
 			//启动推送事件监听
 			uni.onPushMessage(this.pushMessageListener);
+			// 分享参数
+			this.share.query = `id=${this.roomId}&u=${this.clientId}`;
 		},
 		onUnload(option) {
 			console.log('onUnload option', option);
@@ -280,7 +287,7 @@
 						  }).catch(() => {
 							  uni.showToast({
 							  	icon: 'none',
-							  	title: '加入房间失败，请下拉刷新重试',
+							  	title: '加入房间失败',
 							  })
 						  });
 					}
@@ -334,18 +341,13 @@
 					console.log('queryRoom e', e)
 					uni.hideLoading()
 					failCB && failCB()
+					const self = this;
 					uni.showModal({
 						title: '房间已失效',
 						showCancel: false,
 						confirmText: '确定',
 						success: function (res) {
-							if (res.confirm) {
-								// console.log('用户点击确定');
-								// 转跳首页
-								this.jumpHome();
-							} else if (res.cancel) {
-								// console.log('用户点击取消');
-							}
+							self.jumpHome();
 						}
 					})
 				})
@@ -366,7 +368,7 @@
 					 if (!userRoleList) {
 						 return uni.showToast({
 						 	icon: 'error',
-						 	title: '发牌异常，请下拉刷新重试'
+						 	title: '发牌异常'
 						 })
 					 }
 					 const userRoleMap = userRoleList.reduce((pre, cur) => {
@@ -391,7 +393,7 @@
 						}).catch(() => {
 							uni.showToast({
 								icon: 'none',
-								title: '发牌异常，请下拉刷新重试',
+								title: '数据异常',
 							})
 						}).finally(() => uni.hideLoading());
 				}
@@ -402,44 +404,20 @@
 				if (!roomCount || useLen > roomCount) {
 					return uni.showToast({
 						icon: 'none',
-						title: '数据异常，请下拉刷新重试'
+						title: '数据异常'
 					})
 				}
 				const leftCount = roomCount - useLen
 				if (useLen < roomCount) {
 					 return uni.showModal({
 						content: `还差${leftCount}玩家，邀请其他朋友一起来玩吧`,
-						confirmText: '邀请朋友',
+						showCancel: false,
 						success: (res) => {
-							console.log('res', res)
-							if (res.confirm) {
-								// 邀请其他朋友
-								this.handleInvite(false);
-							}
+							console.log('res', res);
 						}
 					})
 				}
 				return true;
-			},
-			handleInvite(invalid) {
-				if (invalid) {
-					return
-				}
-				// 邀请其他玩家
-				uni.share({
-					provider: "weixin",
-					scene: "WXSceneSession",
-					type: 5,
-					imageUrl: '../../static/logo.jpg',
-					query: `id=${this.roomId}&u=${this.clientId}`,
-					summary: "我正在玩探本狼人局，赶紧跟我一起来体验吧！",
-					success: function (res) {
-						console.log("success:" + JSON.stringify(res));
-					},
-					fail: function (err) {
-						console.log("fail:" + JSON.stringify(err));
-					}
-				});
 			},
 			jumpHome(source = null) {
 				uni.redirectTo({
@@ -777,6 +755,13 @@
 		background-color: #01C2C3;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		border: none;
+		border-radius: 0px;
+		padding: 0px;
+		margin: 0px;
+	}
+	.user-name::after {
+		border: none;
 	}
 	.user-role-name-good {
 		margin-top: 4px;
@@ -803,18 +788,19 @@
 		text-overflow: ellipsis;
 	}
 	
-	.btn-invite {
-		height: 46px;
-		width: 211px;
-		text-align: center;
-		border-radius: 2px;
-		font-family: 'PingFang TC';
-		font-style: normal;
-		font-weight: 600;
-		font-size: 18px;
-		line-height: 46px;
-		color: #FFFFFF;
-		background-color: #01C2C3;
+	.btn-share-plus {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		right: 0;
+		bottom: 0;
+		padding: 0;
+		margin: 0;
+		background-color: transparent;
+		border: none;
+	}
+	.btn-share-plus::after {
+		border: 0;
 	}
 	
 	.role-con {

@@ -58,8 +58,8 @@
             "es6" : true
         },
         "usingComponents" : true,
-		"lazyCodeLoading": "requiredComponents",
-		"requiredBackgroundModes": ["share"],
+        "lazyCodeLoading" : "requiredComponents",
+        "requiredBackgroundModes" : [ "share" ],
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "演示定位能力"
