@@ -202,7 +202,11 @@
 			// },
 			getPushClientId() {
 				// uni-app客户端获取push客户端标记
-				if (getClientId()) return
+				const id = uni.getStorageSync('clientId')
+				if (id) {
+					this.clientId = id;
+					return
+				}
 				uni.getPushClientId({
 					success: (res) => {
 						console.log('客户端推送标识:',res.cid)
@@ -901,7 +905,7 @@
 		transition: opacity 0.3s ease-in-out;
 	}
 	.role-img {
-		animation: rotate 3s infinite linear;
+		animation: rotate 5s infinite linear;
 	}
 	@keyframes rotate {
 		0% {

@@ -71,6 +71,7 @@
 		},
 		methods: {
 			getPushClientId() {
+				if (uni.getStorageSync('clientId')) return
 				// uni-app客户端获取push客户端标记
 				uni.getPushClientId({
 					success: (res) => {
