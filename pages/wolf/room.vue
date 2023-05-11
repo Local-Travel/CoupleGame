@@ -57,7 +57,7 @@
 								<view class="user-plus"></view>
 							</button>
 						</view>
-						<button class="user-name" @click="test">{{item.nickName || '邀请'}}</button>
+						<button class="user-name">{{item.nickName || '邀请'}}</button>
 						<view v-if="isCreator && item.role" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
 					</view>
 				</view>
@@ -189,9 +189,6 @@
 			},
 		},
 		methods: {
-			test() {
-				this.sendMessageTrigger()
-			},
 			getPushClientId() {
 				// uni-app客户端获取push客户端标记
 				// const id = uni.getStorageSync('clientId')
