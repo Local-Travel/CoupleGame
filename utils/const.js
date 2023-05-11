@@ -26,7 +26,7 @@ export const roleList = [
 
 // 各角色的介绍
 export const roleDescMap = {
-	'god': ['法官', '天黑请闭眼，狼人请睁眼，请狼人击杀目标，狼人请确认目标，狼人确认请闭眼。预言家请睁眼，请选择你要看哪一个玩家的身份，好人是这个（拇指朝上），坏人是这个（拇指朝下），ta是这个（拇指朝上或朝下），预言家确认请闭眼。女巫请睁眼，女巫你有一瓶解药，你是否需要使用？你有一瓶毒药是否需要使用？女巫确认请闭眼。猎人请睁眼，猎人请闭眼。天亮了请睁眼，昨夜死亡的玩家是（xx），昨夜是平安夜，无人死亡。'],
+	'god': ['法官', '主持流程。天黑请闭眼，狼人请睁眼，请狼人击杀目标，狼人请确认目标，狼人确认请闭眼。预言家请睁眼，请选择你要看哪一个玩家的身份，好人是这个（拇指朝上），坏人是这个（拇指朝下），ta是这个（拇指朝上或朝下），预言家确认请闭眼。女巫请睁眼，女巫你有一瓶解药，你是否需要使用？你有一瓶毒药是否需要使用？女巫确认请闭眼。猎人请睁眼，猎人请闭眼。天亮了请睁眼，昨夜死亡的玩家是（xx），昨夜是平安夜，无人死亡。'],
 	'civilian': ['好人·平民', '你没有技能，白天可以投票，你应该在白天听取他人发言认真分析，找出狼人将他们投票出局，赢得胜利。'],
 	'wolf': ['狼人·神职', '你夜晚的时候可以发动猎杀技能，可以猎杀任何人（包括你自己），你应该想方设法淘汰掉所有平民，亦或者淘汰所有好人神职人员，就可以赢得胜利。向月亮仰天狂啸吧，我的狼人们，呜呜呜~'],
 	'witch': ['好人·神职', '你有一瓶解药和一瓶毒药，夜晚的时候可以用来救人或杀人，每晚只能使用一瓶药，你可以选择是否使用解药或毒药，或者不使用，解药全程不能自救。你应该想方设法找出狼人，并引导平民，将他们淘汰出局。'],
@@ -145,26 +145,67 @@ export const getClientId = () => {
 	}
 }
 
-// 随机生成昵称
-export function generateNickname() {
-  const adjectives = [
-    'Happy', 'Sunny', 'Crazy', 'Lucky', 'Cool', 'Funny', 'Sweet', 'Wild', 'Brave', 'Clever',
-    'Gentle', 'Kind', 'Shiny', 'Silly', 'Smart', 'Fierce', 'Tiny', 'Magic', 'Golden', 'Wise'
-  ];
+export const getUuid = () => uuidv4();
 
-  const nouns = [
-    'Cat', 'Dog', 'Tiger', 'Lion', 'Monkey', 'Bear', 'Dolphin', 'Elephant', 'Kangaroo', 'Panda',
-    'Owl', 'Butterfly', 'Dragon', 'Star', 'Moon', 'Sun', 'Rainbow', 'Ocean', 'Mountain', 'Forest'
-  ];
-
-  const adjectiveIndex = Math.floor(Math.random() * adjectives.length);
-  const nounIndex = Math.floor(Math.random() * nouns.length);
-
-  const adjective = adjectives[adjectiveIndex];
-  const noun = nouns[nounIndex];
-
-  return `${adjective}${noun}`;
+// 随机生成名字
+export function generateRandomName() {
+  try {
+	  const familyNames = [
+	  	'赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许',
+	  	'何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章',
+	  	'云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '任', '袁', '柳', '酆',
+	  	'鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐',
+	  	'于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚',
+	  	'邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊',
+	  	'纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危', '江',
+	  	'童', '颜', '郭', '梅', '盛', '林', '刁', '钟', '徐', '邱', '骆', '高', '夏', '蔡', '田', '樊', '胡', '凌', '霍', '虞',
+	  	'万', '支', '柯', '咎', '管', '卢', '莫', '经', '房', '裘', '缪', '干', '解', '应', '宗', '丁', '宣', '贲', '邓', '郁',
+	  	'单', '杭', '洪', '包', '诸', '左'
+	  ];
+	  
+	  const compoundSurnames = [
+	  	'欧阳', '上官', '东方', '南宫', '司马', '独孤', '夏侯', '诸葛', '皇甫', '尉迟', '赫连', '澹台',
+	  	'轩辕', '令狐', '钟离', '闾丘', '长孙', '慕容', '宇文', '司徒', '司空', '端木', '百里', '东郭', '南门', '呼延',
+	  	'羊舌', '公孙'
+	  ];
+	  
+	  const elegantFemaleNames = [
+	    '雨', '芷', '思', '瑶', '晴', '静', '婉', '欣', '梦', '馨', '雅', '璇', '舒', '妍', '雯', '露', '娅', '悦', '婷', '萍',
+	    '琳', '莉', '艳', '婵', '蓉', '凝', '晓', '彤', '柔', '颖', '茜', '玉', '珊', '洁', '芳', '霞', '爽', '薇', '宛', '淑', '青',
+	    '娜', '佳', '宁', '蓝', '瑞', '艺', '慧', '雪', '云', '媛', '秀', '琼', '红', '美', '瑾', '萱', '琪', '蕾', '婧', '菲', '娣',
+	    '涵', '颜', '岚', '荷', '若', '翠', '芬', '瑛', '筠', '萍', '宜', '岑', '秋', '雅', '霜', '丹', '青', '妙', '玲', '雁', '念',
+	    '莺', '凌', '珍', '怡', '月', '琴', '黛', '蓝', '蕊', '柔', '纯', '灵', '曼', '颖', '香', '真', '玟', '彩', '希', '蔚', '潇'
+	  ];
+	  
+	  const elegantMaleNames = [
+	    '泽', '瀚', '宇', '煜', '皓', '晟', '昊', '晨', '轩', '睿', '潇', '韦', '弘', '文', '辰', '浩', '涛', '皓', '逸', '远',
+	    '俊', '杰', '骏', '博', '翰', '祺', '凯', '彬', '宸', '炎', '峻', '颜', '嘉', '胤', '奕', '朗', '锦', '成', '豪', '竣',
+	    '煊', '宏', '毅', '烨', '哲', '钧', '维', '懿', '航', '彦', '钊', '瑞', '越', '昕', '翔', '运', '霖', '琪', '睿', '擎',
+	    '宣', '崇', '义', '康', '宪', '颂', '琛', '志', '乾', '皆', '瀛', '炫', '榕', '运', '熠', '宸', '涵', '艺', '承', '丰',
+	    '翰', '天', '谦', '楷', '伦', '睿', '熙', '风', '靖', '俨', '咏', '鸿', '润', '舒', '萧', '雅', '荣', '炳', '岳', '鑫'
+	  ];
+	  
+	  const lastNames = familyNames.concat(compoundSurnames);
+	  
+	  const getRandomChar = (chars) => {
+	    const randomIndex = Math.floor(Math.random() * chars.length);
+	    return chars[randomIndex];
+	  };
+	  
+	  const getIndex = () => Math.floor(Math.random() * 2)
+	  
+	  const getName = () => {
+	  	  const genderNames = getIndex() === 1 ? elegantMaleNames : elegantFemaleNames
+	  	  const fisrtName = getRandomChar(genderNames)
+	  	  const lastName = getRandomChar(lastNames)
+	  	  return lastName + fisrtName
+	  }
+	  return getName();
+  } catch(e) {
+	  return ''
+  }
 }
+
 
 export function generateUser(nickName) {
 	return {
@@ -210,9 +251,11 @@ export function randAssignRoles(roles, users) {
 }
 
 export function setNickName(cb = null){
+	const defaultName = generateRandomName()
 	uni.showModal({
 		title: '设置游戏昵称',
 		editable: true,
+		content: defaultName,
 		placeholderText: '游戏昵称（30字以内）',
 		showCancel: false,
 		success: (res) => {
@@ -220,7 +263,7 @@ export function setNickName(cb = null){
 			if (res.confirm) {
 				console.log('res.content', res.content)
 				const nickname = (res.content || '').trim()
-				if (!nickname.length || nickname.length > 3) {
+				if (!nickname.length || nickname.length > 30) {
 					return uni.showToast({
 						title: '设置失败',
 						icon: 'error',

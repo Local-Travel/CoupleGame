@@ -131,7 +131,7 @@
 						icon: 'error'
 					})
 				}
-				if (this.totalCount < 4 || this.totalCount > 30) {
+				if (this.totalCount < 2 || this.totalCount > 30) {
 					return uni.showToast({
 						title: '房间人数4-30',
 						icon: 'error'

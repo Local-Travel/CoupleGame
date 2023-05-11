@@ -22,7 +22,7 @@
 			<!-- 角色列表 -->
 			<view class="top-box">
 				<view class="box-tag">
-					<view class="box-tag-text">房间角色</view>
+					<view class="box-tag-text">角色数量</view>
 				</view>
 				<view class="center">
 					<view class="icon-role-con">
@@ -78,7 +78,7 @@
 					</view>
 					<view class="role-desc">
 						<view v-for="(item,index) in roleDesc" :key="index" class="role-desc-item">
-							<view><text class="mr4">{{index + 1}}</text>{{item}}</view>
+							<view><text class="mr4">{{index + 1}}. </text>{{item}}</view>
 						</view>
 					</view>
 				</view>
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules, setNickName } from '../../utils/const.js'
+	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules, setNickName, generateUser, generateRandomName, getUuid } from '../../utils/const.js'
 	    
 	let db = {};
 	export default {
@@ -162,10 +162,10 @@
 		},
 		computed: {
 			roleGroup() {
-				return this.myRole ? roleDescMap[this.myRole.code][0] : '流程规则'
+				return this.myRole ? roleDescMap[this.myRole.code][0] : '游戏流程'
 			},
 			roleDesc() {
-				return this.myRole ? (roleDescMap[this.myRole.code][1] || '').split('。') : defaultRules
+				return this.myRole ? (roleDescMap[this.myRole.code][1] || '').split('。').filter(Boolean) : defaultRules.filter(Boolean)
 			},
 			roleUrl() {
 				return this.myRole ? this.myRole.url : roleList2[0].url
@@ -189,8 +189,20 @@
 			},
 		},
 		methods: {
+			// handleGenerateUser() {
+			// 	const nickName = generateRandomName()
+			// 	const user = generateUser(nickName)
+			// 	const data = {
+			// 		...user,
+			// 		clientId: getUuid(),
+			// 	}
+			// 	this.queryRoom(() => {
+			// 		this.userBindRoom2(data);
+			// 	});
+			// },
 			getPushClientId() {
 				// uni-app客户端获取push客户端标记
+				if (getClientId()) return
 				uni.getPushClientId({
 					success: (res) => {
 						console.log('客户端推送标识:',res.cid)
@@ -295,17 +307,32 @@
 					console.error('userBindRoom e', e)
 				}
 			},
-			queryRoom(successCB = null, failCB = null) {
+			async queryRoom(successCB = null, failCB = null) {
 				if (!this.roomId) return
 				uni.showLoading({
 					title: '加载中'
 				});
-				db.collection('room').where(`roomId=="${this.roomId}"`).get().then(res => {
+				
+				// 获取当前日期
+				const curTime = Date.now();
+				// 获取一天前的日期
+				const oneDayAgo = curTime - 1000 * 60 * 60 * 24;
+				const dbCmd = db.command
+				const whereJson = {
+					roomId: this.roomId,
+					// createTime: dbCmd.gte(oneDayAgo).and(dbCmd.lte(curTime))
+					createTime: dbCmd.gt(oneDayAgo)
+				}
+				
+				console.log('whereJson', whereJson)
+				
+				db.collection('room').where(whereJson).get()
+				.then(res => {
 					console.log('queryRoom res',res)
 					const data = res && res.data && res.data[0]
 					console.log('data', data)
 					if (data) {
-						const { roomCount = 0, userList, roleList, userRoleMap } = data || {};
+						const { roomCount = 0, userList, roleList, userRoleMap, createTime } = data || {};
 						let list = (userList || []).slice(0);
 						let len = roomCount - list.length;
 						while(len > 0) {
@@ -356,8 +383,8 @@
 				console.log('handleSubmit')
 				if (this.checkVerify() === true) {
 					 const userCodeList = this.userList.map(item => item.clientId)
-					 const newRoleList = this.roleList.reduce((pre, cur) => {
-						 const num = (cur && cur.roleCount) || 0
+					 const newRoleList = this.roomRoleList.reduce((pre, cur) => {
+						 let num = (cur && cur.roleCount) || 0
 						 while(num > 0) {
 							 num--
 							 pre.push(cur)

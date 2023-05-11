@@ -127,9 +127,9 @@
 								})
 							}
 							const count = Number(num);
-							if (count < 4 || count > 30) {
+							if (count < 2 || count > 30) {
 								return uni.showToast({
-									title: '请输入4-30之间的数字',
+									title: '请输入2-30之间的数字',
 									icon: 'error'
 								})
 							}
