@@ -57,7 +57,7 @@
 								<view class="user-plus"></view>
 							</button>
 						</view>
-						<button class="user-name">{{item.nickName || '邀请'}}</button>
+						<button class="user-name" @click="test">{{item.nickName || '邀请'}}</button>
 						<view v-if="isCreator && item.role" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
 					</view>
 				</view>
@@ -147,14 +147,14 @@
 				this.userBindRoom();
 			});
 			//启动推送事件监听
-			uni.onPushMessage(this.pushMessageListener);
+			uni.onPushMessage(this.receiveMessage);
 			// 分享参数
 			this.share.query = `id=${this.roomId}&u=${this.clientId}`;
 		},
 		onUnload(option) {
 			console.log('onUnload option', option);
 			//关闭推送事件监听
-			uni.offPushMessage(this.pushMessageListener);
+			uni.offPushMessage(this.receiveMessage);
 		},
 		onPullDownRefresh() {
 			console.log('onPullDownRefresh')
@@ -189,38 +189,22 @@
 			},
 		},
 		methods: {
-			// handleGenerateUser() {
-			// 	const nickName = generateRandomName()
-			// 	const user = generateUser(nickName)
-			// 	const data = {
-			// 		...user,
-			// 		clientId: getUuid(),
-			// 	}
-			// 	this.queryRoom(() => {
-			// 		this.userBindRoom2(data);
-			// 	});
-			// },
+			test() {
+				this.sendMessageTrigger()
+			},
 			getPushClientId() {
 				// uni-app客户端获取push客户端标记
-				const id = uni.getStorageSync('clientId')
-				if (id) {
-					this.clientId = id;
-					return
-				}
+				// const id = uni.getStorageSync('clientId')
+				// if (id) {
+				// 	this.clientId = id;
+				// 	return
+				// }
 				uni.getPushClientId({
 					success: (res) => {
 						console.log('客户端推送标识:',res.cid)
 						this.clientId = res.cid;
 						uni.setStorageSync('clientId', res.cid);
 						// bd4d901aaf7a930900158c3fd28dbf42
-						// uniCloud.callFunction({
-						// 	name: 'testUniPush',
-						// 	data: { push_clientid: this.clientId }
-						// }).then((res) => {
-						// 	console.log('uniCloud.callFunction', res.result) // 结果是 {sum: 3}
-						// }).catch((err) => {
-						// 	console.error(err)
-						// })
 					},
 					fail(err) {
 						console.log('getPushClientId', err)
@@ -229,9 +213,6 @@
 						uni.setStorageSync('clientId', clientId);
 					}
 				})
-			},
-			pushMessageListener(res) {
-				console.log("收到推送消息：",res) //监听推送消息
 			},
 			handleAuth(){
 			    const self = this;
@@ -300,6 +281,7 @@
 							  // 重新查询赋值
 							  this.queryRoom()
 							  // 触发其他用户刷新
+							  this.sendMessageTrigger()
 						  }).catch(() => {
 							  uni.showToast({
 							  	icon: 'none',
@@ -336,32 +318,7 @@
 					const data = res && res.data && res.data[0]
 					console.log('data', data)
 					if (data) {
-						const { roomCount = 0, userList, roleList, userRoleMap, createTime } = data || {};
-						let list = (userList || []).slice(0);
-						let len = roomCount - list.length;
-						while(len > 0) {
-							list.push({});
-							len--;
-						}
-						if (userRoleMap) {
-							const cid = getClientId();
-							this.myRole = userRoleMap[cid];
-							list.forEach((item) => {
-								if (item.clientId) {
-									item.role = userRoleMap[item.clientId]
-								}
-							})
-							if (this.isCreator) {
-								this.myRole = roleList2[0]
-								this.btnType = 'new'
-							}
-						} else {
-							this.myRole = null;
-						}
-						this.record = data;
-						this.showUserList = list;
-						this.userList = userList || [];
-						this.roomRoleList = roleList || [];
+						this.handleSetData(data)
 					} else {
 						// 空数据认为是失效的
 						throw new Error('空数据')
@@ -382,6 +339,34 @@
 						}
 					})
 				})
+			},
+			handleSetData(data) {
+				const { roomCount = 0, userList, roleList, userRoleMap, createTime } = data || {};
+				let list = (userList || []).slice(0);
+				let len = roomCount - list.length;
+				while(len > 0) {
+					list.push({});
+					len--;
+				}
+				if (userRoleMap) {
+					const cid = getClientId();
+					this.myRole = userRoleMap[cid];
+					list.forEach((item) => {
+						if (item.clientId) {
+							item.role = userRoleMap[item.clientId]
+						}
+					})
+					if (this.isCreator) {
+						this.myRole = roleList2[0]
+						this.btnType = 'new'
+					}
+				} else {
+					this.myRole = null;
+				}
+				this.record = data;
+				this.showUserList = list;
+				this.userList = userList || [];
+				this.roomRoleList = roleList || [];
 			},
 			handleSubmit() {
 				console.log('handleSubmit')
@@ -421,6 +406,7 @@
 							// 重新查询赋值
 							this.queryRoom()
 							// 触发其他用户刷新
+							this.sendMessageTrigger()
 						}).catch(() => {
 							uni.showToast({
 								icon: 'none',
@@ -449,6 +435,20 @@
 					})
 				}
 				return true;
+			},
+			sendMessageTrigger() {
+				uniCloud.callFunction({
+					name: 'testUniPush',
+					data: { roomId: this.roomId, clientId: this.clientId }
+				}).then((res) => {
+					console.log('uniCloud.callFunction', res.result) // 结果是 {sum: 3}
+				}).catch((err) => {
+					console.error(err)
+				})
+			},
+			receiveMessage(res) {
+				console.log("收到推送消息：",res) //监听推送消息
+				this.queryRoom()
 			},
 			jumpHome(source = null) {
 				uni.redirectTo({
