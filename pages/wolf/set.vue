@@ -33,7 +33,7 @@
 		
 		<view class="content-block">
 			<view class="role-box">
-				<image class="role-box-img" webp mode="scaleToFill" src="../../static/icon-set-box.png"></image>
+				<image class="role-box-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/7781e928-771d-414e-b5bd-2ae2a366fef1.png"></image>
 				<view class='role-container'>
 					<view class="role-box-tag-con">
 						<view class="role-box-tag">不含法官</view>
@@ -61,7 +61,11 @@
 			</view>
 			<view class="search-con">
 				<view class="search-more-tip">
-					更多请关注「探本狼人」
+					更多请关注「
+					<navigator url="/pages/index/index" hover-class="navigator-hover">
+						探本狼人
+					</navigator>
+					」
 				</view>
 			</view>
 		</view>
@@ -150,14 +154,14 @@
 					if (this.checkVerify() === false) {
 						const roomId = Date.now().toString().substr(-4);
 						const { nickName } = this.user || {}
-						const addressName = uni.getStorageSync('addressName') || '';
+						// const addressName = uni.getStorageSync('addressName') || '';
 						const data = {
 							roomId,
 							creator: getCreator(clientId, nickName),
 							roomCount: this.totalCount,
 							roleList: this.countList,
 							userList: [],
-							addressName,
+							// addressName,
 						}
 						const db = uniCloud.database();
 						uni.showLoading({
@@ -208,8 +212,8 @@
 	}
 	
 	.header-block {
-		height: 500px;
-		/* background-color: #000; */
+		height: 300px;
+		background-color: #000;
 		/* background-image: url('../../static/icon-home-bg.png'); */
 		/* background-size: cover; */
 		/* background-position: center; */
@@ -224,22 +228,23 @@
 	.header-bg-img {
 		position: absolute;
 		top: 0px;
-		height: 500px;
-		width: 100%;
-		z-index: -1;
+		height: 250px;
+		width: 200px;
+		z-index: 1;
 	}
 	.swiper {
-		margin-top: 100px;
-		height: 380px;
+		margin-top: 45px;
+		height: 220px;
 		width: 100%;
+		z-index: 10;
 	}
 	.item {
 		display: block;
 		text-align: center;
 	}
 	.img {
-		width: 200px; 
-		height: 280px; 
+		width: 100px; 
+		height: 140px; 
 		background-color: #eeeeee;
 	}
 	.plus-con {
@@ -435,5 +440,13 @@
 		line-height: 14px;		
 		text-align: center;
 		color: #7F7F8E;
+	}
+	.search-more-tip {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	} 
+	.navigator-hover {
+		background-color: transparent;
 	}
 </style>

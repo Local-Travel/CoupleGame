@@ -10,8 +10,8 @@
 			</view>
 		</view> -->
 		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/c2f1edec-682a-4fb9-85a1-ffeb0c0e11a3.png"></image>
-			<image class="header-gif-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/dded5b8a-97b2-44ce-83a5-99f68126c87f.png"></image>
+			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/2f0d9437-521b-4345-a1e2-67c66f67b7f8.png"></image>
+			<image class="header-gif-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/5329b3e7-7252-4269-8dac-ea14044e1300.png"></image>
 			<view class="header-title-con">
 				<view class="header-top-title">探本狼人 邀TA一起</view>
 				<view class="header-limit-title">限时送福 开启神秘宝盒</view>
@@ -43,7 +43,11 @@
 			</view>
 			<view class="search-con">
 				<view class="search-more-tip">
-					更多请关注「探本狼人」
+					更多请关注「
+					<navigator url="/pages/index/index" hover-class="navigator-hover">
+						探本狼人
+					</navigator>
+					」
 				</view>
 			</view>
 		</view>
@@ -388,5 +392,12 @@
 		text-align: center;
 		color: #7F7F8E;
 	}
-
+	.search-more-tip {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	} 
+	.navigator-hover {
+		background-color: transparent;
+	}
 </style>

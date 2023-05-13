@@ -76,6 +76,16 @@
 							
 				</view>
 			</view>
+			
+			<view class="search-con">
+				<view class="search-more-tip">
+					更多请关注「
+					<navigator url="pages/index/index" hover-class="navigator-hover">
+						探本狼人
+					</navigator>
+					」
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -221,5 +231,23 @@
 	.blod {
 		font-size: 14px;
 		font-weight: 700;
+	}
+	.search-con {
+		margin-top: 24px;
+		font-family: 'PingFang SC';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 10px;
+		line-height: 14px;		
+		text-align: center;
+		color: #7F7F8E;
+	}
+	.search-more-tip {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	} 
+	.navigator-hover {
+		background-color: transparent;
 	}
 </style>
