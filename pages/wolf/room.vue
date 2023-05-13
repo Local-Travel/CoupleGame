@@ -73,7 +73,7 @@
 				<view class="role-group">{{ roleGroup }}</view>
 				<view class="role-box">
 					<view class="role-img-con">
-						<image class="role-img-bg" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/9f2cb2f3-55e5-4128-b405-7d1cd28bb38a.png"></image>
+						<image class="role-img-bg" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/516b709d-8723-470b-89ea-a85369b1296c.png"></image>
 						<image class="role-img" webp mode="scaleToFill" :src="roleUrl"></image>
 					</view>
 					<view class="role-desc">
