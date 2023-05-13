@@ -14,6 +14,7 @@
 				<view class="box-tag">
 					<view class="box-tag-text">规则说明</view>
 				</view>
+				<view class="box-right"></view>
 				<view class="content-container">
 					<view class="block">
 						<view class="b-title">
@@ -190,13 +191,19 @@
 		
 		background: linear-gradient(97.92deg, #FFFFFF 44.6%, #DEFFFF 100%);
 		border-radius: 2px;
+		border-top-right-radius: 4px;
+		border-top-left-radius: 4px;
 	}
 	.box-tag {
-		position: relative;
+		position: absolute;
+		left: 0px;
+		top: 0px;
 		width: 60px;
 		height: 20px;
+		border-top-left-radius: 4px;
 		background: #EDFAFA;
 		box-shadow: inset 0px -1px 4px #D2F5F6;
+		z-index: 10;
 	}
 	.box-tag-text {
 		margin-left: 8px;
@@ -207,12 +214,24 @@
 		line-height: 20px;
 		color: #01C2C3;
 	}
+	.box-right {
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		width: 100%;
+		height: 30px;
+		border-top-left-radius: 4px;
+		background: linear-gradient(97.92deg, #FFFFFF 44.6%, #DEFFFF 100%);
+		border-radius: 2px;
+		border-top-right-radius: 4px;
+	}
 	.content {
 		color: #14151A;
 		padding: 24px 12px;
 	}
 	.content-container {
-		margin-top: 16px;
+		margin-top: 6px;
+		padding-top: 36px;
 	}
 	.block + .block {
 		margin-top: 24px;

@@ -25,7 +25,7 @@ exports.main = async (event, context) => {
 		const dateStr = yy + (mm < 10 ? '0' : '') + mm + (dd < 10 ? '0' : '') + dd 
 		console.log('yesterday', dateStr)
 		// console.log('yesterdayStart', yesterdayStart)
-		console.log('yesterdayEnd', yesterdayEnd)
+		// console.log('yesterdayEnd', yesterdayEnd)
 		// 构造查询条件
 		const condition = {
 			createTime: db.command.gt(yesterdayStart).and(db.command.lt(yesterdayEnd))
