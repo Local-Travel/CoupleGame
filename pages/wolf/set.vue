@@ -148,7 +148,7 @@
 				try {
 					const clientId = getClientId()
 					if (this.checkVerify() === false) {
-						const roomId = Date.now().toString().substr(-6);
+						const roomId = Date.now().toString().substr(-4);
 						const { nickName } = this.user || {}
 						const data = {
 							roomId,

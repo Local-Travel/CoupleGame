@@ -124,14 +124,14 @@
 							if (!reg.test(num)) {
 								return uni.showToast({
 									title: '请输入数字',
-									icon: 'error'
+									icon: 'none'
 								})
 							}
 							const count = Number(num);
-							if (count < 2 || count > 30) {
+							if (count < 4 || count > 30) {
 								return uni.showToast({
-									title: '请输入2-30之间的数字',
-									icon: 'error'
+									title: '请输入4-30之间的数字',
+									icon: 'none'
 								})
 							}
 							uni.navigateTo({
@@ -161,16 +161,10 @@
 						if (res.confirm) {
 							console.log('res.content', res.content)
 							const id = (res.content || '').trim()
-							if (!reg.test(id)) {
+							if (!reg.test(id) || id.length !== 4) {
 								return uni.showToast({
-									title: '请输入数字',
-									icon: 'error'
-								})
-							}
-							if (id.length !== 6) {
-								return uni.showToast({
-									title: '无效房间号',
-									icon: 'error'
+									title: '请输入4位数字',
+									icon: 'none'
 								})
 							}
 							this.jumpRoomPage(id)

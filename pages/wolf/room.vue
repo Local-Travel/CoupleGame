@@ -90,15 +90,26 @@
 				</view>
 			</view>
 		</view>
-		<view class="modal-view" v-if="showModal">
-			<view class="modal">
-				<scroll-view scroll-y class='modal-body'>
-					<view>
-						请先授权登录
+		<view class="modal-mask" v-if="showModal">
+			<view class="modal-view">
+				<view class="modal-container">
+					<scroll-view scroll-y class='modal-body'>
+						<view :class="isInvalidRoom ? 'modal-invald-text' : 'modal-invite-text'">
+							{{ modalContent }}
+						</view>
+					</scroll-view>
+					<view class='modal-footer'>
+						<button v-if="isInvalidRoom" class='modal-btn modal-confirm-btn' @click="jumpHome">确定</button>
+						<template v-else>
+							<!-- <button class='modal-btn modal-cancel-btn' @click="showModal = false">取消</button> -->
+							<button class='modal-btn modal-confirm-btn' open-type="share" @click="showModal = false">邀请</button>
+						</template>
 					</view>
-				</scroll-view>
-				<view class='modal-footer'>
-				  <button class='modal-confirm-btn' @click="handleAuth">一键登录</button>
+				</view>
+				<view v-if="showClose" class="close-box" @click="showModal = false">
+					<view class="close-button">
+						<view class="close-button-inner"></view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -122,14 +133,17 @@
 				record: {},
 				myRole: null,
 				btnType: 'ready',
-				showModal: false,
+				showModal: true,
 				RoleType,
+				modalContent: '房间已失效',
+				modalType: 'invalidRoom',
+				showClose: false,
 			}
 		},
 		onLoad(option) {
 			console.log('onLoad option', option);
 			const { id, source, u } = option || {}
-			if (!id || (id + '').length !== 6) {
+			if (!id || (id + '').length !== 4) {
 				return this.jumpHome(source)
 			}
 			this.roomId = id;
@@ -177,6 +191,9 @@
 				}
 				return obj[this.btnType]
 			},
+			isInvalidRoom() {
+				return this.modalType === 'invalidRoom'
+			},
 			isCreator() {
 				const { creator } = this.record || {}
 				const { nickName } = this.user || {}
@@ -211,27 +228,27 @@
 					}
 				})
 			},
-			handleAuth(){
-			    const self = this;
-			    this.showModal = false;
-			    uni.getUserProfile({
-			    	desc:"获取你的昵称和头像",
-			    	success: (res) => {
-			    		console.log('getUserProfile res', res)
-			    		if (res.errMsg === 'getUserProfile:ok') {
-			    			uni.setStorage({
-			    				key: 'userInfo', 
-			    				data: res.userInfo
-			    			});
-			    			self.createUser(res.userInfo);
-			    		}
-			    	},
-			    	fail:(err) => {
-			    		console.log("您取消了授权,登录失败")
-			    		self.jumpHome();
-			    	}
-			    });
-			},
+			// handleAuth(){
+			//     const self = this;
+			//     this.showModal = false;
+			//     uni.getUserProfile({
+			//     	desc:"获取你的昵称和头像",
+			//     	success: (res) => {
+			//     		console.log('getUserProfile res', res)
+			//     		if (res.errMsg === 'getUserProfile:ok') {
+			//     			uni.setStorage({
+			//     				key: 'userInfo', 
+			//     				data: res.userInfo
+			//     			});
+			//     			self.createUser(res.userInfo);
+			//     		}
+			//     	},
+			//     	fail:(err) => {
+			//     		console.log("您取消了授权,登录失败")
+			//     		self.jumpHome();
+			//     	}
+			//     });
+			// },
 			createUser(userInfo = {}) {
 				const data = {
 					nickName: userInfo.nickName,
@@ -326,15 +343,19 @@
 					console.log('queryRoom e', e)
 					uni.hideLoading()
 					failCB && failCB()
-					const self = this;
-					uni.showModal({
-						title: '房间已失效',
-						showCancel: false,
-						confirmText: '确定',
-						success: function (res) {
-							self.jumpHome();
-						}
-					})
+					// const self = this;
+					// uni.showModal({
+					// 	title: '房间已失效',
+					// 	showCancel: false,
+					// 	confirmText: '确定',
+					// 	success: function (res) {
+					// 		self.jumpHome();
+					// 	}
+					// })
+					this.showModal = true
+					this.modalContent = '房间已失效'
+					this.modalType = 'invalidRoom'
+					this.showClose = false
 				})
 			},
 			handleSetData(data) {
@@ -423,13 +444,18 @@
 				}
 				const leftCount = roomCount - useLen
 				if (useLen < roomCount) {
-					 return uni.showModal({
-						content: `还差${leftCount}玩家，邀请其他朋友一起来玩吧`,
-						showCancel: false,
-						success: (res) => {
-							console.log('res', res);
-						}
-					})
+					//  return uni.showModal({
+					// 	content: `还差${leftCount}玩家，邀请其他朋友一起来玩吧`,
+					// 	showCancel: false,
+					// 	success: (res) => {
+					// 		console.log('res', res);
+					// 	}
+					// })
+					this.showModal = true
+					this.modalContent = `还差 ${leftCount} 玩家，邀请其他朋友一起来玩吧`
+					this.modalType = 'invite'
+					this.showClose = true
+					return false
 				}
 				return true;
 			},
@@ -952,45 +978,107 @@
 		text-align: center;
 		color: #7F7F8E;
 	}
-	.modal-view {
-		position: absolute;
-		left: 0;
-		right: 0;
+	.modal-mask {
+		position: fixed;
 		top: 0;
-		bottom: 0;
-		overflow: hidden;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: rgba(0,0,0,0.4);
-		z-index: 99;
-	}
-	.modal {
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
 		display: flex;
 		flex-direction: column;
-		width: 250px;
-		/* height: 80%; */
-		background-color: #fff;
-		border-radius: 4px;
+		justify-content: center;
+		align-items: center;
+		z-index: 99;
 	}
-	.modal-body {
-		padding: 24px 0px;
-		font-family: 'PingFang SC';
-		font-style: normal;
-		font-weight: 500;
-		/* font-size: 22px; */
-		line-height: 31px;
-		/* identical to box height */
-		text-align: center;
+
+	.modal-view {
+		position: relative;
+		background-color: #fff;
+		border-radius: 8px;
+		width: 250px;
+	}
+
+	.modal-container {
+		padding: 20px;
+		border-radius: 8px;
 		color: #000000;
 		background: linear-gradient(180deg, rgba(40, 197, 201, 0.49175) 2.48%, rgba(255, 255, 255, 0.0001) 100%);
 	}
+
+	.modal-invald-text {
+		font-weight: 500;
+		line-height: 31px;
+		text-align: center;
+	}
+	.modal-invite-text {
+		font-weight: 500;
+	}
 	.modal-footer {
-		padding: 0px 20px 24px;
+		padding: 24px 20px 0px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.modal-btn {
+		width: 100%;
+		border-radius: 4px;
+	}
+	.modal-btn + .modal-btn {
+		margin-left: 16px;
+	}
+	.modal-cancel-btn {
+		background-color: #fff;
+		color: #01C2C3;
 	}
 	.modal-confirm-btn {
 		background-color: #01C2C3;
 		color: #fff;
+	}
+
+	.close-box {
+		margin-top: 16px;
+		position: absolute;
+		right: -15px;
+		top: -30px;
+	}
+
+	.close-button {
+		position: relative;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		cursor: pointer;
+		/* background-color: #01C2C3; */
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	.close-button-inner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 18px;
+		height: 2px;
+		background-color: #00FEFF;
+		transform: translate(-50%, -50%) rotate(45deg);
+	}
+
+	.close-button-inner:before,
+	.close-button-inner:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #00FEFF;
+	}
+
+	.close-button-inner:before {
+		transform: rotate(-90deg);
+	}
+
+	.close-button-inner:after {
+		transform: rotate(90deg);
 	}
 
 </style>
