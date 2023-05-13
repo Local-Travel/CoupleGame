@@ -150,12 +150,14 @@
 					if (this.checkVerify() === false) {
 						const roomId = Date.now().toString().substr(-4);
 						const { nickName } = this.user || {}
+						const addressName = uni.getStorageSync('addressName') || '';
 						const data = {
 							roomId,
 							creator: getCreator(clientId, nickName),
 							roomCount: this.totalCount,
 							roleList: this.countList,
 							userList: [],
+							addressName,
 						}
 						const db = uniCloud.database();
 						uni.showLoading({

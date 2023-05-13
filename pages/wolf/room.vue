@@ -307,11 +307,13 @@
 					console.error('userBindRoom e', e)
 				}
 			},
-			async queryRoom(successCB = null, failCB = null) {
+			async queryRoom(successCB = null, failCB = null, isShowLoading = true) {
 				if (!this.roomId) return
-				uni.showLoading({
-					title: '加载中'
-				});
+				if (isShowLoading) {
+					uni.showLoading({
+						title: '加载中'
+					});
+				}
 				
 				// 获取当前日期
 				const curTime = Date.now();
@@ -461,7 +463,7 @@
 			},
 			sendMessageTrigger() {
 				uniCloud.callFunction({
-					name: 'testUniPush',
+					name: 'messageTrigger',
 					data: { roomId: this.roomId, clientId: this.clientId }
 				}).then((res) => {
 					console.log('uniCloud.callFunction', res.result) // 结果是 {sum: 3}
@@ -471,7 +473,7 @@
 			},
 			receiveMessage(res) {
 				console.log("收到推送消息：",res) //监听推送消息
-				this.queryRoom()
+				this.queryRoom(null, null, false)
 			},
 			jumpHome(source = null) {
 				uni.redirectTo({

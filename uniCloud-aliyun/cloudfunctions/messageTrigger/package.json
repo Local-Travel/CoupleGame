@@ -1,5 +1,5 @@
 {
-  "name": "testUniPush",
+  "name": "messageTrigger",
   "dependencies": {},
   "extensions": {
     "uni-cloud-push": {},

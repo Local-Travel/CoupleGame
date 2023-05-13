@@ -1,7 +1,7 @@
 'use strict';
 const uniPush = uniCloud.getPushManager({appId:"__UNI__97BC0E8"}) //注意这里需要传入你的应用appId
 exports.main = async (event, context) => {
-	console.log('event', event)
+	console.log('messageTrigger event', event)
 	// console.log('context', context)
 	const { roomId, clientId } = event || {}
 	if (!roomId) return null;

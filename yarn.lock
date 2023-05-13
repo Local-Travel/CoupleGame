@@ -1009,6 +1009,11 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
+umtrack-wx@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.npmmirror.com/umtrack-wx/-/umtrack-wx-2.8.0.tgz#df75b6ff002c2f0a4c3b33035496f518777a62f5"
+  integrity sha512-F5ul+Q7bDJ6MDrn9ysPAyB9nyP1vCxLGUBkSJ4uvknt8rjmX4tqy1IUnJuWKj9ZH2BtkjRFpldQXJSlLDOYfhQ==
+
 update-browserslist-db@^1.0.10:
   version "1.0.11"
   resolved "https://registry.npmmirror.com/update-browserslist-db/-/update-browserslist-db-1.0.11.tgz#9a2a641ad2907ae7b3616506f4b977851db5b940"

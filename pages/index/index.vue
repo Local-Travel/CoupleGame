@@ -52,11 +52,14 @@
 
 <script>
 	import { getInitRoleList, getClientId, getLocalUser, setNickName } from '../../utils/const.js'
+	// import amap from '../../utils/amap-wx.130.js';
 	export default {
 		data() {
 			return {
 				user: null,
 				phoneNumber: null,
+				// key: 'cd58a4a749047985b5ed06b474c407f3',  
+				addressName: '',  
 			}
 		},
 		onLoad(option) {
@@ -68,6 +71,12 @@
 					this.user = user
 				})
 			}
+			// this.amapPlugin = new amap.AMapWX({  
+			// 	key: this.key  
+			// }); 
+		},
+		mounted() {
+			// this.getRegeo()
 		},
 		methods: {
 			getPushClientId() {
@@ -86,6 +95,19 @@
 					}
 				})
 			},
+			// getRegeo() { 
+			// 	try {
+			// 		this.amapPlugin.getRegeo({
+			// 			success: (data) => {  
+			// 				console.log(data)  
+			// 				this.addressName = data[0].name;
+			// 				uni.setStorageSync('addressName', this.addressName);
+			// 			}  
+			// 		});
+			// 	} catch(e) {
+			// 		console.log('getRegeo e', e)
+			// 	}
+			// }, 
 			// handleAuth(type) {
 			//     let self = this;
 			//     uni.getUserProfile({

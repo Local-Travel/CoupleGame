@@ -23,6 +23,7 @@
     "postcss-loader": "^7.3.0",
     "postcss-preset-env": "^8.0.1",
     "postcss-px-to-viewport": "^1.1.1",
+    "umtrack-wx": "^2.8.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
