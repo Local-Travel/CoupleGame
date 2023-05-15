@@ -15,6 +15,7 @@
 					</view>
 				</view>
 			</view>
+			<!-- <view class="card">等待玩家进入</view> -->
 			<view class="header-bg"></view>
 		</view>
 		<view class="header-bottom"></view>
@@ -49,7 +50,7 @@
 					<view class="box-tag-right">不含法官</view>
 				</view>
 				<view class="user-item-con">
-					<view v-for="(item,index) in showUserList" :key="index" class="user-item">
+					<view v-for="(item,index) in showUserList" :key="index" :class="clientId === item.clientId ? 'user-item user-active' : 'user-item'">
 						<view class="user-num">{{index + 1}}</view>
 						<view class="user-img-con">
 							<image v-if="item.avatarUrl" class="user-img" webp mode="scaleToFill" :src="item.avatarUrl"></image>
@@ -523,7 +524,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding-top: 16px;
+		padding-top: 0px;
 		padding-bottom: 24px;
 	}
 	.rules {
@@ -593,6 +594,16 @@
 		line-height: 25px;
 		background: linear-gradient(90deg, #009192 0%, #005B5B 37.56%, rgba(0, 8, 8, 0) 104.76%);
 	}
+/* 	.card {
+	  width: 200px;
+	  height: 28px;
+	  line-height: 28px;
+	  color: #fff;
+	  text-align: center;
+	  position: relative;
+	  background: linear-gradient(to right, rgba(255, 255, 255, 0), #00FEFF, rgba(255, 255, 255, 0));
+	} */
+
 	.header-bottom {
 	  position: relative;
 	  overflow: hidden;
@@ -649,6 +660,7 @@
 		text-align: center;
 	}
 	.icon-role-con {
+		margin-top: 4px;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
@@ -703,6 +715,7 @@
 		box-shadow: 0px 0px 8px #E2E2F1;
 		border-radius: 2px;
 	}
+
 	.box-tag-right-con {
 		position: absolute;
 		top: 10px;
@@ -748,6 +761,30 @@
 		text-align: center;
 		box-shadow: 0 0 15px rgba(255, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.3), 0 0 50px rgba(255, 255, 255, 0.2), 0 0 100px rgba(255, 255, 255, 0.2);
 	}
+	.user-active::before {
+		content: '';
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		border: 1px solid rgba(1, 194, 195, 0.5);
+		border-radius: 10px;
+		animation: glow 2s infinite alternate;
+	}
+
+	@keyframes glow {
+		0% {
+			box-shadow: 0 0 5px rgba(1, 194, 195, 0.3);
+		}
+		50% {
+			box-shadow: 0 0 20px rgba(1, 194, 195, 0.7);
+		}
+		100% {
+			box-shadow: 0 0 5px rgba(1, 194, 195, 0.3);
+		}
+	}
+
 	.user-img-con {
 		width: 60px;
 		height: 50px;
@@ -932,13 +969,11 @@
 		color: #fff;
 		opacity: 1;
 		transition: opacity 0.3s ease-in-out;
-	}
-	.role-img {
-		animation: rotate 5s infinite linear;
+		animation: rotate 8s infinite linear;
 	}
 	@keyframes rotate {
 		0% {
-			transform: rotateY(0);
+			transform: rotateY(0deg);
 		}
 		50% {
 			transform: rotateY(180deg);
@@ -957,6 +992,7 @@
 		margin-top: 8px;
 		line-height: 24px;
 	}
+	
 	.btn-con {
 		margin-top: 24px;
 		background-color: #000;
