@@ -58,13 +58,13 @@
 			{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/tab-bar-wolf.jpeg",
-				// "selectedIconPath": "static/tabbar/find-selected.png",
+				"selectedIconPath": "static/tab-bar-wolf.jpeg",
 				"text": "狼人杀"
 			},
 			{
 				"pagePath": "pages/undercover/index",
 				"iconPath": "static/tab-bar-undercover.jpeg",
-				// "selectedIconPath": "static/tabbar/cate-selected.png",
+				"selectedIconPath": "static/tab-bar-undercover.jpeg",
 				"text": "谁是卧底"
 			}
 			// {

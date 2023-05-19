@@ -35,34 +35,30 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      default: '',
-    },
     content: {
       type: String,
       default: '',
     },
-		textCenter: {
-			type: Boolean,
-			default: true,
-		},
-		showConfirm: {
-			type: Boolean,
-			default: true,
-		},
-		confirmText: {
-			type: String,
-			default: '我知道了',
-		},
-		showCancel: {
-			type: Boolean,
-			default: false,
-		},
-		cancelText: {
-			type: String,
-			default: '取消',
-		},
+	textCenter: {
+		type: Boolean,
+		default: true,
+	},
+	showConfirm: {
+		type: Boolean,
+		default: true,
+	},
+	confirmText: {
+		type: String,
+		default: '我知道了',
+	},
+	showCancel: {
+		type: Boolean,
+		default: false,
+	},
+	cancelText: {
+		type: String,
+		default: '取消',
+	},
   },
   data() {
 	  return {

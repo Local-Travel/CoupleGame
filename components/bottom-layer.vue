@@ -26,8 +26,8 @@
 	  </view>
     </view>
 	<view class="modal-footer">
-		<view class="btn btn-cancel" @click="randomWord">随机换词</view>
-		<view class="btn btn-ok" @click="handleSubmit">创建房间</view>
+		<view class="layer-btn btn-cancel" @click="randomWord">随机换词</view>
+		<view class="layer-btn btn-ok" @click="handleSubmit">创建房间</view>
 	</view>
   </view>
 </template>
@@ -232,7 +232,7 @@ export default {
 	margin-top: 25px;
 }
 
-.btn {
+.layer-btn {
 	width: 100%;
 	height: 48px;
 	background-color: #fff;
@@ -245,7 +245,7 @@ export default {
 	text-align: center;
 }
 
-.btn + .btn {
+.layer-btn + .layer-btn {
 	margin-left: 16px;
 }
 
