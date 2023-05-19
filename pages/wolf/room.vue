@@ -496,12 +496,12 @@
 			},
 			receiveMessage(res) {
 				console.log("收到推送消息：",res) //监听推送消息
-				if (res?.payload?.gameType === GameType.wolf) {
+				if (res?.data?.payload?.gameType === GameType.wolf) {
 					this.queryRoom(null, null, false)
 				}
 			},
 			jumpHome(source = null) {
-				uni.redirectTo({
+				uni.switchTab({
 					url: '/pages/index/index' + `${source ? ('?source=' + source) : ''}`,
 				});
 			},

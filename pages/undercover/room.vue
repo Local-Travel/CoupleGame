@@ -55,6 +55,7 @@
 						<button class="user-name">{{item.nickName || '邀请'}}</button>
 						<template v-if="item.role">
 							<view v-if="isCreator" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.word || '未知'}}</view>
+							<view v-else class="user-role-name-good">{{ clientId === item.clientId ? item.role.word : '保密' }}</view>
 						</template>
 					</view>
 				</view>
@@ -452,12 +453,12 @@
 			},
 			receiveMessage(res) {
 				console.log("收到推送消息：",res) //监听推送消息
-				if (res?.payload?.gameType === GameType.undercover) {
+				if (res?.data?.payload?.gameType === GameType.undercover) {
 					this.queryRoom(null, null, false)
 				}
 			},
 			jumpHome(source = null) {
-				uni.redirectTo({
+				uni.switchTab({
 					url: '/pages/undercover/index' + `${source ? ('?source=' + source) : ''}`,
 				});
 			},
