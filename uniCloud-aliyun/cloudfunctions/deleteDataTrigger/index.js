@@ -39,11 +39,15 @@ exports.main = async (event, context) => {
 			const roomNum = data.length;
 			console.log('data', roomNum);
 			let roomSuccessNum = 0
+			let roomInviteNum = 0
 			let roomIdList = []
 			data.forEach((item) => {
 				roomIdList.push(item.roomId)
 				if (item.userRoleMap) {
 					roomSuccessNum++
+				}
+				if (item.userList && item.userList.length) {
+					roomInviteNum++
 				}
 			})
 			
@@ -59,7 +63,7 @@ exports.main = async (event, context) => {
 				}
 				console.log('updateIdList', updateIdList, updateIdList.length)
 			}
-			await db.collection('room-history').add({ room_num: roomNum, room_success_num: roomSuccessNum, updateTime: new Date() })
+			await db.collection('room-history').add({ room_num: roomNum, room_success_num: roomSuccessNum, room_invite_num: roomInviteNum, updateTime: new Date() })
 			await batchUpdate(roomIdList)
 		}
 	} catch(e) {

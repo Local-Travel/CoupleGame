@@ -50,8 +50,8 @@
 					<view class="box-tag-right">不含法官</view>
 				</view>
 				<view class="user-item-con">
-					<view v-for="(item,index) in showUserList" :key="index" :class="clientId === item.clientId ? 'user-item user-active' : 'user-item'">
-						<view class="user-num">{{index + 1}}</view>
+					<view v-for="(item,index) in showUserList" :key="index" class="user-item">
+						<view :class="clientId === item.clientId ? 'user-num user-num-active' : 'user-num'">{{index + 1}}</view>
 						<view class="user-img-con">
 							<image v-if="item.avatarUrl" class="user-img" webp mode="scaleToFill" :src="item.avatarUrl"></image>
 							<button v-else open-type="share" class="btn-share-plus">
@@ -59,7 +59,10 @@
 							</button>
 						</view>
 						<button class="user-name">{{item.nickName || '邀请'}}</button>
-						<view v-if="isCreator && item.role" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
+						<template v-if="item.role">
+							<view v-if="isCreator" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
+							<view v-else :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{ clientId === item.clientId ? roleName : '保密' }}</view>
+						</template>
 					</view>
 				</view>
 			</view>
@@ -73,10 +76,10 @@
 			<view class="role-con">
 				<view class="role-group">{{ roleGroup }}</view>
 				<view class="role-box">
-					<view class="role-img-con">
+			<!-- 		<view class="role-img-con">
 						<image class="role-img-bg" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/516b709d-8723-470b-89ea-a85369b1296c.png"></image>
 						<image class="role-img" webp mode="scaleToFill" :src="roleUrl"></image>
-					</view>
+					</view> -->
 					<view class="role-desc">
 						<view v-for="(item,index) in roleDesc" :key="index" class="role-desc-item">
 							<view><text class="mr4">{{index + 1}}. </text>{{item}}</view>
@@ -118,14 +121,19 @@
 				</view>
 			</view>
 		</view>
+		<MaskModal ref="maskRef" />
 	</view>
 </template>
 
 <script>
+	import MaskModal from '@/components/mask-modal.vue'
 	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules, setNickName, generateUser, generateRandomName, getUuid } from '../../utils/const.js'
 	    
 	let db = {};
 	export default {
+		components: {
+			MaskModal
+		},
 		data() {
 			return {
 				user: null,
@@ -188,6 +196,9 @@
 			},
 			roleUrl() {
 				return this.myRole ? this.myRole.url : roleList2[0].url
+			},
+			roleName() {
+				return this.myRole ? this.myRole.name : ''
 			},
 			btnText() {
 				const obj = {
@@ -384,6 +395,13 @@
 					if (this.isCreator) {
 						this.myRole = roleList2[0]
 						this.btnType = 'new'
+					} else {
+						if (this.myRole) {
+							this.$refs.maskRef.showModal({
+								roleGroup: this.roleGroup,
+								roleUrl: this.roleUrl,
+							});
+						}
 					}
 				} else {
 					this.myRole = null;
@@ -761,7 +779,7 @@
 		text-align: center;
 		box-shadow: 0 0 15px rgba(255, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.3), 0 0 50px rgba(255, 255, 255, 0.2), 0 0 100px rgba(255, 255, 255, 0.2);
 	}
-	.user-active::before {
+	/* .user-active::before {
 		content: '';
 		position: absolute;
 		top: 0px;
@@ -771,7 +789,7 @@
 		border: 1px solid rgba(1, 194, 195, 0.5);
 		border-radius: 10px;
 		animation: glow 2s infinite alternate;
-	}
+	} */
 
 	@keyframes glow {
 		0% {
@@ -817,6 +835,9 @@
 	  font-size: 16px;
 	  font-weight: 600;
 	  z-index: 9;
+	}
+	.user-num-active {
+		background-color: #6126ca;
 	}
 	
 	.user-plus {
@@ -1080,8 +1101,8 @@
 	.close-box {
 		margin-top: 16px;
 		position: absolute;
-		right: -15px;
-		top: -30px;
+		right: -10px;
+		top: -50px;
 	}
 
 	.close-button {
@@ -1091,7 +1112,7 @@
 		border-radius: 50%;
 		cursor: pointer;
 		/* background-color: #01C2C3; */
-		background-color: rgba(0, 0, 0, 0.5);
+		/* background-color: rgba(0, 0, 0, 0.5); */
 	}
 
 	.close-button-inner {
@@ -1100,7 +1121,8 @@
 		left: 50%;
 		width: 18px;
 		height: 2px;
-		background-color: #00FEFF;
+		/* background-color: #00FEFF; */
+		background-color: #fff;
 		transform: translate(-50%, -50%) rotate(45deg);
 	}
 
@@ -1112,7 +1134,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: #00FEFF;
+		background-color: #fff;
 	}
 
 	.close-button-inner:before {

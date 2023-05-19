@@ -15,6 +15,10 @@
 			"bsonType": "int",
 			"description": "房间数量"
 		},
+		"room_invite_num": {
+			"bsonType": "int",
+			"description": "邀请房间数"
+		},
 		"room_success_num": {
 			"bsonType": "int",
 			"description": "发牌房间数"

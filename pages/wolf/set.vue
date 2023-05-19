@@ -28,16 +28,16 @@
 			<view class="select-title">
 				已选角色
 			</view>
-			<!-- <view class="select-title-tip">促进线下人与</view> -->
 		</view>
 		
 		<view class="content-block">
+			<view class="select-title-tip">不含法官</view>
 			<view class="role-box">
-				<image class="role-box-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/7781e928-771d-414e-b5bd-2ae2a366fef1.png"></image>
+				<!-- <image class="role-box-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/7781e928-771d-414e-b5bd-2ae2a366fef1.png"></image> -->
 				<view class='role-container'>
-					<view class="role-box-tag-con">
+<!-- 					<view class="role-box-tag-con">
 						<view class="role-box-tag">不含法官</view>
-					</view>
+					</view> -->
 					<view class="f-title">【好人阵营】</view>
 					<view class="count-con">
 						<view class="count-item" v-for="(item,index) in goodList" :key="index">
@@ -304,6 +304,12 @@
 		position: relative;
 		margin-top: -60px;
 		padding-top: 20px;
+		/* padding-bottom: 40px; */
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 		z-index: 10;
 		background: linear-gradient(183.57deg, rgba(31, 31, 33, 0) 2.94%, #1F1F21 72.22%);
 	}
@@ -313,37 +319,42 @@
 		font-style: normal;
 		font-weight: 700;
 		font-size: 20px;
-		line-height: 37px;
-		/* identical to box height, or 184% */
-		
+		line-height: 37px;		
 		text-align: center;
 		letter-spacing: -1px;
 		color: #fff;
 		
 	}
 	
-/* 	.select-title-tip {
-		font-family: 'PingFang SC';
-		font-style: normal;
-		font-weight: 400;
-		font-size: 12px;
-		line-height: 17px;		
-		text-align: center;		
-		color: #00FEFF;
-	} */
+	.select-title-tip {
+		width: 267px;
+		height: 30px;
+		line-height: 30px;
+		margin-bottom: 8px;
+		text-align: center;
+		/* background: radial-gradient(47% 2203.06% at 50% 50%, #D7D7D7 0%, rgba(215, 215, 215, 0) 100%) warning: gradient uses a rotation that is not supported by CSS and may not behave as expected; */
+		opacity: 0.9;
+		color: #fff;
+		background: linear-gradient(to right, transparent, transparent, #00FEFF, transparent, transparent);
+	}
 	
 	.content-block {
 		background-color: #1F1F21;
 		position: relative;
-		padding: 0px 20px 72px;
+		/* padding: 0px 20px 72px; */
+		padding-top: 8px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 	}
 	
 	.role-box {
 		position: relative;
-		box-sizing: border-box;
-		width: 100%;
-		min-height: 300px;
-		padding: 40px;
+		/* box-sizing: border-box; */
+		width: 250px;
+		min-height: 270px;
+		padding: 0px 40px;
 		/* background-size: contain; */
 		/* background-image: url('../../static/icon-set-box.png'); */
 		/* background-repeat: no-repeat; */
@@ -382,6 +393,9 @@
 		position: relative;
 		background-color: #fff;
 		padding: 16px;
+		border-width: 10px;
+		border-style: solid;
+		border-image: linear-gradient(to right, #00e1ff, #079db8, #003545) 1;
 	}
 	
 	.count-list {
@@ -415,7 +429,7 @@
 	}
 	
 	.btn-con {
-		margin-top: 24px;
+		margin-top: 0px;
 	}
 	
 	.btn {
