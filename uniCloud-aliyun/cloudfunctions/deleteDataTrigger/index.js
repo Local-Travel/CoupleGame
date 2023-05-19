@@ -36,7 +36,7 @@ exports.main = async (event, context) => {
 		const data = res && res.data;
 		const updateIdList = [];
 		if (Array.isArray(data) && data.length) {
-			const  = data.length;
+			const roomNum = data.length;
 			console.log('data', roomNum);
 			let roomSuccessNum = 0
 			let roomIdList = []
@@ -49,7 +49,7 @@ exports.main = async (event, context) => {
 			
 			const batchUpdate = async (ids) => {
 				// 数据过大可能会有问题
-				console.log('ready to batch update roomIds', ids)
+				console.log('ready to batch update roomIds', ids, ids.length)
 				for(let roomId of ids) {
 					await db.collection('room').where({ roomId }).update({
 						roomId: dateStr + '-' + roomId,
@@ -59,7 +59,7 @@ exports.main = async (event, context) => {
 				}
 				console.log('updateIdList', updateIdList, updateIdList.length)
 			}
-			await db.collection('room-history').add({ room_num: roomNum, room_success_num: roomSuccessNum })
+			await db.collection('room-history').add({ room_num: roomNum, room_success_num: roomSuccessNum, updateTime: new Date() })
 			await batchUpdate(roomIdList)
 		}
 	} catch(e) {
