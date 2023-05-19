@@ -1,4 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
+
+// 游戏类型
+export const GameType = {
+	'undercover': 'undercover',
+	'wolf': 'wolf'
+}
+
 // 角色阵营
 export const RoleType = {
 	'independency': 'independency',

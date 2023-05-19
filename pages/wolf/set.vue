@@ -447,6 +447,7 @@
 	}
 	.search-con {
 		margin-top: 48px;
+		padding-bottom: 48px;
 		font-family: 'PingFang SC';
 		font-style: normal;
 		font-weight: 400;

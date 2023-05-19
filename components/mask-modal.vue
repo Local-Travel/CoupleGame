@@ -8,7 +8,7 @@
 				  </view>
 				  <view class="head-icon">
 					<view class="head-icon-title">
-					  你的角色
+					  {{ title }}
 					</view>
 				  </view>
 				  <view class="modal-body">
@@ -19,7 +19,7 @@
 					  <!-- </view> -->
 					  <view class="body-title">{{ roleGroup }}</view>
 					  <view class="body-sub-titile">
-						  请保密自己的角色身份
+						  {{ roleTip }}
 					  </view>
 					</view>
 				  </view>
@@ -69,12 +69,16 @@ export default {
 		  visible: false,
 		  roleUrl: '', 
 		  roleGroup: '',
+		  title: '',
+		  roleTip: ''
 	  }
   },
 	methods: {
-		showModal({ roleUrl, roleGroup }) {
+		showModal({ roleUrl, roleGroup, title, roleTip }) {
 			this.roleGroup = roleGroup;
 			this.roleUrl = roleUrl;
+			this.title = title || '你的角色'
+			this.roleTip = roleTip || '请保密自己的角色身份'
 			this.visible = true;
 		},
 		hideModal() {

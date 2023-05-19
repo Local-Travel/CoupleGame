@@ -26,6 +26,20 @@
 			"style": {
 				"navigationBarTitleText": "探本狼人-规则说明"
 			}
+		},
+		{
+			"path": "pages/undercover/index",
+			"style": {
+				"navigationBarTitleText": "探本卧底"
+			}
+		},
+		{
+			"path": "pages/undercover/room",
+			"style": {
+				"navigationBarTitleText": "探本卧底",
+				"enablePullDownRefresh": true
+				// "navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -33,6 +47,33 @@
 		"navigationBarTitleText": "探本狼人",
 		"navigationBarBackgroundColor": "#000000",
 		"backgroundColor": "#000000"
+	},
+	"tabBar": {
+		"borderStyle": "black",
+		"selectedColor": "#00FEFF",
+		// "backgroundColor": "#2c2c2f",
+		"backgroundColor": "#000",
+		"color": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tab-bar-wolf.jpeg",
+				// "selectedIconPath": "static/tabbar/find-selected.png",
+				"text": "狼人杀"
+			},
+			{
+				"pagePath": "pages/undercover/index",
+				"iconPath": "static/tab-bar-undercover.jpeg",
+				// "selectedIconPath": "static/tabbar/cate-selected.png",
+				"text": "谁是卧底"
+			}
+			// {
+			// 	"pagePath": "pages/mine/mine",
+			// 	"iconPath": "static/tabbar/my.png",
+			// 	"selectedIconPath": "static/tabbar/my-selected.png",
+			// 	"text": "我的"
+			// }
+		]
 	},
 	"uniIdRouter": {}
 }

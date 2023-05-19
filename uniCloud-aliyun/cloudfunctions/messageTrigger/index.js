@@ -3,10 +3,11 @@ const uniPush = uniCloud.getPushManager({appId:"__UNI__97BC0E8"}) //注意这里
 exports.main = async (event, context) => {
 	console.log('messageTrigger event', event)
 	// console.log('context', context)
-	const { roomId, clientId } = event || {}
+	const { roomId, clientId, gameType } = event || {}
 	if (!roomId) return null;
+	const table = gameType === 'undercover' ? 'room-undercover' : 'room';
 	const db = uniCloud.databaseForJQL()
-	const res = await db.collection('room').where({ roomId }).get()
+	const res = await db.collection(table).where({ roomId }).get()
 	const data = res && res.data && res.data[0]
 	if (!data) return null
 	const { userList = [], creator = '' } = data;
@@ -21,6 +22,7 @@ exports.main = async (event, context) => {
 		"payload": {
 			"type": "refresh",
 			"clientId": clientId,
+			"gameType": gameType,
 			// "userList": userList,
 			// "clientIdList": clientIdList,
 		}

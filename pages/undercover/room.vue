@@ -8,12 +8,6 @@
 
 			<view class="header-tag">
 				<view class="wait-tip">邀请朋友一起开嗨</view>
-				<view>
-					<view class="rules" @click="jumpRules">
-						<image class="icon-question" webp mode="scaleToFill" src="../../static/icon-question.png"></image>
-						<text>规则说明</text>
-					</view>
-				</view>
 			</view>
 			<!-- <view class="card">等待玩家进入</view> -->
 			<view class="header-bg"></view>
@@ -60,8 +54,7 @@
 						</view>
 						<button class="user-name">{{item.nickName || '邀请'}}</button>
 						<template v-if="item.role">
-							<view v-if="isCreator" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
-							<view v-else :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{ clientId === item.clientId ? roleName : '保密' }}</view>
+							<view v-if="isCreator" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.word || '未知'}}</view>
 						</template>
 					</view>
 				</view>
@@ -91,8 +84,8 @@
 			<view class="search-con">
 				<view class="search-more-tip">
 					更多请关注「
-					<navigator url="/pages/index/index" hover-class="navigator-hover">
-						探本狼人
+					<navigator url="/pages/undercover/index" hover-class="navigator-hover">
+						探本卧底
 					</navigator>
 					」
 				</view>
@@ -127,8 +120,9 @@
 
 <script>
 	import MaskModal from '@/components/mask-modal.vue'
-	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules, setNickName, generateUser, generateRandomName, getUuid, GameType } from '../../utils/const.js'
-	    
+	import { getClientId, getLocalUser, getCreator, randAssignRoles, setNickName, generateUser, getUuid, GameType } from '../../utils/const.js'
+	import { RoleType, roleList as roleList2, defaultRules } from '../../utils/undercover.js'
+		
 	let db = {};
 	export default {
 		components: {
@@ -189,16 +183,13 @@
 		},
 		computed: {
 			roleGroup() {
-				return this.myRole ? roleDescMap[this.myRole.code][0] : '游戏流程'
+				return '游戏规则'
 			},
 			roleDesc() {
-				return this.myRole ? (roleDescMap[this.myRole.code][1] || '').split('。').filter(Boolean) : defaultRules.filter(Boolean)
+				return defaultRules.filter(Boolean)
 			},
 			roleUrl() {
-				return this.myRole ? this.myRole.url : roleList2[0].url
-			},
-			roleName() {
-				return this.myRole ? this.myRole.name : ''
+				return this.myRole ? this.myRole.showUrl : roleList2[0].showUrl
 			},
 			btnText() {
 				const obj = {
@@ -244,43 +235,6 @@
 					}
 				})
 			},
-			// handleAuth(){
-			//     const self = this;
-			//     this.showModal = false;
-			//     uni.getUserProfile({
-			//     	desc:"获取你的昵称和头像",
-			//     	success: (res) => {
-			//     		console.log('getUserProfile res', res)
-			//     		if (res.errMsg === 'getUserProfile:ok') {
-			//     			uni.setStorage({
-			//     				key: 'userInfo', 
-			//     				data: res.userInfo
-			//     			});
-			//     			self.createUser(res.userInfo);
-			//     		}
-			//     	},
-			//     	fail:(err) => {
-			//     		console.log("您取消了授权,登录失败")
-			//     		self.jumpHome();
-			//     	}
-			//     });
-			// },
-			createUser(userInfo = {}) {
-				const data = {
-					nickName: userInfo.nickName,
-					avatarUrl: userInfo.avatarUrl,
-					gender: userInfo.gender,
-					clientId: getClientId(),
-				}
-				
-				db.collection('user').add(data).then(res => {
-					console.log('createUser res',res)
-				}).catch((e) => {
-					console.log('createUser e', e)
-				})
-				
-				this.userBindRoom();
-			},
 			userBindRoom() {
 				try {
 					const { nickName, avatarUrl, gender } = this.user || {}
@@ -303,7 +257,7 @@
 							clientId: getClientId(),
 						}
 						list.push(roomUser);
-						db.collection("room").where(`roomId=="${this.roomId}"`)
+						db.collection("room-undercover").where(`roomId=="${this.roomId}"`)
 						  .update({
 						    userList: list,
 						  }).then((res) => {
@@ -344,7 +298,7 @@
 				
 				console.log('whereJson', whereJson)
 				
-				db.collection('room').where(whereJson).get()
+				db.collection('room-undercover').where(whereJson).get()
 				.then(res => {
 					console.log('queryRoom res',res)
 					const data = res && res.data && res.data[0]
@@ -398,8 +352,10 @@
 					} else {
 						if (this.myRole) {
 							this.$refs.maskRef.showModal({
-								roleGroup: this.roleGroup,
+								title: '你的词语牌',
+								roleGroup: this.myRole.word,
 								roleUrl: this.roleUrl,
+								roleTip: '请保密自己的词语'
 							});
 						}
 					}
@@ -441,7 +397,7 @@
 					 uni.showLoading({
 					 	title: '正在发牌'
 					 });
-					 db.collection('room').where(`roomId=="${this.roomId}"`)
+					 db.collection('room-undercover').where(`roomId=="${this.roomId}"`)
 					   .update({
 					     userRoleMap,
 					   }).then((res) => {
@@ -487,7 +443,7 @@
 			sendMessageTrigger() {
 				uniCloud.callFunction({
 					name: 'messageTrigger',
-					data: { roomId: this.roomId, clientId: this.clientId, gameType: GameType.wolf }
+					data: { roomId: this.roomId, clientId: this.clientId, gameType: GameType.undercover }
 				}).then((res) => {
 					console.log('uniCloud.callFunction', res.result) // 结果是 {sum: 3}
 				}).catch((err) => {
@@ -496,18 +452,13 @@
 			},
 			receiveMessage(res) {
 				console.log("收到推送消息：",res) //监听推送消息
-				if (res?.payload?.gameType === GameType.wolf) {
+				if (res?.payload?.gameType === GameType.undercover) {
 					this.queryRoom(null, null, false)
 				}
 			},
 			jumpHome(source = null) {
 				uni.redirectTo({
-					url: '/pages/index/index' + `${source ? ('?source=' + source) : ''}`,
-				});
-			},
-			jumpRules() {
-				uni.navigateTo({
-					url: `/pages/wolf/rules?roomId=${this.roomId}`,
+					url: '/pages/undercover/index' + `${source ? ('?source=' + source) : ''}`,
 				});
 			},
 		}
