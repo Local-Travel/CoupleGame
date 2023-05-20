@@ -128,9 +128,8 @@
 			console.log('onLoad option', option);
 			const { id, source, u } = option || {}
 			if (!id || (id + '').length !== 4) {
-				// return this.jumpHome(source)
+				return this.jumpHome(source)
 			}
-			return
 			this.roomId = id;
 			this.user = getLocalUser();
 			if (!this.user) {
@@ -151,11 +150,7 @@
 			this.share.query = `id=${this.roomId}&u=${this.clientId}`;
 		},
 		mounted() {
-			this.$refs.textRef.showModal({
-				content: `你的词语是作画`,
-				showClose: false,
-				confirmText: '我知道了',
-			});
+			
 		},
 		onUnload(option) {
 			console.log('onUnload option', option);
@@ -334,8 +329,10 @@
 							// 	roleTip: '请保密自己的词语'
 							// });
 							this.$refs.textRef.showModal({
-								content: `你的词语是${this.myRole.word}`,
+								content: `你的词语`,
+								extraWord: this.myRole.word,
 								showClose: false,
+								isIgonreCB: true,
 								confirmText: '我知道了',
 							});
 						}

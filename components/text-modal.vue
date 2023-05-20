@@ -35,16 +35,18 @@ export default {
 		  content: '', // 文本内容
 		  isShare: false,// 是否显示邀请按钮
 		  showClose: true,// 是否显示关闭按钮
+		  isIgonreCB: false, // 是否忽略回调
 		  query: null,// 透传参数
 		  confirmText: '',// 确定按钮文案
-			extraWord: '', // 额外词条文案
+		  extraWord: '', // 额外词条文案
 	  }
   },
 	methods: {
-		showModal({ content, isShare, showClose, query, confirmText, extraWord }) {
+		showModal({ content, isShare, showClose, query, confirmText, extraWord, isIgonreCB }) {
 			this.content = content;
 			this.isShare = typeof isShare === 'boolean' ? isShare : false;
 			this.showClose = typeof showClose === 'boolean' ? showClose : true;
+			this.isIgonreCB = typeof isIgonreCB === 'boolean' ? isIgonreCB : false;
 			this.query = query;
 			this.confirmText = confirmText || '确定';
 			this.extraWord = extraWord;
@@ -55,11 +57,15 @@ export default {
 		},
 		onConfirm() {
 			this.hideModal()
-			this.$emit('confirm', this.query);
+			if (!isIgonreCB) {
+				this.$emit('confirm', this.query);
+			}
 		},
 		onCancel() {
 			this.hideModal();
-			this.$emit('cancel', this.query);
+			if (!isIgonreCB) {
+				this.$emit('cancel', this.query);
+			}
 		},
 	},
 };
@@ -189,7 +195,7 @@ export default {
 		-ms-letter-spacing: 2px;
 		letter-spacing: 2px;
 
-		background: linear-gradient(180deg, #ffffff 0%, #01C2C3 100%);
+		background: linear-gradient(180deg, #000000 0%, #01C2C3 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
