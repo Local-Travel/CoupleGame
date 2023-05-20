@@ -61,7 +61,7 @@
 						<button class="user-name">{{item.nickName || '邀请'}}</button>
 						<template v-if="item.role">
 							<view v-if="isCreator" :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{item.role.name || '未知'}}</view>
-							<view v-else :class="item.role.type === RoleType.good ? 'user-role-name-good': 'user-role-name-back'">{{ clientId === item.clientId ? roleName : '保密' }}</view>
+							<view v-else class="user-role-name-good">{{ clientId === item.clientId ? item.role.name : '保密' }}</view>
 						</template>
 					</view>
 				</view>
