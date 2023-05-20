@@ -8,8 +8,8 @@ export const RoleType = {
 // 角色
 export const roleList = [
 	{ code: 'god', name: '法官', word: '', type: RoleType.independency, roleCount: 0, url: '' },
-	{ code: 'civilian', name: '平民', word: '', type: RoleType.good, roleCount: 0, url: '', showUrl: '../../static/avatar-civilian.png' },
-	{ code: 'undercover', name: '卧底', word: '', type: RoleType.undercover, roleCount: 0, url: '', showUrl: '../../static/avatar-undercover.png' },
+	{ code: 'civilian', name: '平民', word: '', type: RoleType.good, roleCount: 0, url: '../../static/avatar-civilian.png' },
+	{ code: 'undercover', name: '卧底', word: '', type: RoleType.undercover, roleCount: 0, url: '../../static/avatar-undercover.png' },
 ]
 
 export const defaultRules = [

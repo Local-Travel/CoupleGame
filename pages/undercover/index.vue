@@ -17,7 +17,7 @@
 				<view class="header-limit-title">限时送福 开启神秘宝盒</view>
 			</view>
 			<view class="middle-title-con">
-				<view class="middle-title">线下谁是卧底</view>
+				<view class="middle-title">线下卧底局</view>
 				<view class="middle-title-tip">找出卧底，展现推理的智慧！</view>
 			</view>
 		</view>
@@ -107,43 +107,6 @@
 					}
 				})
 			},
-			// getRegeo() { 
-			// 	try {
-			// 		this.amapPlugin.getRegeo({
-			// 			success: (data) => {  
-			// 				console.log(data)  
-			// 				this.addressName = data[0].name;
-			// 				uni.setStorageSync('addressName', this.addressName);
-			// 			}  
-			// 		});
-			// 	} catch(e) {
-			// 		console.log('getRegeo e', e)
-			// 	}
-			// }, 
-			// handleAuth(type) {
-			//     let self = this;
-			//     uni.getUserProfile({
-			// 		desc:"获取你的昵称和头像",
-			// 		success: (res) => {
-			// 			console.log('getUserProfile res', res)
-			// 			if (res.errMsg === 'getUserProfile:ok') {
-			// 				uni.setStorage({
-			// 					key: 'userInfo', 
-			// 					data: res.userInfo
-			// 				});
-			// 				self.createUser(res.userInfo);
-			// 				if (type === 'create') {
-			// 					self.handleCreateRoom()
-			// 				} else {
-			// 					self.handleJoinRoom()
-			// 				}
-			// 			}
-			// 		},
-			// 		fail:(err) => {
-			// 			console.log("您取消了授权,登录失败")
-			// 		},
-			// 	})
-			// },
 			handleCreateRoom(){
 				this.$refs.layerRef.showModal();
 			},

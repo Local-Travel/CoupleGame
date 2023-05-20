@@ -165,7 +165,7 @@
 				return defaultRules.filter(Boolean)
 			},
 			roleUrl() {
-				return this.myRole ? this.myRole.showUrl : roleList2[0].showUrl
+				return this.myRole ? this.myRole.url : roleList2[0].url
 			},
 			btnText() {
 				const obj = {
