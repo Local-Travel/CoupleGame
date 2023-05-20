@@ -1,5 +1,5 @@
 <template>
-	<view v-if="visible" class="wrapper">
+	<view v-if="visible" class="wrapper" catchtouchmove>
 		<view class="modal-mask"></view>
 			<view class="modal">
 				<view class="modal-container">

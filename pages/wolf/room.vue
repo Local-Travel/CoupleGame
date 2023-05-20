@@ -98,41 +98,21 @@
 				</view>
 			</view>
 		</view>
-		<view class="modal-mask" v-if="showModal">
-			<view class="modal-view">
-				<view class="modal-container">
-					<scroll-view scroll-y class='modal-body'>
-						<view :class="isInvalidRoom ? 'modal-invald-text' : 'modal-invite-text'">
-							{{ modalContent }}
-						</view>
-					</scroll-view>
-					<view class='modal-footer'>
-						<button v-if="isInvalidRoom" class='modal-btn modal-confirm-btn' @click="jumpHome">确定</button>
-						<template v-else>
-							<!-- <button class='modal-btn modal-cancel-btn' @click="showModal = false">取消</button> -->
-							<button class='modal-btn modal-confirm-btn' open-type="share" @click="showModal = false">邀请</button>
-						</template>
-					</view>
-				</view>
-				<view v-if="showClose" class="close-box" @click="showModal = false">
-					<view class="close-button">
-						<view class="close-button-inner"></view>
-					</view>
-				</view>
-			</view>
-		</view>
+		<TextModal ref="textRef" @confirm="jumpHome" />
 		<MaskModal ref="maskRef" />
 	</view>
 </template>
 
 <script>
 	import MaskModal from '@/components/mask-modal.vue'
+	import TextModal from '@/components/text-modal.vue'
 	import { RoleType, roleDescMap, getClientId, getLocalUser, getCreator, randAssignRoles, roleList as roleList2, defaultRules, setNickName, generateUser, generateRandomName, getUuid, GameType } from '../../utils/const.js'
 	    
 	let db = {};
 	export default {
 		components: {
-			MaskModal
+			MaskModal,
+			TextModal
 		},
 		data() {
 			return {
@@ -146,11 +126,7 @@
 				record: {},
 				myRole: null,
 				btnType: 'ready',
-				showModal: false,
 				RoleType,
-				modalContent: '房间已失效',
-				modalType: 'invalidRoom',
-				showClose: false,
 			}
 		},
 		onLoad(option) {
@@ -361,19 +337,10 @@
 					console.log('queryRoom e', e)
 					uni.hideLoading()
 					failCB && failCB()
-					// const self = this;
-					// uni.showModal({
-					// 	title: '房间已失效',
-					// 	showCancel: false,
-					// 	confirmText: '确定',
-					// 	success: function (res) {
-					// 		self.jumpHome();
-					// 	}
-					// })
-					this.showModal = true
-					this.modalContent = '房间已失效'
-					this.modalType = 'invalidRoom'
-					this.showClose = false
+					this.$refs.textRef.showModal({
+						content: '房间已失效',
+						showClose: false,
+					});
 				})
 			},
 			handleSetData(data) {
@@ -476,10 +443,10 @@
 					// 		console.log('res', res);
 					// 	}
 					// })
-					this.showModal = true
-					this.modalContent = `还差 ${leftCount} 玩家，邀请其他朋友一起来玩吧`
-					this.modalType = 'invite'
-					this.showClose = true
+					this.$refs.textRef.showModal({
+						content: `还差 ${leftCount} 玩家，邀请其他朋友一起来玩吧`,
+						isShare: true,
+					});
 					return false
 				}
 				return true;
@@ -1042,109 +1009,6 @@
 		line-height: 14px;		
 		text-align: center;
 		color: #7F7F8E;
-	}
-	.modal-mask {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		z-index: 99;
-	}
-
-	.modal-view {
-		position: relative;
-		background-color: #fff;
-		border-radius: 8px;
-		width: 250px;
-	}
-
-	.modal-container {
-		padding: 20px;
-		border-radius: 8px;
-		color: #000000;
-		background: linear-gradient(180deg, rgba(40, 197, 201, 0.49175) 2.48%, rgba(255, 255, 255, 0.0001) 100%);
-	}
-
-	.modal-invald-text {
-		font-weight: 500;
-		line-height: 31px;
-		text-align: center;
-	}
-	.modal-invite-text {
-		font-weight: 500;
-	}
-	.modal-footer {
-		padding: 24px 20px 0px;
-		display: flex;
-		justify-content: space-between;
-	}
-	.modal-btn {
-		width: 100%;
-		border-radius: 4px;
-	}
-	.modal-btn + .modal-btn {
-		margin-left: 16px;
-	}
-	.modal-cancel-btn {
-		background-color: #fff;
-		color: #01C2C3;
-	}
-	.modal-confirm-btn {
-		background-color: #01C2C3;
-		color: #fff;
-	}
-
-	.close-box {
-		margin-top: 16px;
-		position: absolute;
-		right: -10px;
-		top: -50px;
-	}
-
-	.close-button {
-		position: relative;
-		width: 30px;
-		height: 30px;
-		border-radius: 50%;
-		cursor: pointer;
-		/* background-color: #01C2C3; */
-		/* background-color: rgba(0, 0, 0, 0.5); */
-	}
-
-	.close-button-inner {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 18px;
-		height: 2px;
-		/* background-color: #00FEFF; */
-		background-color: #fff;
-		transform: translate(-50%, -50%) rotate(45deg);
-	}
-
-	.close-button-inner:before,
-	.close-button-inner:after {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: #fff;
-	}
-
-	.close-button-inner:before {
-		transform: rotate(-90deg);
-	}
-
-	.close-button-inner:after {
-		transform: rotate(90deg);
 	}
 	
 	.search-more-tip {

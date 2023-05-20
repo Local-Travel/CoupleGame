@@ -353,7 +353,6 @@
 		position: relative;
 		/* box-sizing: border-box; */
 		width: 250px;
-		min-height: 270px;
 		padding: 0px 40px;
 		/* background-size: contain; */
 		/* background-image: url('../../static/icon-set-box.png'); */
@@ -429,7 +428,7 @@
 	}
 	
 	.btn-con {
-		margin-top: 0px;
+		padding-top: 36px;
 	}
 	
 	.btn {

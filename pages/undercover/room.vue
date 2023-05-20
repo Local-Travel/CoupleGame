@@ -92,34 +92,13 @@
 				</view>
 			</view>
 		</view>
-		<view class="modal-mask" v-if="showModal">
-			<view class="modal-view">
-				<view class="modal-container">
-					<scroll-view scroll-y class='modal-body'>
-						<view :class="isInvalidRoom ? 'modal-invald-text' : 'modal-invite-text'">
-							{{ modalContent }}
-						</view>
-					</scroll-view>
-					<view class='modal-footer'>
-						<button v-if="isInvalidRoom" class='modal-btn modal-confirm-btn' @click="jumpHome">确定</button>
-						<template v-else>
-							<!-- <button class='modal-btn modal-cancel-btn' @click="showModal = false">取消</button> -->
-							<button class='modal-btn modal-confirm-btn' open-type="share" @click="showModal = false">邀请</button>
-						</template>
-					</view>
-				</view>
-				<view v-if="showClose" class="close-box" @click="showModal = false">
-					<view class="close-button">
-						<view class="close-button-inner"></view>
-					</view>
-				</view>
-			</view>
-		</view>
+		<TextModal ref="textRef" @confirm="jumpHome" />
 		<MaskModal ref="maskRef" />
 	</view>
 </template>
 
 <script>
+	import TextModal from '@/components/text-modal.vue'
 	import MaskModal from '@/components/mask-modal.vue'
 	import { getClientId, getLocalUser, getCreator, randAssignRoles, setNickName, generateUser, getUuid, GameType } from '../../utils/const.js'
 	import { RoleType, roleList as roleList2, defaultRules } from '../../utils/undercover.js'
@@ -127,7 +106,8 @@
 	let db = {};
 	export default {
 		components: {
-			MaskModal
+			MaskModal,
+			TextModal
 		},
 		data() {
 			return {
@@ -141,11 +121,7 @@
 				record: {},
 				myRole: null,
 				btnType: 'ready',
-				showModal: false,
 				RoleType,
-				modalContent: '房间已失效',
-				modalType: 'invalidRoom',
-				showClose: false,
 			}
 		},
 		onLoad(option) {
@@ -316,19 +292,10 @@
 					console.log('queryRoom e', e)
 					uni.hideLoading()
 					failCB && failCB()
-					// const self = this;
-					// uni.showModal({
-					// 	title: '房间已失效',
-					// 	showCancel: false,
-					// 	confirmText: '确定',
-					// 	success: function (res) {
-					// 		self.jumpHome();
-					// 	}
-					// })
-					this.showModal = true
-					this.modalContent = '房间已失效'
-					this.modalType = 'invalidRoom'
-					this.showClose = false
+					this.$refs.textRef.showModal({
+						content: '房间已失效',
+						showClose: false,
+					});
 				})
 			},
 			handleSetData(data) {
@@ -426,17 +393,10 @@
 				}
 				const leftCount = roomCount - useLen
 				if (useLen < roomCount) {
-					//  return uni.showModal({
-					// 	content: `还差${leftCount}玩家，邀请其他朋友一起来玩吧`,
-					// 	showCancel: false,
-					// 	success: (res) => {
-					// 		console.log('res', res);
-					// 	}
-					// })
-					this.showModal = true
-					this.modalContent = `还差 ${leftCount} 玩家，邀请其他朋友一起来玩吧`
-					this.modalType = 'invite'
-					this.showClose = true
+					this.$refs.textRef.showModal({
+						content: `还差 ${leftCount} 玩家，邀请其他朋友一起来玩吧`,
+						isShare: true,
+					});
 					return false
 				}
 				return true;

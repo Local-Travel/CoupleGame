@@ -1,5 +1,5 @@
 <template>
-  <view class="bottom-layer" v-if="visible">
+  <view v-if="visible" class="bottom-layer">
 	<view class="close-btn" @click="onCancel">
 		<view class="close-btn__x"></view>
 	</view>
