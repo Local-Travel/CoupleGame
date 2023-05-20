@@ -57,15 +57,13 @@ export default {
 		},
 		onConfirm() {
 			this.hideModal()
-			if (!isIgonreCB) {
-				this.$emit('confirm', this.query);
-			}
+			if (this.isIgonreCB) return;
+			this.$emit('confirm', this.query);
 		},
 		onCancel() {
 			this.hideModal();
-			if (!isIgonreCB) {
-				this.$emit('cancel', this.query);
-			}
+			if (this.isIgonreCB) return;
+			this.$emit('cancel', this.query);
 		},
 	},
 };

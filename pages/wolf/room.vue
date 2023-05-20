@@ -2,7 +2,7 @@
 	<view class="page">
 		<view class="header">
 			<view class="header-room">
-				<view class="title">房间号：<text class="room-id">{{ roomId }}</text></view>
+				<view class="title">狼人房间号：<text class="room-id">{{ roomId }}</text></view>
 				<image class="icon-star" webp mode="scaleToFill" src="../../static/icon-star.png"></image>
 			</view>
 
