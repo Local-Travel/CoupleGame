@@ -11,10 +11,11 @@
 		</view> -->
 		<view class="header-block">
 			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/2f0d9437-521b-4345-a1e2-67c66f67b7f8.png"></image>
-			<image class="header-gif-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/5329b3e7-7252-4269-8dac-ea14044e1300.png"></image>
+			<!-- <image class="header-gif-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/5329b3e7-7252-4269-8dac-ea14044e1300.png"></image> -->
+			<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-undercover.png"></image>
 			<view class="header-title-con">
 				<view class="header-top-title">探本卧底 邀TA一起</view>
-				<view class="header-limit-title">限时送福 开启神秘宝盒</view>
+				<view class="header-limit-title">破解迷局 找出真正间谍</view>
 			</view>
 			<view class="middle-title-con">
 				<view class="middle-title">线下卧底局</view>
