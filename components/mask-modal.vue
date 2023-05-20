@@ -4,24 +4,24 @@
 			<view class="modal">
 				<view class="modal-container">
 				  <view class="close-btn" @click="onCancel">
-					<view class="close-btn__x"></view>
+						<view class="close-btn__x"></view>
 				  </view>
 				  <view class="head-icon">
-					<view class="head-icon-title">
-					  {{ title }}
-					</view>
+						<view class="head-icon-title">
+							{{ title }}
+						</view>
 				  </view>
 				  <view class="modal-body">
-					<view class="body-bg"></view>
-					<view class="center">
-					  <!-- <view class="rotate-scale-up-ver"> -->
-						  <image :src="roleUrl" alt="icon" class="img"></image>
-					  <!-- </view> -->
-					  <view class="body-title">{{ roleGroup }}</view>
-					  <view class="body-sub-titile">
-						  {{ roleTip }}
-					  </view>
-					</view>
+						<view class="body-bg"></view>
+						<view class="center">
+							<!-- <view class="rotate-scale-up-ver"> -->
+								<image :src="roleUrl" alt="icon" class="img"></image>
+							<!-- </view> -->
+							<view class="body-title">{{ roleGroup }}</view>
+							<view class="body-sub-titile">
+								{{ roleTip }}
+							</view>
+						</view>
 				  </view>
 				  <view class="modal-footer">
 						<button class="btn btn-ok" @click="onConfirm">{{confirmText}}</button>
@@ -62,11 +62,11 @@ export default {
   },
   data() {
 	  return {
-		  visible: false,
-		  roleUrl: '', 
-		  roleGroup: '',
-		  title: '',
-		  roleTip: ''
+		  visible: false,// 是否显示弹窗
+		  roleUrl: '', // 图片地址
+		  roleGroup: '',// 文案描述
+		  title: '',// 标题
+		  roleTip: ''// 文案补充描述
 	  }
   },
 	methods: {

@@ -38,13 +38,12 @@ import { getInitRoleList, generateRandomWord, RoleType } from '../utils/undercov
 export default {
   data() {
     return {
-	  user: null,
-	  list: [],
-      visible: false,
-      roomCount: '4',
-	  undercoverWord: '',
-	  civilianWord: '',
-	  wordObj: {},
+			user: null,
+			list: [],
+			visible: false,// 是否显示弹窗
+			roomCount: '4',// 房间人数
+			undercoverWord: '',// 刺客词条
+			civilianWord: '',// 平民词条
     };
   },
   mounted() {

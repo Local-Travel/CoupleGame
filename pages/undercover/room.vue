@@ -93,20 +93,20 @@
 			</view>
 		</view>
 		<TextModal ref="textRef" @confirm="jumpHome" />
-		<MaskModal ref="maskRef" />
+		<!-- <MaskModal ref="maskRef" /> -->
 	</view>
 </template>
 
 <script>
 	import TextModal from '@/components/text-modal.vue'
-	import MaskModal from '@/components/mask-modal.vue'
+	// import MaskModal from '@/components/mask-modal.vue'
 	import { getClientId, getLocalUser, getCreator, randAssignRoles, setNickName, generateUser, getUuid, GameType } from '../../utils/const.js'
 	import { RoleType, roleList as roleList2, defaultRules } from '../../utils/undercover.js'
 		
 	let db = {};
 	export default {
 		components: {
-			MaskModal,
+			// MaskModal,
 			TextModal
 		},
 		data() {
@@ -128,8 +128,9 @@
 			console.log('onLoad option', option);
 			const { id, source, u } = option || {}
 			if (!id || (id + '').length !== 4) {
-				return this.jumpHome(source)
+				// return this.jumpHome(source)
 			}
+			return
 			this.roomId = id;
 			this.user = getLocalUser();
 			if (!this.user) {
@@ -148,6 +149,13 @@
 			uni.onPushMessage(this.receiveMessage);
 			// 分享参数
 			this.share.query = `id=${this.roomId}&u=${this.clientId}`;
+		},
+		mounted() {
+			this.$refs.textRef.showModal({
+				content: `你的词语是作画`,
+				showClose: false,
+				confirmText: '我知道了',
+			});
 		},
 		onUnload(option) {
 			console.log('onUnload option', option);
@@ -319,11 +327,16 @@
 						this.btnType = 'new'
 					} else {
 						if (this.myRole) {
-							this.$refs.maskRef.showModal({
-								title: '你的词语牌',
-								roleGroup: this.myRole.word,
-								roleUrl: this.roleUrl,
-								roleTip: '请保密自己的词语'
+							// this.$refs.maskRef.showModal({
+							// 	title: '你的词语牌',
+							// 	roleGroup: this.myRole.word,
+							// 	roleUrl: this.roleUrl,
+							// 	roleTip: '请保密自己的词语'
+							// });
+							this.$refs.textRef.showModal({
+								content: `你的词语是${this.myRole.word}`,
+								showClose: false,
+								confirmText: '我知道了',
 							});
 						}
 					}

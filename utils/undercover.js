@@ -7,9 +7,9 @@ export const RoleType = {
 
 // 角色
 export const roleList = [
-	{ code: 'god', name: '法官', word: '', type: RoleType.independency, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/063c77d5-be35-4424-9097-5566ab3393d5.jpg' },
-	{ code: 'civilian', name: '平民', word: '', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/8debd655-039b-4eb5-a42c-5ec704788094.jpg', showUrl: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/b671ecdb-2197-4219-94a3-a1eecc979c56.jpeg' },
-	{ code: 'undercover', name: '卧底', word: '', type: RoleType.undercover, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/740d9010-35f2-4d83-b6fe-2562c170d7dd.jpg', showUrl: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/b671ecdb-2197-4219-94a3-a1eecc979c56.jpeg' },
+	{ code: 'god', name: '法官', word: '', type: RoleType.independency, roleCount: 0, url: '' },
+	{ code: 'civilian', name: '平民', word: '', type: RoleType.good, roleCount: 0, url: '', showUrl: '../../static/avatar-civilian.png' },
+	{ code: 'undercover', name: '卧底', word: '', type: RoleType.undercover, roleCount: 0, url: '', showUrl: '../../static/avatar-undercover.png' },
 ]
 
 export const defaultRules = [
@@ -60,7 +60,7 @@ export function generateRandomWord() {
 		],
 	    ["手机", "电脑", "平板", "相机"],
 	    ["太阳", "月亮", "火星", "星星"],
-		 ["木星", "土星", "水星"],
+		["木星", "土星", "水星"],
 	    ["红色", "蓝色", "绿色", "黄色", "紫色"],
 	    ["学校", "教室"],
 		["球场", "操场"],
