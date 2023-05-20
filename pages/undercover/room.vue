@@ -1,5 +1,5 @@
 <template>
-	<view class="page">
+	<view class="page" :style="isShowModal() ? 'height: 100vh;overflow-y: hidden' : ''">
 		<view class="header">
 			<view class="header-room">
 				<view class="title">卧底房间号：<text class="room-id">{{ roomId }}</text></view>
@@ -93,7 +93,7 @@
 			</view>
 		</view>
 		<TextModal ref="textRef" @confirm="jumpHome" />
-		<!-- <MaskModal ref="maskRef" /> -->
+			<!-- <MaskModal ref="maskRef" /> -->
 	</view>
 </template>
 
@@ -133,7 +133,6 @@
 			this.roomId = id;
 			this.user = getLocalUser();
 			if (!this.user) {
-				// this.showModal = true;
 				setNickName((user) => {
 					this.user = user;
 					this.userBindRoom();
@@ -149,9 +148,6 @@
 			// 分享参数
 			this.share.query = `id=${this.roomId}&u=${this.clientId}`;
 		},
-		mounted() {
-			
-		},
 		onUnload(option) {
 			console.log('onUnload option', option);
 			//关闭推送事件监听
@@ -159,7 +155,7 @@
 		},
 		onPullDownRefresh() {
 			console.log('onPullDownRefresh')
-			this.queryRoom(() => uni.stopPullDownRefresh());
+			// this.queryRoom(() => uni.stopPullDownRefresh());
 		},
 		computed: {
 			roleGroup() {
@@ -177,9 +173,6 @@
 					'new': '再来一局',
 				}
 				return obj[this.btnType]
-			},
-			isInvalidRoom() {
-				return this.modalType === 'invalidRoom'
 			},
 			isCreator() {
 				const { creator } = this.record || {}
@@ -214,6 +207,9 @@
 						uni.setStorageSync('clientId', clientId);
 					}
 				})
+			},
+			isShowModal() {
+				return this.$refs.textRef && this.$refs.textRef.getVisible()
 			},
 			userBindRoom() {
 				try {
@@ -444,6 +440,7 @@
 		/* background-color: #1F1F21; */
 		background-color: #000;
 	}
+	
 	.header-top {
 		box-sizing: border-box;
 		width: 100%;

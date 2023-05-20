@@ -1,5 +1,5 @@
 <template>
-	<view v-if="visible" class="wrapper" catchtouchmove>
+	<view v-if="visible" class="wrapper">
 		<view class="modal-mask"></view>
 			<view class="modal">
 				<view class="modal-container">
@@ -79,6 +79,9 @@ export default {
 		},
 		hideModal() {
 			this.visible = false;
+		},
+		getVisible() {
+			return this.visible;
 		},
 		onConfirm() {
 			this.hideModal()

@@ -1,5 +1,5 @@
 <template>
-	<view class="page">
+	<view class="page" :style="isShowModal() ? 'height: 100vh;overflow-y: hidden' : ''">
 		<view class="header">
 			<view class="header-room">
 				<view class="title">狼人房间号：<text class="room-id">{{ roomId }}</text></view>
@@ -161,7 +161,7 @@
 		},
 		onPullDownRefresh() {
 			console.log('onPullDownRefresh')
-			this.queryRoom(() => uni.stopPullDownRefresh());
+			// this.queryRoom(() => uni.stopPullDownRefresh());
 		},
 		computed: {
 			roleGroup() {
@@ -182,9 +182,6 @@
 					'new': '再来一局',
 				}
 				return obj[this.btnType]
-			},
-			isInvalidRoom() {
-				return this.modalType === 'invalidRoom'
 			},
 			isCreator() {
 				const { creator } = this.record || {}
@@ -241,6 +238,11 @@
 			//     	}
 			//     });
 			// },
+			isShowModal() {
+				const maskRefVisible = this.$refs.maskRef && this.$refs.maskRef.getVisible()
+				const textRefVisible = this.$refs.textRef && this.$refs.textRef.getVisible()
+				return maskRefVisible || textRefVisible
+			},
 			createUser(userInfo = {}) {
 				const data = {
 					nickName: userInfo.nickName,
