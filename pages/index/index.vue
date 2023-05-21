@@ -137,35 +137,38 @@
 			// 	})
 			// },
 			handleCreateRoom(){
-			    uni.showModal({
-			    	title: '设置房间人数',
-			    	editable: true,
-			    	placeholderText: '请输入数字（4-30）',
-			    	success: (res) => {
-			    		console.log('res', res)
-						const reg = /^\d+$/
-			    		if (res.confirm) {
-			    			console.log('res.content', res.content)
-							const num = (res.content || '').trim()
-							if (!reg.test(num)) {
-								return uni.showToast({
-									title: '请输入数字',
-									icon: 'none'
-								})
-							}
-							const count = Number(num);
-							if (count < 4 || count > 30) {
-								return uni.showToast({
-									title: '请输入4-30之间的数字',
-									icon: 'none'
-								})
-							}
-							uni.navigateTo({
-								url: `/pages/wolf/set?count=${count}&source=home`,
-							})
-			    		}
-			    	}
-			    })
+				uni.navigateTo({
+					url: `/pages/wolf/set?count=${4}&source=home`,
+				})
+			   //  uni.showModal({
+			   //  	title: '设置房间人数',
+			   //  	editable: true,
+			   //  	placeholderText: '请输入数字（4-30）',
+			   //  	success: (res) => {
+			   //  		console.log('res', res)
+						// const reg = /^\d+$/
+			   //  		if (res.confirm) {
+			   //  			console.log('res.content', res.content)
+						// 	const num = (res.content || '').trim()
+						// 	if (!reg.test(num)) {
+						// 		return uni.showToast({
+						// 			title: '请输入数字',
+						// 			icon: 'none'
+						// 		})
+						// 	}
+						// 	const count = Number(num);
+						// 	if (count < 4 || count > 30) {
+						// 		return uni.showToast({
+						// 			title: '请输入4-30之间的数字',
+						// 			icon: 'none'
+						// 		})
+						// 	}
+						// 	uni.navigateTo({
+						// 		url: `/pages/wolf/set?count=${count}&source=home`,
+						// 	})
+			   //  		}
+			   //  	}
+			   //  })
 			},
 			handleJoinRoom() {
 				if (!this.user) {

@@ -62,9 +62,9 @@ export const defaultRules = [
 // 建议数量
 export const suggestCount = {
 	'4': {
-		'civilian': 1,
-		'wolf': 2,
-		'witch': 1,
+		'civilian': 2,
+		'wolf': 1,
+		'prophet': 1,
 	},
 	'5': {
 		'civilian': 2,

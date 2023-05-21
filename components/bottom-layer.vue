@@ -5,30 +5,32 @@
 	</view>
 	<view class="header">创建房间</view>
     <!-- 弹层内容 -->
-    <view class="content">
-      <view class="form-item">
-        <view class="title">游戏人数</view>
-		<input class="uni-input" :value="roomCount" @input="roomCountChange" placeholder="请输入" />
-      </view>
-	  <view class="form-item-role">
-		<view class="count-item" v-for="(item,index) in showList" :key="index">
-			<text class="text">{{item.name}}</text>
-			<text class="count">{{item.roleCount}}</text>
+	<scroll-view class="layer-content" :scroll-y="true">
+		<view class="content">
+		  <view class="form-item">
+			<view class="title">游戏人数</view>
+			<input class="uni-input" :value="roomCount" @input="roomCountChange" placeholder="请输入" />
+		  </view>
+		  <view class="form-item-role">
+			<view class="count-item" v-for="(item,index) in showList" :key="index">
+				<text class="text">{{item.name}}</text>
+				<text class="count">{{item.roleCount}}</text>
+			</view>
+		  </view>
+		  <view class="form-item">
+			<view class="title">卧底词</view>
+			<input class="uni-input" v-model="undercoverWord" placeholder="请输入" />
+		  </view>
+		  <view class="form-item">
+			<view class="title">平民词</view>
+			<input class="uni-input" v-model="civilianWord" placeholder="请输入" />
+		  </view>
 		</view>
-	  </view>
-	  <view class="form-item">
-		<view class="title">卧底词</view>
-		<input class="uni-input" v-model="undercoverWord" placeholder="请输入" />
-	  </view>
-	  <view class="form-item">
-		<view class="title">平民词</view>
-		<input class="uni-input" v-model="civilianWord" placeholder="请输入" />
-	  </view>
-    </view>
-	<view class="modal-footer">
-		<view class="layer-btn btn-cancel" @click="randomWord">随机换词</view>
-		<view class="layer-btn btn-ok" @click="handleSubmit">创建房间</view>
-	</view>
+		<view class="modal-footer">
+			<view class="layer-btn btn-ok" @click="randomWord">随机换词</view>
+			<view class="layer-btn btn-ok" @click="handleSubmit">创建房间</view>
+		</view>
+	</scroll-view>
   </view>
 </template>
 
@@ -167,8 +169,8 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 450px;
-  background-color: #fff;
+  height: 400px;
+  background-color: #000;
   /* 其他样式属性 */
 }
 .header {
@@ -180,9 +182,14 @@ export default {
 	background: linear-gradient(to right, transparent, #00FEFF, #01C2C3, #00FEFF, transparent);
 }
 
+.layer-content {
+	height: 300px;
+}
+
 .content {
   /* 弹层内容的样式 */
   padding: 24px 20px;
+  color: #01C2C3;
 }
 .form-item {
   display: flex;
@@ -228,7 +235,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	padding: 0px 20px;
-	margin-top: 25px;
+	margin-top: 16px;
 }
 
 .layer-btn {
@@ -248,10 +255,10 @@ export default {
 	margin-left: 16px;
 }
 
-.btn-cancel {
+/* .btn-cancel {
 	border: 1px solid #00FEFF;
 	color: #00FEFF;
-}
+} */
 
 .btn-ok {
 	color: #ffffff;

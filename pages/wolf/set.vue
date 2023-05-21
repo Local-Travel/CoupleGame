@@ -3,9 +3,9 @@
 	<!-- 	<view class="header">
 			<view class="title">重建房间</view>
 		</view> -->
-		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/c2f1edec-682a-4fb9-85a1-ffeb0c0e11a3.png"></image>
-			<swiper 
+		<!-- <view class="header-block"> -->
+			<!-- <image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/c2f1edec-682a-4fb9-85a1-ffeb0c0e11a3.png"></image> -->
+<!-- 			<swiper 
 				class="swiper" 
 				circular
 				:indicator-dots="indicatorDots" 
@@ -22,7 +22,7 @@
 					</view>
 				</swiper-item>
 			</swiper>
-		</view>
+		</view> -->
 		
 		<view class="select-title-block">
 			<view class="select-title">
@@ -56,8 +56,9 @@
 				</view>
 			</view>
 	
-			<view class="btn-con">
-				<button class='btn' type="primary" @click="handleSubmit">创建房间</button>
+			<view class="btn-set-con">
+				<button class='btn btn-create' type="default" @click="handleReSelect">调整角色</button>
+				<button class='btn btn-create' type="primary" @click="handleSubmit">创建房间</button>
 			</view>
 			<view class="search-con">
 				<view class="search-more-tip">
@@ -69,12 +70,17 @@
 				</view>
 			</view>
 		</view>
+		<BottomLayerRole ref="roleRef" @confirm="handleRoleSelect" />
 	</view>
 </template>
 
 <script>
+	import BottomLayerRole from '@/components/bottom-layer-role.vue'
 	import { roleList, RoleType, suggestCount, getInitRoleList, getClientId, getLocalUser, getCreator, setNickName } from '../../utils/const.js'
 	export default {
+		components: {
+			BottomLayerRole,
+		},
 		data() {
 			return {
 				user: null,
@@ -109,18 +115,11 @@
 			}
 		},
 		methods: {
-			handlePlus(item, index) {
-				// console.log('handlePlus', item)
-				if (item.roleCount < 30) {
-					item.roleCount += 1 
-					this.$set(this.list, index, item)
-				}
+			handleRoleSelect(roles) {
+				console.log('roles', roles)
 			},
-			handleMinus(item, index) {
-				if (item.roleCount > 0) {
-					item.roleCount -= 1 
-					this.$set(this.list, index, item)
-				}
+			handleReSelect() {
+				this.$refs.roleRef.showModal({ list: this.list })
 			},
 			checkVerify() {
 				if (!this.goodList.length) {
@@ -208,31 +207,10 @@
 		min-height: 100vh;
 		position: relative;
 		font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,PingFang SC,Noto Sans,Noto Sans CJK SC,Microsoft YaHei,微软雅黑,sans-serif;
-		/* background-color: #1F1F21; */
+		background-color: #1F1F21;
 	}
 	
-	.header-block {
-		height: 300px;
-		background-color: #000;
-		/* background-image: url('../../static/icon-home-bg.png'); */
-		/* background-size: cover; */
-		/* background-position: center; */
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		position: relative;
-	}
-	.header-bg-img {
-		position: absolute;
-		top: 0px;
-		height: 250px;
-		width: 200px;
-		z-index: 1;
-	}
-	.swiper {
+/* 	.swiper {
 		margin-top: 45px;
 		height: 220px;
 		width: 100%;
@@ -246,63 +224,11 @@
 		width: 100px; 
 		height: 140px; 
 		background-color: #eeeeee;
-	}
-	.plus-con {
-		display: flex;
-		justify-content: center;
-		margin-top: 22px;
-	}
-	.num {
-		margin: 0px 16px;
-		color: #00ffff;
-		font-size: 24px;
-		font-weight: 600;
-	}
-	.plus-minus {
-	  position: relative;
-	  width: 24px;
-	  height: 24px;
-	  border: 1px solid #fff;
-	  border-radius: 50%;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  font-size: 20px;
-	}
-	
-	.plus-minus::before,
-	.plus-minus::after {
-	  content: '';
-	  position: absolute;
-	  height: 2px;
-	  width: 12px;
-	  background-color: #fff;
-	}
-	
-	.plus-minus::before {
-	  transform: rotate(90deg);
-	}
-	
-	.plus-minus:hover::before,
-	.plus-minus:hover::after {
-	  background-color: #333;
-	}
-	
-	.plus-minus:hover {
-	  border-color: #333;
-	}
-	
-	.plus-minus.plus::before {
-	  transform: rotate(0deg);
-	}
-	
-	.plus-minus.minus::before {
-	  transform: rotate(90deg);
-	}
+	} */
 	
 	.select-title-block {
 		position: relative;
-		margin-top: -60px;
+		margin-top: 0px;
 		padding-top: 20px;
 		/* padding-bottom: 40px; */
 		height: 100%;
@@ -311,7 +237,7 @@
 		align-items: center;
 		justify-content: center;
 		z-index: 10;
-		background: linear-gradient(183.57deg, rgba(31, 31, 33, 0) 2.94%, #1F1F21 72.22%);
+		background: linear-gradient(183.57deg, rgba(0, 0, 0, 1) 2.94%, #1F1F21 72.22%);
 	}
 	
 	.select-title {
@@ -327,10 +253,10 @@
 	}
 	
 	.select-title-tip {
-		width: 267px;
+		/* width: 267px; */
 		height: 30px;
 		line-height: 30px;
-		margin-bottom: 8px;
+		margin-bottom: 16px;
 		text-align: center;
 		/* background: radial-gradient(47% 2203.06% at 50% 50%, #D7D7D7 0%, rgba(215, 215, 215, 0) 100%) warning: gradient uses a rotation that is not supported by CSS and may not behave as expected; */
 		opacity: 0.9;
@@ -343,17 +269,18 @@
 		position: relative;
 		/* padding: 0px 20px 72px; */
 		padding-top: 8px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
+		/* display: flex; */
+		/* justify-content: center; */
+		/* align-items: center; */
+		/* flex-direction: column; */
 	}
 	
 	.role-box {
 		position: relative;
 		/* box-sizing: border-box; */
-		width: 250px;
+		/* width: 250px; */
 		padding: 0px 40px;
+		margin: 0px auto;
 		/* background-size: contain; */
 		/* background-image: url('../../static/icon-set-box.png'); */
 		/* background-repeat: no-repeat; */
@@ -427,26 +354,38 @@
 		margin-left: 4px;
 	}
 	
-	.btn-con {
+	.btn-set-con {
+		position: relative;
 		padding-top: 36px;
+		padding: 36px 40px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 	
 	.btn {
-		width: 188.33px;
+		width: 100%;
 		height: 55px;
 		line-height: 55px;
 		background: linear-gradient(to right, #07accf 20%, #00FEFF, #07accf 80%);
 		opacity: 0.8;
 		border: 1px solid #00FEFF;
 		box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
-		color: #ffffff !important;
 	}
 	.btn + .btn {
-		margin-top: 24px;
+		margin-left: 16px;
+	}
+	.btn-reset {
+		background: #ffffff;
+		opacity: 1;
+		color: #07accf;
+	}
+	.btn-create {
+		color: #ffffff !important;
 	}
 	.search-con {
 		margin-top: 48px;
-		padding-bottom: 48px;
+		padding-bottom: 72px;
 		font-family: 'PingFang SC';
 		font-style: normal;
 		font-weight: 400;
