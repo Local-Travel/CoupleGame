@@ -251,9 +251,11 @@
 	.header-box {
 		margin-top: 90px;
 		padding: 0px 20px;
-		border-width: 1px;
-		border-style: solid;
-		border-image: linear-gradient(to top, #00e1ff, #079db8, #003545) 1;
+		/* border-width: 1px; */
+		/* border-style: solid; */
+		/* border-image: linear-gradient(to top, #00e1ff, #079db8, #003545) 1; */
+		box-shadow: 0px 0px 20px rgba(1, 194, 195, 0.7);
+		border-bottom: 1px solid #079db8;
 		display: flex;
 		justify-content: center;
 		align-items: center;
