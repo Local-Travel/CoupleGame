@@ -5,7 +5,7 @@
 	</view>
 	<view class="header">创建房间</view>
     <!-- 弹层内容 -->
-	<scroll-view class="layer-content" :scroll-y="true">
+	<scroll-view class="b-layer-content" :scroll-y="true">
 		<view class="content">
 		  <view class="form-item">
 			<view class="title">游戏人数</view>
@@ -182,8 +182,8 @@ export default {
 	background: linear-gradient(to right, transparent, #00FEFF, #01C2C3, #00FEFF, transparent);
 }
 
-.layer-content {
-	height: 300px;
+.b-layer-content {
+	height: 330px;
 }
 
 .content {

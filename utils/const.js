@@ -15,20 +15,18 @@ export const RoleType = {
 
 // 角色
 export const roleList = [
-	{ code: 'god', name: '法官', type: RoleType.independency, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/063c77d5-be35-4424-9097-5566ab3393d5.jpg' },
-	{ code: 'civilian', name: '平民', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/8debd655-039b-4eb5-a42c-5ec704788094.jpg' },
-	{ code: 'wolf', name: '狼人', type: RoleType.wolf, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/83de1e3d-556c-45d6-9a84-35fc7baa221d.jpg' },
-	{ code: 'witch', name: '女巫', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/bf0efd37-1911-4235-9285-feab7e1b68d0.jpg' },
-	{ code: 'prophet', name: '预言家', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/6710aa24-08d9-42c2-90d5-d8f4ce0537c5.jpg' },
-	{ code: 'hunter', name: '猎人', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/a84eacba-3d6a-4bc4-a0dd-6c1c676755da.jpg' },
-	// { code: 'sheriff', name: '警长', type: RoleType.good, roleCount: 0, url: '../../static/lake.png' },
-	// { code: 'cupid', name: '丘比特', type: RoleType.good, roleCount: 0, url: '../../static/lake.png' },
-	{ code: 'idiot', name: '白痴', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/da98b271-d9c6-4a79-9274-18614e2c8107.jpg' },
-	{ code: 'wolfking', name: '狼王', type: RoleType.wolf, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/0e2bf11e-0872-4a0f-97a5-aa49613e9b97.jpg' },
-	{ code: 'guard', name: '守卫', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/7945fd42-10a4-4b77-92c3-24df7cfff5ba.jpg' },
-	{ code: 'demon-hunter', name: '猎魔人', type: RoleType.good, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/d29f61b7-1e81-468f-90cb-a90eae3e04e7.jpg' },
-	{ code: 'wolf-beauty', name: '狼美人', type: RoleType.wolf, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/81e3dd29-e7ec-48ee-ba31-2779009beee5.jpg' },
-	{ code: 'wolf-hide', name: '隐狼', type: RoleType.wolf, roleCount: 0, url: 'https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/c27c9276-502b-4fe3-b7a6-7e7dabe87ee9.jpg' },
+	{ code: 'god', name: '法官', type: RoleType.independency, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/18d6fb12-b514-4bc8-8492-245eb0ecc4f6.jpg' },
+	{ code: 'civilian', name: '平民', type: RoleType.good, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/18d6fb12-b514-4bc8-8492-245eb0ecc4f6.jpg' },
+	{ code: 'wolf', name: '狼人', type: RoleType.wolf, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/7735e9b0-473e-4254-aae3-8b15f1adf8bf.jpg' },
+	{ code: 'witch', name: '女巫', type: RoleType.good, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/c06b0de5-4485-4904-83e8-a37ac56de23d.jpg' },
+	{ code: 'prophet', name: '预言家', type: RoleType.good, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/6a637f70-2b34-4293-a220-5a99e4d4a034.jpg' },
+	{ code: 'hunter', name: '猎人', type: RoleType.good, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/64d8467e-90e2-4842-92b1-6bf49d5256c5.jpg' },
+	{ code: 'idiot', name: '白痴', type: RoleType.good, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/bcf2c9fe-47c8-4dc6-9b71-69de1891ded1.jpg' },
+	{ code: 'wolfking', name: '狼王', type: RoleType.wolf, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/48d1c061-e7b8-4c6a-8fbb-af4a7af55675.jpg' },
+	{ code: 'guard', name: '守卫', type: RoleType.good, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/158a5463-f180-44e7-937b-5c2a2697a2ee.jpg' },
+	{ code: 'demon-hunter', name: '猎魔人', type: RoleType.good, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/af4a3822-a3d7-4a5f-8613-7300d18d9c09.jpg' },
+	{ code: 'wolf-beauty', name: '狼美人', type: RoleType.wolf, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/d8d64368-2291-4576-bbbb-6779778b5be5.jpg' },
+	{ code: 'wolf-hide', name: '隐狼', type: RoleType.wolf, roleCount: 0, url: 'https://mp-c43790a0-8ddb-4e40-9026-fb0f159fdf24.cdn.bspapp.com/cloudstorage/fb991d3b-0d74-4ba7-a9d1-4c5898c3df38.jpg' },
 ]
 
 // 各角色的介绍
