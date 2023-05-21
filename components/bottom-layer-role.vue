@@ -77,7 +77,7 @@ export default {
 	text-align: center;
 	line-height: 48px;
 	padding: 0px 20px;
-	/* border-bottom: 0.5px solid #fff; */
+	border-bottom: 0.5px solid #fff;
 	color: #fff;
 	/* background: #fff; */
 	display: flex;

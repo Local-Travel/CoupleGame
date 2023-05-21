@@ -10,11 +10,13 @@
 			</view>
 		</view> -->
 		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/2f0d9437-521b-4345-a1e2-67c66f67b7f8.png"></image>
-			<image class="header-gif-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/5329b3e7-7252-4269-8dac-ea14044e1300.png"></image>
-			<view class="header-title-con">
-				<view class="header-top-title">探本狼人 邀TA一起</view>
-				<view class="header-limit-title">限时送福 开启神秘宝盒</view>
+			<!-- <image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/2f0d9437-521b-4345-a1e2-67c66f67b7f8.png"></image> -->
+			<view class="header-box">
+				<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-wolf.png"></image>
+				<view class="header-title-con">
+					<view class="header-top-title">欢迎来到探本狼人</view>
+					<view class="header-limit-title">邀TA一起 揭开黑夜真相</view>
+				</view>
 			</view>
 			<view class="middle-title-con">
 				<view class="middle-title">线下狼人局</view>
@@ -246,6 +248,17 @@
 		position: relative;
 		z-index: -1;
 	}
+	.header-box {
+		margin-top: 90px;
+		padding: 0px 20px;
+		border-width: 1px;
+		border-style: solid;
+		border-image: linear-gradient(to top, #00e1ff, #079db8, #003545) 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
 	.header-bg-img {
 		position: absolute;
 		/* top: 60px; */
@@ -254,7 +267,7 @@
 		z-index: -1;
 	}
 	.header-gif-img {
-		margin-top: 90px;
+		margin: 0 auto;
 		width: 180px;
 		height: 219px;
 		/* background: url('../../static/icon-home-gif.png'); */
