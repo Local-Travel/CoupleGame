@@ -10,12 +10,14 @@
 			</view>
 		</view> -->
 		<view class="header-block">
-			<image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/2f0d9437-521b-4345-a1e2-67c66f67b7f8.png"></image>
+			<!-- <image class="header-bg-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/2f0d9437-521b-4345-a1e2-67c66f67b7f8.png"></image> -->
 			<!-- <image class="header-gif-img" webp mode="scaleToFill" src="https://mp-d2cdecc2-e625-449f-a46d-53232154177c.cdn.bspapp.com/cloudstorage/5329b3e7-7252-4269-8dac-ea14044e1300.png"></image> -->
-			<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-undercover.png"></image>
-			<view class="header-title-con">
-				<view class="header-top-title">探本卧底 邀TA一起</view>
-				<view class="header-limit-title">破解迷局 找出真正间谍</view>
+			<view class="header-box">
+				<image class="header-gif-img" webp mode="scaleToFill" src="../../static/icon-home-undercover.png"></image>
+				<view class="header-title-con">
+					<view class="header-top-title">探本卧底 邀TA一起</view>
+					<view class="header-limit-title">破解迷局 找出真正间谍</view>
+				</view>
 			</view>
 			<view class="middle-title-con">
 				<view class="middle-title">线下卧底局</view>
@@ -187,20 +189,25 @@
 		position: relative;
 		z-index: -1;
 	}
-	.header-bg-img {
-		position: absolute;
-		/* top: 60px; */
-		height: 500px;
-		width: 100%;
-		z-index: -1;
+	.header-box {
+		margin-top: 70px;
+		padding: 20px 20px 0px;
+		/* border-width: 1px; */
+		/* border-style: solid; */
+		/* border-image: linear-gradient(to top, #00e1ff, #079db8, #003545) 1; */
+		box-shadow: 0px 0px 20px rgba(1, 194, 195, 0.7);
+		border-bottom: 1px solid #079db8;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 	}
 	.header-gif-img {
-		margin-top: 90px;
 		width: 180px;
 		height: 219px;
 		/* background: url('../../static/icon-home-gif.png'); */
-		background-size: cover;
-		background-position: center;
+		/* background-size: cover; */
+		/* background-position: center; */
 	}
 	
 	.center {
