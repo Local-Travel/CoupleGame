@@ -43,27 +43,19 @@ export const getInitRoleList = (count) => {
 
 
 // 随机生成词组
-export function generateRandomWord() {
+export function generateRandomWord(onlineList=[]) {
   try {
-	  const wordGroups = [
-	    ["苹果", "橙子", "香蕉", "梨子", "草莓"],
-	    ["狗", "猫"],
+	  const localList = [
+			["苹果", "橙子", "香蕉", "梨子", "草莓"],
+			["狗", "猫"],
 			["金鱼","鲤鱼"],
-			[
-				"鲨鱼",
-				"鲈鱼",
-				"三文鱼",
-				"鳄鱼",
-				"黑鱼",
-			],
 			["手机", "电脑", "平板", "相机"],
 			["太阳", "月亮", "火星", "星星"],
 			["木星", "土星", "水星"],
 			["红色", "蓝色", "绿色", "黄色", "紫色"],
 			["学校", "教室"],
 			["球场", "操场"],
-			["图书馆","实验室"],
-			["音乐", "绘画", "舞蹈", "拍照", "摄影"],
+			["图书馆","藏书阁"],
 			["舞台剧", "话剧", "音乐剧", "戏剧", "歌剧"],
 			["甜美", "温柔", "娇柔", "柔情", "柔软"],
 			["排球", "足球", "篮球"],
@@ -108,7 +100,12 @@ export function generateRandomWord() {
 			["大熊猫", "小熊猫"],
 	  ]
 	  
-	  	  
+	  let wordGroups = [].concat(localList)
+	  if (Array.isArray(onlineList) && onlineList.length) {
+		  const newOnlieList = onlineList.filter(item => Array.isArray(item) && item.length > 1)
+		  wordGroups = wordGroups.concat(newOnlieList)
+	  }
+	  // console.log('wordGroups', wordGroups)
 	  const getRandomChar = (chars) => {
 	    const randomIndex = Math.floor(Math.random() * chars.length);
 	    return chars[randomIndex];

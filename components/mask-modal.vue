@@ -202,7 +202,7 @@ export default {
 		height: 100%;
 		width: 100%;
 		z-index: 998;
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 1);
 		/* background-image: url('../static/icon-mask-bg.png'); */
 		background-image: url('../static/icon-sonline.png');
 		background-size: cover;

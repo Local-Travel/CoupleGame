@@ -37,6 +37,7 @@
 <script>
 import { getClientId, getLocalUser, getCreator } from '../utils/const.js'
 import { getInitRoleList, generateRandomWord, RoleType } from '../utils/undercover.js'
+import { setExpireData, getExpireData } from '../utils/storageExpire.js'
 export default {
   data() {
     return {
@@ -46,9 +47,13 @@ export default {
 			roomCount: '4',// 房间人数
 			undercoverWord: '',// 刺客词条
 			civilianWord: '',// 平民词条
+			checkNum: 0,
+			onlineWords: [],
     };
   },
   mounted() {
+	  const words = getExpireData('onlineWord') || []
+	  this.onlineWords = words;
 	  this.user = getLocalUser();
 	  this.list = getInitRoleList();
 	  this.randomWord();
@@ -70,9 +75,26 @@ export default {
 		this.list = getInitRoleList(val);
 	},
 	randomWord() {
-		const { fisrtWord, lastWord } = generateRandomWord()
+		if (this.checkNum++ > 5) {
+			this.getOnlineWordList()
+		}
+		const { fisrtWord, lastWord } = generateRandomWord(this.onlineWords)
 		this.civilianWord = fisrtWord
 		this.undercoverWord = lastWord
+	},
+	getOnlineWordList() {
+		if (this.onlineWords && this.onlineWords.length) return;
+		const db = uniCloud.database();
+		db.collection('online-const').where(`key=="undercover-words"`).get().then(res => {
+			console.log('online-const res',res)
+			const { data } = res && res.result || {}
+			if (data && data.length && Array.isArray(data[0].value)) {
+				this.onlineWords = data[0].value
+				setExpireData('onlineWord', data[0].value)
+			}
+		}).catch((e) => {
+			console.log('online-const e', e)
+		})
 	},
     showModal() {
 		this.visible = true;

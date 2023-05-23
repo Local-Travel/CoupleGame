@@ -57,7 +57,7 @@
 			</view>
 	
 			<view class="btn-set-con">
-				<button class='btn btn-create' type="default" @click="handleReSelect">调整角色</button>
+				<button class='btn btn-create' type="default" @click="handleReSelect">重新设置</button>
 				<button class='btn btn-create' type="primary" @click="handleSubmit">创建房间</button>
 			</view>
 			<view class="search-con">
